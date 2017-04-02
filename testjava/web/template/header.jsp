@@ -13,9 +13,9 @@
             <!-- Logo -->
             <a href="../../index2.html" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
-                <span class="logo-mini">EAdmin</span>
+                <span class="logo-mini">MiConstru</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b draggable="true">EspacioADMIN</b></span>
+                <span class="logo-lg"><b draggable="true">MiConstructora</b></span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top" role="navigation">
@@ -39,7 +39,6 @@
                                 <!-- User image -->
                                 <li class="user-header">
                                     <img src="resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
                                     <p>
                                         ${user.usuario}
                                         <small>${user.email}</small>
@@ -82,16 +81,6 @@
         <aside class="main-sidebar">
             <!-- sidebar: style can be found in sidebar.less -->
             <section style="height: auto;" class="sidebar">
-                <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
-                    <div class="input-group">
-                        <input name="q" class="form-control" placeholder="Buscar..." type="text">
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                            </button>
-                        </span>
-                    </div>
-                </form>
                 <!-- /.search form -->
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
