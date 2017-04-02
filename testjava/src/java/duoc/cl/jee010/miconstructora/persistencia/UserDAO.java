@@ -115,25 +115,25 @@ public class UserDAO implements ICrud{
         return false;
     }
     
-    public User authenticate(String login,String password){
-        User objUser=null;
-        String query="SELECT * FROM USERS WHERE LOGIN=? AND PASSWORD=?;";
+    public UserProfilePagesDTO authenticate(String login,String password){
+        UserProfilePagesDTO objUser=null;
+        String query="SELECT U.ID, U.LOGIN, U.EMAIL, CONCAT(E.NAME,' ',E.LAST_NAME), P.NAME, P.ID FROM USERS U, EMPLOYEES E, PROFILES P WHERE U.LOGIN=? AND U.PASSWORD=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
             ps.setString(1,login);
             ps.setString(2,password);
             ResultSet rs=ps.executeQuery();
+            PageDAO objPageDAO = new PageDAO();
             while(rs.next()){
-                    objUser= new User(
+                    objUser= new UserProfilePagesDTO(
                         rs.getInt(1), 
                         rs.getString(2), 
                         rs.getString(3), 
-                        rs.getString(4), 
-                        rs.getInt(5),
-                        rs.getInt(6),
-                        rs.getInt(7));
-            }
+                        rs.getString(4),
+                        rs.getString(5),
+                        objPageDAO.listPageByProfile(rs.getInt(6)));
+            }            
         }catch(Exception e){
             System.out.println("problemas al validar "+e.getMessage());
         }
@@ -163,11 +163,5 @@ public class UserDAO implements ICrud{
             System.out.println("problemas al recuperar informacion "+e.getMessage());
         }
         return objUser;
-    }
-    
-    public UserProfilePagesDTO getSessionUser(int id){
-        UserProfilePagesDTO objUppDTO = null;
-        
-        return objUppDTO;
     }
 }

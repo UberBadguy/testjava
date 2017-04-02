@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.negocio;
 
+import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
 import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
 import java.util.List;
@@ -21,7 +22,7 @@ public class UserBO {
         this.objUsuarioDAO=new UserDAO();
     }
     
-    public User authenticate(String login,String pass){
+    public UserProfilePagesDTO authenticate(String login,String pass){
         return this.objUsuarioDAO.authenticate(login, pass);
     }
     

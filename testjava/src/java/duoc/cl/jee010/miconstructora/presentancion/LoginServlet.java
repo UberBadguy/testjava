@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.presentancion;
 
+import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
 import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class LoginServlet extends HttpServlet {
         String login = request.getParameter("login");
         String password = request.getParameter("password");
         UserBO userBo = new UserBO();
-        User user = userBo.authenticate(login, password);
+        UserProfilePagesDTO user = userBo.authenticate(login, password);
         if (user == null) {
             r = request.getRequestDispatcher("/login.jsp");
             r.forward(request, response);

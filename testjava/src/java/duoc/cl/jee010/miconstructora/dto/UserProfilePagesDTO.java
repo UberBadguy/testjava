@@ -33,6 +33,15 @@ public class UserProfilePagesDTO implements Serializable{
         this.pages = pages;
     }
 
+    public UserProfilePagesDTO(int user_id, String user_login, String user_email, String employee_name, String profile_name) {
+        this.user_id = user_id;
+        this.user_login = user_login;
+        this.user_email = user_email;
+        this.employee_name = employee_name;
+        this.profile_name = profile_name;
+    }
+    
+
     public int getUser_id() {
         return user_id;
     }
