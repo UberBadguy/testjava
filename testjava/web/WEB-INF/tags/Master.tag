@@ -11,14 +11,14 @@
 <!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
-<jsp:include page="template/head.jsp" />
+<jsp:include page="/template/head.jsp" />
     <body class="page-header-fixed page-quick-sidebar-over-content skin-blue">
-        <jsp:include page="template/header.jsp" />
+        <jsp:include page="/template/header.jsp" />
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <jsp:doBody/>
         </div>
-        <jsp:include page="template/footer.jsp" />
+        <jsp:include page="/template/footer.jsp" />
 
     </body>
 
