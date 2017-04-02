@@ -12,7 +12,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!-->
 <jsp:include page="template/head.jsp" />
-    <body class="page-header-fixed page-quick-sidebar-over-content">
+    <body class="page-header-fixed page-quick-sidebar-over-content skin-blue">
         <jsp:include page="template/header.jsp" />
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">

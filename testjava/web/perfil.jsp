@@ -21,8 +21,8 @@
             	<div class="box box-primary">
                     <div class="box-body box-profile">
                         <img src="resources/dist/img/user2-160x160.jpg" class="profile-user-img img-responsive img-circle" alt="User Image">
-                        <h3 class="profile-username text-center">{!! $user->nombre . ' ' . $user->apellidoP . ' ' . $user->apellidoM !!}</h3>
-                        <p class="text-muted text-center">{!! $profile !!}</p>
+                        <h3 class="profile-username text-center">${user.employee_name}</h3>
+                        <p class="text-muted text-center">${user.profile_name}</p>
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item">
                                 <b>Rut</b>
@@ -30,7 +30,7 @@
                             </li>
                             <li class="list-group-item">
                                 <b>Correo</b><br>
-                                <a class="email-large">{!! $user->email !!}</a>
+                                <a class="email-large">${user.user_email}</a>
                             </li>
                             <li class="list-group-item">
                                 <b>Curso</b>
