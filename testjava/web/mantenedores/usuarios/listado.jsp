@@ -11,7 +11,6 @@
 
 <t:Master>
     <jsp:body>
-
         <!-- Content Header (Page header) -->
         <section class="content-header">
             <h1>Mantenedor Usuarios</h1>
@@ -43,7 +42,7 @@
                                             <td>${usuario.login}</td>
                                             <td>${usuario.email}</td>
                                             <td>${usuario.profile_id}</td>
-                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status}</span></td>
+                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
                                                 <a class="btn btn-primary btn-xs btnVer" data-id="${usuario.id}" data-url="getUsuario.htm" data-original-title="Detalles" data-toggle="tooltip"><i class="fa fa-eye"></i></a>
                                                 <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="getUsuario.htm" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
@@ -73,17 +72,17 @@
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal form" id="addForm">
-                            <input class="form-control" name="idUsuario" id="idUsuario" type="hidden">
+                            <input class="form-control" name="id" id="id" type="hidden">
                             <div class="form-group">
                                 <label for="usuario" class="col-sm-2 control-label">Usuario</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="usuario" id="usuario" placeholder="Usuario" type="text" required="required">
+                                    <input class="form-control" name="login" id="login" placeholder="Usuario" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="pass" class="col-sm-2 control-label">Contraseña</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="pass" id="pass" placeholder="Contraseña" type="password" required="required">
+                                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -93,9 +92,9 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="idResidente" class="col-sm-2 control-label">Residente</label>
+                                <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
-                                    <select name="idResidente" id="idResidente" class="form-control" style="width: 100%;">
+                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${residentes}" var="residente">
                                             <option value="${residente.idResidente}">${residente.persona.nombre}</option>
                                         </c:forEach>
@@ -105,7 +104,7 @@
                             <div class="form-group">
                                 <label for="idPerfil" class="col-sm-2 control-label">Perfil</label>
                                 <div class="col-sm-10">
-                                    <select name="idPerfil" id="idPerfil" class="form-control" style="width: 100%;">
+                                    <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${perfiles}" var="perfil">
                                             <option value="${perfil.idPerfil}">${perfil.nombre}</option>
                                         </c:forEach>
@@ -113,22 +112,11 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="idCondominio" class="col-sm-2 control-label">Condominio</label>
-                                <div class="col-sm-10">
-                                    <select name="idCondominio" id="idCondominio" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${condominios}" var="condominio">
-                                            <option value="${condominio.idCondominio}">${condominio.nombre}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
                                 <label for="estado" class="col-sm-2 control-label">Estado</label>
                                 <div class="col-sm-10">
-                                    <select name="estado" id="estado" class="form-control" style="width: 100%;" required="required">
-                                        <c:forEach items="${estados}" var="estado">
-                                            <option value="${estado.idEstado}">${estado.nombre}</option>
-                                        </c:forEach>
+                                    <select name="status" id="status" class="form-control" style="width: 100%;" required="required">
+                                        <option value="1">Activo</option>
+                                        <option value="0">Inactivo</option>
                                     </select>
                                 </div>
                             </div>
@@ -136,11 +124,10 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="addNew" data-controller="usuarios" data-url="nuevoUsuario.htm">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="addNew" data-controller="usuarios" data-url="./usuarios">Guardar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div>
-
     </jsp:body>
 </t:Master>
