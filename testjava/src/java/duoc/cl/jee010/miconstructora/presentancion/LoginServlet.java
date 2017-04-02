@@ -5,6 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.presentancion;
 
+import duoc.cl.jee010.miconstructora.entidades.User;
+import duoc.cl.jee010.miconstructora.negocio.UserBO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -35,7 +37,6 @@ public class LoginServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
-        //request.getRequestDispatcher("login.jsp");
         RequestDispatcher r = request.getRequestDispatcher("/login.jsp");
         r.forward(request, response);
         
@@ -52,10 +53,17 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        RequestDispatcher r;
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        RequestDispatcher r = request.getRequestDispatcher("/perfil.jsp");
-        r.forward(request, response);
+        UserBO userBo = new UserBO();
+        if (userBo.authenticate(login, password) == null) {
+            r = request.getRequestDispatcher("/login.jsp");
+            r.forward(request, response);
+        } else {
+            r = request.getRequestDispatcher("/perfil.jsp");
+            r.forward(request, response);
+        }
     }
 
     /**
