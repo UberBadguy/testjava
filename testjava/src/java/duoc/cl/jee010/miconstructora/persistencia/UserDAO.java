@@ -125,16 +125,16 @@ public class UserDAO implements ICrud{
                 + "CONCAT(E.NAME,' ',E.LAST_NAME), "
                 + "E.RUT, "
                 + "E.DV, "
-                + "E.BIRTH, "
+                + "E.BIRTH_DATE, "
                 + "E.GENDER, "
                 + "B.NAME, "
                 + "P.NAME, "
                 + "P.ID "
                 + "FROM USERS U, EMPLOYEES E, PROFILES P, BUILDING_SITES B "
                 + "WHERE U.PROFILE_ID = P.ID"
-                + "AND WHERE E.ID = U.EMPLOYEE_ID"
-                + "AND WHERE U.STATUS = 1"
-                + "AND WHERE U.LOGIN=? AND U.PASSWORD=?;";
+                + "AND E.ID = U.EMPLOYEE_ID"
+                + "AND U.STATUS = 1"
+                + "AND U.LOGIN=? AND U.PASSWORD=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
