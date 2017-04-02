@@ -11,22 +11,20 @@ import java.io.Serializable;
  *
  * @author amontess
  */
-public class Page implements Serializable {
+public class BuildingSite implements Serializable {
 
     private int id;
     private String name;
-    private int parent;
-    private String path;
+    private String address;
     private int status;
 
-    public Page() {
+    public BuildingSite() {
     }
 
-    public Page(int id_menu, String nombre_menu, int padre_menu, String destino_menu, int status) {
-        this.id = id_menu;
-        this.name = nombre_menu;
-        this.parent = padre_menu;
-        this.path = destino_menu;
+    public BuildingSite(int id, String name, String address, int status) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
         this.status = status;
     }
 
@@ -46,20 +44,12 @@ public class Page implements Serializable {
         this.name = name;
     }
 
-    public int getParent() {
-        return parent;
+    public String getAddress() {
+        return address;
     }
 
-    public void setParent(int parent) {
-        this.parent = parent;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public int getStatus() {
@@ -69,5 +59,6 @@ public class Page implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
-
+    
+    
 }
