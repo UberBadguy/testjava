@@ -19,11 +19,12 @@ public class User implements Serializable{
     private int profile_id;
     private int employee_id;
     private int status;
+    private String profile_name;
 
     public User() {
     }
 
-    public User(int id, String login, String password, String email, int profile_id, int employee_id, int status) {
+    public User(int id, String login, String password, String email, int profile_id, int employee_id, int status, String profile_name) {
         this.id = id;
         this.login = login;
         this.password = password;
@@ -31,6 +32,7 @@ public class User implements Serializable{
         this.profile_id = profile_id;
         this.employee_id = employee_id;
         this.status = status;
+        this.profile_name = profile_name;
     }
 
     public int getId() {
@@ -87,5 +89,13 @@ public class User implements Serializable{
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getProfile_name() {
+        return profile_name;
+    }
+
+    public void setProfile_name(String profile_name) {
+        this.profile_name = profile_name;
     }
 }

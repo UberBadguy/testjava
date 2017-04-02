@@ -53,7 +53,7 @@ public class UserDAO implements ICrud{
         List<User>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT * FROM USERS;";
+            String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
@@ -64,7 +64,8 @@ public class UserDAO implements ICrud{
                         rs.getString(4), 
                         rs.getInt(5),
                         rs.getInt(6),
-                        rs.getInt(7));
+                        rs.getInt(7),
+                        rs.getString(8));
                 listadoUsuario.add(objUsuario);
             }            
         }catch(Exception e){
@@ -165,7 +166,7 @@ public class UserDAO implements ICrud{
     @Override
     public User getElement(int id){
         User objUser=null;
-        String query="SELECT * FROM USERS WHERE ID=?;";
+        String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID AND U.ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
@@ -179,7 +180,8 @@ public class UserDAO implements ICrud{
                         rs.getString(4), 
                         rs.getInt(5),
                         rs.getInt(6),
-                        rs.getInt(7));
+                        rs.getInt(7),
+                        rs.getString(8));
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());
