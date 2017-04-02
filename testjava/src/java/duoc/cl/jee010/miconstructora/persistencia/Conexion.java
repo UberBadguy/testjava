@@ -17,9 +17,9 @@ public class Conexion {
         Connection con=null;
         try{
             String driverClassName="com.mysql.jdbc.Driver";
-            String driverUrl="jdbc:mysql://localhost/bdjee2";
+            String driverUrl="jdbc:mysql://localhost:3306/constructora?zeroDateTimeBehavior=convertToNull";
             Class.forName(driverClassName);
-            con= DriverManager.getConnection(driverUrl,"root","admin");
+            con= DriverManager.getConnection(driverUrl,"root","");
         }catch(Exception e){
             System.out.println(e.getMessage());
             throw new ConexionException("error al conectar la BD"+e.getMessage());

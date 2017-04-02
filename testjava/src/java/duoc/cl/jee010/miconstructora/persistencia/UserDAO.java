@@ -27,7 +27,7 @@ public class UserDAO implements ICrud{
         User objUsuario=(User)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
-            String query="INSERT INTO USER VALUES (0,?,?,?,?,?,?);";
+            String query="INSERT INTO USERS VALUES (0,?,?,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
             ps.setString(1, objUsuario.getLogin());
             ps.setString(2, objUsuario.getPassword());
@@ -52,7 +52,7 @@ public class UserDAO implements ICrud{
         List<User>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT * FROM USUARIO ;";
+            String query="SELECT * FROM USERS;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
@@ -77,7 +77,7 @@ public class UserDAO implements ICrud{
            User objUsuario = (User) objetoUpdate;
         try {
             Connection con = Conexion.getConexion();
-            String query = "UPDATE USER SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=? WHERE ID=?";
+            String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=? WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objUsuario.getLogin());
             ps.setString(2, objUsuario.getPassword());
@@ -101,7 +101,7 @@ public class UserDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM USER WHERE ID=?";
+            String query = "DELETE FROM USERS WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {
@@ -117,7 +117,7 @@ public class UserDAO implements ICrud{
     
     public User authenticate(String login,String password){
         User objUser=null;
-        String query="SELECT * FROM USER WHERE LOGIN=? AND PASSWORD=?;";
+        String query="SELECT * FROM USERS WHERE LOGIN=? AND PASSWORD=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
@@ -143,7 +143,7 @@ public class UserDAO implements ICrud{
     @Override
     public User getElement(int id){
         User objUser=null;
-        String query="SELECT * FROM USER WHERE ID=?;";
+        String query="SELECT * FROM USERS WHERE ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);

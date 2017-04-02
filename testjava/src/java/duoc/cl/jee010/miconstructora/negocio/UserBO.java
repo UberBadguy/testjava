@@ -21,7 +21,7 @@ public class UserBO {
         this.objUsuarioDAO=new UserDAO();
     }
     
-    public User validaUsuario(String login,String pass){
+    public User authenticate(String login,String pass){
         return this.objUsuarioDAO.authenticate(login, pass);
     }
     
