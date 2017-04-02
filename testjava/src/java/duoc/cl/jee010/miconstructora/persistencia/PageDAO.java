@@ -22,20 +22,20 @@ public class PageDAO {
     }
     
     public List listPageByProfile(int profileId){
-        List listadoMenu= new LinkedList();
+        List listPages= new LinkedList();
         try{
             Connection con= Conexion.getConexion();
-            String query="SELECT * FROM PROFILES_PAGES WHERE PROFILE_ID=? ORDER BY PARENT";
+            String query="SELECT * FROM PAGES WHERE ID IN (SELECT PAGE_ID FROM PROFILE_PAGES WHERE PROFILE_ID=?) ORDER BY PARENT";
             PreparedStatement ps= con.prepareStatement(query);
             ps.setInt(1, profileId);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                Page objMenu= new Page(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));                
-                listadoMenu.add(objMenu);
+                Page objPage= new Page(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));                
+                listPages.add(objPage);
             }
         }catch(Exception e){
             System.out.println("Problemas en la extracción de información"+e.getMessage());
         }
-        return listadoMenu;
+        return listPages;
     }
 }

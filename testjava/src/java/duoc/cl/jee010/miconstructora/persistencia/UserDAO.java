@@ -6,7 +6,7 @@
 package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.dto.UsuarioPerfilDTO;
+import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -164,5 +164,10 @@ public class UserDAO implements ICrud{
         }
         return objUser;
     }
-  
+    
+    public UserProfilePagesDTO getSessionUser(int id){
+        UserProfilePagesDTO objUppDTO = null;
+        
+        return objUppDTO;
+    }
 }
