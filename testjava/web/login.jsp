@@ -18,7 +18,7 @@
             <!-- /.login-logo -->
             <div class="login-box-body">
                 <p class="login-box-msg">Ingresar a MiConstructora</p>
-                <form class="form">
+                <form class="form" action="./login" method="POST">
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" placeholder="Ingrese usuario" id="login" name="login" required="required">
                         <span class="glyphicon glyphicon-user form-control-feedback"></span>
