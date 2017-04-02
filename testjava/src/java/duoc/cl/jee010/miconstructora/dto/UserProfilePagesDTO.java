@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.dto;
 
 import duoc.cl.jee010.miconstructora.entidades.Page;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,29 +19,43 @@ public class UserProfilePagesDTO implements Serializable{
     private String user_login;
     private String user_email;
     private String employee_name;
+    private int employee_rut;
+    private String employee_dv;
+    private Date employee_birth;
+    private String employee_gender;
+    private String building_site_name;
     private String profile_name;
     private List<Page> pages;
 
     public UserProfilePagesDTO() {
     }
 
-    public UserProfilePagesDTO(int user_id, String user_login, String user_email, String employee_name, String profile_name, List<Page> pages) {
+    public UserProfilePagesDTO(int user_id, String user_login, String user_email, String employee_name, int employee_rut, String employee_dv, Date employee_birth, String employee_gender, String building_site_name, String profile_name, List<Page> pages) {
         this.user_id = user_id;
         this.user_login = user_login;
         this.user_email = user_email;
         this.employee_name = employee_name;
+        this.employee_rut = employee_rut;
+        this.employee_dv = employee_dv;
+        this.employee_birth = employee_birth;
+        this.employee_gender = employee_gender;
+        this.building_site_name = building_site_name;
         this.profile_name = profile_name;
         this.pages = pages;
     }
 
-    public UserProfilePagesDTO(int user_id, String user_login, String user_email, String employee_name, String profile_name) {
+    public UserProfilePagesDTO(int user_id, String user_login, String user_email, String employee_name, int employee_rut, String employee_dv, Date employee_birth, String employee_gender, String building_site_name, String profile_name) {
         this.user_id = user_id;
         this.user_login = user_login;
         this.user_email = user_email;
         this.employee_name = employee_name;
+        this.employee_rut = employee_rut;
+        this.employee_dv = employee_dv;
+        this.employee_birth = employee_birth;
+        this.employee_gender = employee_gender;
+        this.building_site_name = building_site_name;
         this.profile_name = profile_name;
     }
-    
 
     public int getUser_id() {
         return user_id;
@@ -72,6 +87,46 @@ public class UserProfilePagesDTO implements Serializable{
 
     public void setEmployee_name(String employee_name) {
         this.employee_name = employee_name;
+    }
+
+    public int getEmployee_rut() {
+        return employee_rut;
+    }
+
+    public void setEmployee_rut(int employee_rut) {
+        this.employee_rut = employee_rut;
+    }
+
+    public String getEmployee_dv() {
+        return employee_dv;
+    }
+
+    public void setEmployee_dv(String employee_dv) {
+        this.employee_dv = employee_dv;
+    }
+
+    public Date getEmployee_birth() {
+        return employee_birth;
+    }
+
+    public void setEmployee_birth(Date employee_birth) {
+        this.employee_birth = employee_birth;
+    }
+
+    public String getEmployee_gender() {
+        return employee_gender;
+    }
+
+    public void setEmployee_gender(String employee_gender) {
+        this.employee_gender = employee_gender;
+    }
+
+    public String getBuilding_site_name() {
+        return building_site_name;
+    }
+
+    public void setBuilding_site_name(String building_site_name) {
+        this.building_site_name = building_site_name;
     }
 
     public String getProfile_name() {

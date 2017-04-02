@@ -17,7 +17,7 @@ public class Conexion {
         Connection con=null;
         try{
             String driverClassName="com.mysql.jdbc.Driver";
-            String driverUrl="jdbc:mysql://localhost:3306/constructora?zeroDateTimeBehavior=convertToNull";
+            String driverUrl="jdbc:mysql://localhost:3306/constructora";
             Class.forName(driverClassName);
             con= DriverManager.getConnection(driverUrl,"root","");
         }catch(Exception e){

@@ -10,6 +10,7 @@ import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -117,7 +118,23 @@ public class UserDAO implements ICrud{
     
     public UserProfilePagesDTO authenticate(String login,String password){
         UserProfilePagesDTO objUser=null;
-        String query="SELECT U.ID, U.LOGIN, U.EMAIL, CONCAT(E.NAME,' ',E.LAST_NAME), P.NAME, P.ID FROM USERS U, EMPLOYEES E, PROFILES P WHERE U.LOGIN=? AND U.PASSWORD=?;";
+        String query="SELECT "
+                + "U.ID, "
+                + "U.LOGIN, "
+                + "U.EMAIL, "
+                + "CONCAT(E.NAME,' ',E.LAST_NAME), "
+                + "E.RUT, "
+                + "E.DV, "
+                + "E.BIRTH, "
+                + "E.GENDER, "
+                + "B.NAME, "
+                + "P.NAME, "
+                + "P.ID "
+                + "FROM USERS U, EMPLOYEES E, PROFILES P, BUILDING_SITES B "
+                + "WHERE U.PROFILE_ID = P.ID"
+                + "AND WHERE E.ID = U.EMPLOYEE_ID"
+                + "AND WHERE U.STATUS = 1"
+                + "AND WHERE U.LOGIN=? AND U.PASSWORD=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
@@ -131,8 +148,13 @@ public class UserDAO implements ICrud{
                         rs.getString(2), 
                         rs.getString(3), 
                         rs.getString(4),
-                        rs.getString(5),
-                        objPageDAO.listPageByProfile(rs.getInt(6)));
+                        rs.getInt(5),
+                        rs.getString(6),
+                        (Date)rs.getDate(7),
+                        rs.getString(8),
+                        rs.getString(9),
+                        rs.getString(10),
+                        objPageDAO.listPageByProfile(rs.getInt(11)));
             }            
         }catch(Exception e){
             System.out.println("problemas al validar "+e.getMessage());
