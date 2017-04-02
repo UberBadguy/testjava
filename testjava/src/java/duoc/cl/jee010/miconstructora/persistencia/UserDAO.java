@@ -131,9 +131,9 @@ public class UserDAO implements ICrud{
                 + "P.NAME, "
                 + "P.ID "
                 + "FROM USERS U, EMPLOYEES E, PROFILES P, BUILDING_SITES B "
-                + "WHERE U.PROFILE_ID = P.ID"
-                + "AND E.ID = U.EMPLOYEE_ID"
-                + "AND U.STATUS = 1"
+                + "WHERE U.PROFILE_ID = P.ID "
+                + "AND E.ID = U.EMPLOYEE_ID "
+                + "AND U.STATUS = 1 "
                 + "AND U.LOGIN=? AND U.PASSWORD=?;";
         try{
             Connection con= Conexion.getConexion();
