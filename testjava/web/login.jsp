@@ -8,7 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <jsp:include page="include/head.jsp" />
 <c:if test="${sessionScope.user!= null}">
-   <c:redirect url="index.htm"/>
+   <c:redirect url="./perfil"/>
 </c:if>
     <body class="hold-transition login-page">
         <div class="login-box">

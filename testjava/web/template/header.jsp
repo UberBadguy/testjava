@@ -11,7 +11,7 @@
     <div class="wrapper">
         <header class="main-header">
             <!-- Logo -->
-            <a href="../../index2.html" class="logo">
+            <a href="./perfil" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini">MiConstru</span>
                 <!-- logo for regular state and mobile devices -->
@@ -32,15 +32,15 @@
                         <!-- Control Sidebar Toggle Button -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="resources/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">${user.usuario}</span>
+                                <img src="resources/dist/img/user2-160x160.jpg" class="user-image" alt="${user.login}">
+                                <span class="hidden-xs">${user.login}</span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
                                 <li class="user-header">
-                                    <img src="resources/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                                    <img src="resources/dist/img/user2-160x160.jpg" class="img-circle" alt="${user.login}">
                                     <p>
-                                        ${user.usuario}
+                                        ${user.login}
                                         <small>${user.email}</small>
                                     </p>
                                 </li>
@@ -48,13 +48,13 @@
                                 <li class="user-body">
                                     <div class="row">
                                         <div class="col-xs-4 text-center">
-                                            <a href="#">Condominio</a>
+                                            <a href="#">link 1</a>
                                         </div>
                                         <div class="col-xs-4 text-center">
-                                            <a href="#">Edificio</a>
+                                            <a href="#">link 2</a>
                                         </div>
                                         <div class="col-xs-4 text-center">
-                                            <a href="#">Vivienda</a>
+                                            <a href="#">link 3</a>
                                         </div>
                                     </div>
                                     <!-- /.row -->
@@ -62,10 +62,10 @@
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Perfil</a>
+                                        <a href="./perfil" class="btn btn-default btn-flat">Perfil</a>
                                     </div>
                                     <div class="pull-right">
-                                        <a href="logout.htm" class="btn btn-default btn-flat">Salir</a>
+                                        <a href="./salir" class="btn btn-default btn-flat">Salir</a>
                                     </div>
                                 </li>
                             </ul>
@@ -85,94 +85,6 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu">
                     <li class="header">Navegación</li>
-                    <li class="treeview">
-                        <a href="#">
-                            <i class="fa fa-dashboard"></i>
-                            <span>Perfil</span>
-                            <small class="label pull-right bg-green">Condominio</small>
-                        </a>
-                    </li>
-                    <c:if test="${user.nomPerfil!= 'Administrador'}">
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-files-o"></i>
-                                <span>Gastos comunes</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="detalleGastoComun.htm"><i class="fa fa-search"></i> Detalle</a></li>
-                                <c:if test="${user.nomPerfil== 'Conserje'}">
-                                    <li><a href="historialGastosComunes.htm"><i class="fa fa-th"></i> Historial</a></li>
-                                </c:if>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <c:if test="${user.nomPerfil!= 'Administrador'}">
-                        <li>
-                            <a href="../widgets.html">
-                                <i class="fa fa-th"></i>
-                                <span>Residentes Morosos</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="morosidad.htm"><i class="fa fa-circle-o"></i> Revisar Morosidad</a></li>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <c:if test="${user.nomPerfil== 'Conserje'}">
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-pie-chart"></i>
-                                <span>Actividades condominio</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="espaciosComunes.htm"><i class="fa fa-circle-o"></i> Espacios Comunes</a></li>
-                                <li><a href="estacionamientos.htm"><i class="fa fa-circle-o"></i> Estacionamientos</a></li>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <c:if test="${user.nomPerfil== 'Administrador'}">
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-laptop"></i>
-                                <span>Sistema de pago</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <li><a href="pages/layout/top-nav.html"><i class="fa fa-circle-o"></i> Top Navigation</a></li>
-                                <li><a href="pages/layout/boxed.html"><i class="fa fa-circle-o"></i> Boxed</a></li>
-                                <li><a href="pages/layout/fixed.html"><i class="fa fa-circle-o"></i> Fixed</a></li>
-                                <li><a href="pages/layout/collapsed-sidebar.html"><i class="fa fa-circle-o"></i> Collapsed Sidebar</a></li>
-                            </ul>
-                        </li>
-                    </c:if>
-                    <c:if test="${user.nomPerfil!= 'Residente'}">
-                        <li class="treeview">
-                            <a href="#">
-                                <i class="fa fa-edit"></i> <span>Mantenedores</span>
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </a>
-                            <ul class="treeview-menu">
-                                <c:if test="${user.nomPerfil== 'Administrador'}">
-                                    <li><a href="mantenedorUsuarios.htm"><i class="fa fa-circle-o"></i> Usuarios</a></li>
-                                    <li><a href="mantenedorPerfiles.htm"><i class="fa fa-circle-o"></i> Perfiles</a></li>
-                                    <li><a href="mantenedorCondominios.htm"><i class="fa fa-circle-o"></i> Condominios</a></li>
-                                    <li><a href="mantenedorTipoViviendas.htm"><i class="fa fa-circle-o"></i> Tipo Viviendas</a></li>
-                                    <li><a href="mantenedorTipoCuentas.htm"><i class="fa fa-circle-o"></i> Tipo Cuentas</a></li>
-                                    <li><a href="mantenedorEstados.htm"><i class="fa fa-circle-o"></i> Estados</a></li>
-                                <li><a href="mantenedorLog.htm"><i class="fa fa-circle-o"></i> Log</a></li>
-                                </c:if>
-                                <c:if test="${user.nomPerfil== 'Conserje'}">
-                                    <li><a href="mantenedorViviendas.htm"><i class="fa fa-circle-o"></i> Viviendas</a></li>
-                                    <li><a href="mantenedorResidentes.htm"><i class="fa fa-circle-o"></i> Residentes</a></li>
-                                    <li><a href="mantenedorProveedores.htm"><i class="fa fa-circle-o"></i> Proveedores</a></li>
-                                    <li><a href="mantenedorServicios.htm"><i class="fa fa-circle-o"></i> Servicios</a></li>
-                                    <li><a href="mantenedorPersonal.htm"><i class="fa fa-circle-o"></i> Personal</a></li>
-                                </c:if>
-                            </ul>
-                        </li>
-                    </c:if>
                 </ul>
             </section>
             <!-- /.sidebar -->

@@ -5,8 +5,6 @@
  */
 package duoc.cl.jee010.miconstructora.presentancion;
 
-import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.negocio.UserBO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -15,14 +13,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "PerfilServlet", urlPatterns = {"/perfil"})
+public class PerfilServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -36,8 +33,8 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        RequestDispatcher r = request.getRequestDispatcher("/login.jsp");
+        RequestDispatcher r;
+        r = request.getRequestDispatcher("/perfil.jsp");
         r.forward(request, response);
     }
 
@@ -52,19 +49,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        RequestDispatcher r;
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        UserBO userBo = new UserBO();
-        User user = userBo.authenticate(login, password);
-        if (user == null) {
-            r = request.getRequestDispatcher("/login.jsp");
-            r.forward(request, response);
-        } else {
-            session.setAttribute("user", user);
-            response.sendRedirect("./perfil");
-        }
     }
 
     /**
