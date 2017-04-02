@@ -17,21 +17,24 @@ import java.util.List;
  *
  * @author amontess
  */
-public class UsuarioDAO implements ICrud{
+public class UserDAO implements ICrud{
 
-    public UsuarioDAO() {
+    public UserDAO() {
     }
 
     @Override
-    public boolean addElemento(Object objetoInsert) {
+    public boolean addElement(Object objetoInsert) {
         User objUsuario=(User)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
-            String query="INSERT INTO USUARIO VALUES (0,?,?,?);";
+            String query="INSERT INTO USER VALUES (0,?,?,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
             ps.setString(1, objUsuario.getLogin());
             ps.setString(2, objUsuario.getPassword());
-            ps.setInt(3, objUsuario.getProfile_id());
+            ps.setString(3, objUsuario.getEmail());
+            ps.setInt(4, objUsuario.getProfile_id());
+            ps.setInt(5, objUsuario.getEmployee_id());
+            ps.setInt(6, objUsuario.getStatus());
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
@@ -45,7 +48,7 @@ public class UsuarioDAO implements ICrud{
     }
 
     @Override
-    public List readElementos() {
+    public List readElements() {
         List<User>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
@@ -53,7 +56,14 @@ public class UsuarioDAO implements ICrud{
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                User objUsuario= new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                User objUsuario= new User(
+                        rs.getInt(1), 
+                        rs.getString(2), 
+                        rs.getString(3), 
+                        rs.getString(4), 
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7));
                 listadoUsuario.add(objUsuario);
             }            
         }catch(Exception e){
@@ -62,35 +72,20 @@ public class UsuarioDAO implements ICrud{
         return listadoUsuario;
     }
     
-    public List readUsuariosPerfilDTO(){
-        List<UsuarioPerfilDTO>listadoUsuario= new LinkedList<>();
-        try{
-            Connection con = Conexion.getConexion();
-            String query="SELECT USU.ID_USUARIO,USU.LOGIN_USUARIO,USU.PASS_USUARIO,USU.ID_PERFIL,PER.NOMBRE_PERFIL FROM USUARIO USU,"
-                    + " PERFIL PER WHERE PER.ID_PERFIL=USU.ID_PERFIL ;";
-            PreparedStatement ps=con.prepareStatement(query);
-            ResultSet rs=ps.executeQuery();
-            while(rs.next()){
-                UsuarioPerfilDTO objUsuarioPerfilDTO= new UsuarioPerfilDTO(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getString(5));
-                listadoUsuario.add(objUsuarioPerfilDTO);
-            }            
-        }catch(Exception e){
-            System.out.println("Problemas en la lectura "+e.getMessage());
-        }
-        return listadoUsuario;
-    }
-
     @Override
-    public boolean updateElemento(Object objetoUpdate) {
+    public boolean updateElement(Object objetoUpdate) {
            User objUsuario = (User) objetoUpdate;
         try {
             Connection con = Conexion.getConexion();
-            String query = "UPDATE USUARIO SET LOGIN_USUARIO=?,PASS_USUARIO=?,ID_PERFIL=? WHERE ID_USUARIO=?";
+            String query = "UPDATE USER SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=? WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objUsuario.getLogin());
             ps.setString(2, objUsuario.getPassword());
-            ps.setInt(3, objUsuario.getProfile_id());
-            ps.setInt(4, objUsuario.getId());
+            ps.setString(3, objUsuario.getEmail());
+            ps.setInt(4, objUsuario.getProfile_id());
+            ps.setInt(5, objUsuario.getEmployee_id());
+            ps.setInt(6, objUsuario.getStatus());
+            ps.setInt(7, objUsuario.getId());
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
@@ -103,12 +98,12 @@ public class UsuarioDAO implements ICrud{
     }
 
     @Override
-    public boolean deleteElemento(int codigo) {
+    public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM USUARIO WHERE ID_USUARIO=?";
+            String query = "DELETE FROM USER WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, codigo);
+            ps.setInt(1, id);
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
@@ -120,39 +115,54 @@ public class UsuarioDAO implements ICrud{
         return false;
     }
     
-    public User validaIngreso(String login,String pass){
-        User objUsuario=null;
-        String query="SELECT * FROM USUARIO WHERE LOGIN_USUARIO=? AND PASS_USUARIO=?;";
+    public User authenticate(String login,String password){
+        User objUser=null;
+        String query="SELECT * FROM USER WHERE LOGIN=? AND PASSWORD=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
             ps.setString(1,login);
-            ps.setString(2,pass);
+            ps.setString(2,password);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                objUsuario= new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+                    objUser= new User(
+                        rs.getInt(1), 
+                        rs.getString(2), 
+                        rs.getString(3), 
+                        rs.getString(4), 
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7));
             }
         }catch(Exception e){
             System.out.println("problemas al validar "+e.getMessage());
         }
-        return objUsuario;
+        return objUser;
     }
     
-    public User buscaUsuarioXcodigo(int id_usuario) {
-        User infoUsuario = null;
-        try {
-            Connection con = Conexion.getConexion();
-            String query = "SELECT * FROM USUARIO WHERE ID_USUARIO=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, id_usuario);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                infoUsuario = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4));
+    @Override
+    public User getElement(int id){
+        User objUser=null;
+        String query="SELECT * FROM USER WHERE ID=?;";
+        try{
+            Connection con= Conexion.getConexion();
+            PreparedStatement ps= con.prepareStatement(query);
+            ps.setInt(1,id);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                    objUser= new User(
+                        rs.getInt(1), 
+                        rs.getString(2), 
+                        rs.getString(3), 
+                        rs.getString(4), 
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7));
             }
-        } catch (Exception e) {
-            System.out.println("no se pudo ingresar al sistema");
+        }catch(Exception e){
+            System.out.println("problemas al recuperar informacion "+e.getMessage());
         }
-        return infoUsuario;
+        return objUser;
     }
-    
+  
 }

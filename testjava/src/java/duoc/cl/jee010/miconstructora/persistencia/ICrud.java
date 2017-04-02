@@ -13,11 +13,13 @@ import java.util.List;
  */
 public interface ICrud {
     
-    public boolean addElemento(Object objetoInsert);
+    public boolean addElement(Object insertObject);
 
-    public List readElementos();
+    public List readElements();
 
-    public boolean updateElemento(Object objetoUpdate);
+    public boolean updateElement(Object updateObject);
 
-    public boolean deleteElemento(int codigo);
+    public boolean deleteElement(int codigo);
+    
+    public Object getElement(int codigo);
 }
