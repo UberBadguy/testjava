@@ -166,7 +166,7 @@ public class UserDAO implements ICrud{
     @Override
     public User getElement(int id){
         User objUser=null;
-        String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID AND U.ID=?;";
+        String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, U.STATUS, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID AND U.ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
