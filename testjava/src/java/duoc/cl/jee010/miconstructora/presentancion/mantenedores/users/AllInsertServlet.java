@@ -58,7 +58,25 @@ public class AllInsertServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("entra");
+        HttpSession session = request.getSession();
+        RequestDispatcher r;
+        String json = "{\"response\":0}";
+        try {
+            int id = Integer.valueOf(request.getParameter("id"));
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            int employee_id = Integer.valueOf(request.getParameter("employee_id"));
+            int profile_id = Integer.valueOf(request.getParameter("profile_id"));
+            int status = Integer.valueOf(request.getParameter("status"));
+            User user = new User(id, login, password, email, profile_id, employee_id, status);
+            json = "{\"response\":1}";
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        session.setAttribute("json", json);
+        r = request.getRequestDispatcher("/include/json.jsp");
+        r.forward(request, response);
     }
 
     /**
