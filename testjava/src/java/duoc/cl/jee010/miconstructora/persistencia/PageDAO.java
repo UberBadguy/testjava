@@ -25,7 +25,7 @@ public class PageDAO {
         List listPages= new LinkedList();
         try{
             Connection con= Conexion.getConexion();
-            String query="SELECT * FROM PAGES WHERE ID IN (SELECT PAGE_ID FROM PROFILE_PAGES WHERE PROFILE_ID=?) ORDER BY PARENT";
+            String query="SELECT * FROM PAGES WHERE ID IN (SELECT PAGE_ID FROM PROFILES_PAGES WHERE PROFILE_ID=?) ORDER BY PARENT";
             PreparedStatement ps= con.prepareStatement(query);
             ps.setInt(1, profileId);
             ResultSet rs=ps.executeQuery();

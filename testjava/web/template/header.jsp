@@ -62,10 +62,10 @@
                             <!-- Menu Footer-->
                             <li class="user-footer">
                                 <div class="pull-left">
-                                    <a href="./perfil" class="btn btn-default btn-flat">Perfil</a>
+                                    <a href="/testjava/perfil" class="btn btn-default btn-flat">Perfil</a>
                                 </div>
                                 <div class="pull-right">
-                                    <a href="./salir" class="btn btn-default btn-flat">Salir</a>
+                                    <a href="/testjava/salir" class="btn btn-default btn-flat">Salir</a>
                                 </div>
                             </li>
                         </ul>
@@ -85,7 +85,26 @@
             <!-- sidebar menu: : style can be found in sidebar.less -->
             <ul class="sidebar-menu">
                 <li class="header">Navegación</li>
+                <c:forEach items="${pageList}" var="objPage">
+                    <c:if test="${objPage.parent==0}">
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-files-o"></i>
+                                <span>${objPage.name}</span>
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </a>
+                            <ul class="treeview-menu">
+                                <c:forEach items="${pageList}" var="objPageChild">
+                                    <c:if test="${objPageChild.id!=0 && objPage.id ==objPageChild.parent}">
+                                        <li><a href="${objPageChild.path}"><i class="fa fa-circle-o"></i> ${objPageChild.name}</a></li>
+                                    </c:if>
+                                </c:forEach>
+                            </ul>
+                        </li>
+                    </c:if>
+                </c:forEach>
             </ul>
+            
         </section>
         <!-- /.sidebar -->
     </aside>

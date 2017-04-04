@@ -6,10 +6,13 @@
 package duoc.cl.jee010.miconstructora.presentancion;
 
 import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
+import duoc.cl.jee010.miconstructora.entidades.Page;
 import duoc.cl.jee010.miconstructora.entidades.User;
+import duoc.cl.jee010.miconstructora.negocio.PageBO;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -64,6 +67,7 @@ public class LoginServlet extends HttpServlet {
             r.forward(request, response);
         } else {
             session.setAttribute("user", user);
+            session.setAttribute("pageList", user.getPages());
             response.sendRedirect("./perfil");
         }
     }
