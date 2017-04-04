@@ -25,15 +25,15 @@ public class ProfileBO {
         return this.objProfileDAO.readElements();
     }
     
-    public boolean addUser(Profile objProfile){
+    public boolean addProfile(Profile objProfile){
         return this.objProfileDAO.addElement(objProfile);
     }
     
-    public boolean deleteUser(int codigo){
+    public boolean deleteProfile(int codigo){
         return this.objProfileDAO.deleteElement(codigo);
     }
     
-    public boolean updateUser(Profile objUser){
+    public boolean updateProfile(Profile objUser){
         return this.objProfileDAO.updateElement(objUser);
     }
     

@@ -5,9 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.negocio;
 
-import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
-import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
+import duoc.cl.jee010.miconstructora.entidades.Employee;
+import duoc.cl.jee010.miconstructora.persistencia.EmployeeDAO;
 import java.util.List;
 
 /**
@@ -16,34 +15,30 @@ import java.util.List;
  */
 public class EmployeeBO {
     
-    private final UserDAO objUsuarioDAO;
+    private final EmployeeDAO objEmployeeDAO;
     
     public EmployeeBO() {
-        this.objUsuarioDAO=new UserDAO();
+        this.objEmployeeDAO=new EmployeeDAO();
     }
     
-    public UserProfilePagesDTO authenticate(String login,String pass){
-        return this.objUsuarioDAO.authenticate(login, pass);
+    public List<Employee>getAllEmployee(){
+        return this.objEmployeeDAO.readElements();
     }
     
-    public List<User>getAllUser(){
-        return this.objUsuarioDAO.readElements();
+    public boolean addEmployee(Employee objEmployee){
+        return this.objEmployeeDAO.addElement(objEmployee);
     }
     
-    public boolean addUser(User objUser){
-        return this.objUsuarioDAO.addElement(objUser);
+    public boolean deleteEmployee(int codigo){
+        return this.objEmployeeDAO.deleteElement(codigo);
     }
     
-    public boolean deleteUser(int codigo){
-        return this.objUsuarioDAO.deleteElement(codigo);
+    public boolean updateEmployee(Employee objEmployee){
+        return this.objEmployeeDAO.updateElement(objEmployee);
     }
     
-    public boolean updateUser(User objUser){
-        return this.objUsuarioDAO.updateElement(objUser);
-    }
-    
-    public User getUser(int codigo){
-        return this.objUsuarioDAO.getElement(codigo);
+    public Employee getEmployee(int codigo){
+        return this.objEmployeeDAO.getElement(codigo);
     }
     
 }
