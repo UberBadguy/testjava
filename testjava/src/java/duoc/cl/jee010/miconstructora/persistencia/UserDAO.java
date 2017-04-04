@@ -53,7 +53,7 @@ public class UserDAO implements ICrud{
         List<User>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID;";
+            String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, U.STATUS, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
