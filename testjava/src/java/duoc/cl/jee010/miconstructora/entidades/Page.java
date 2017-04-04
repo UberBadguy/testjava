@@ -16,17 +16,19 @@ public class Page implements Serializable {
     private int id;
     private String name;
     private int parent;
+    private String icon;
     private String path;
     private int status;
 
     public Page() {
     }
 
-    public Page(int id_menu, String nombre_menu, int padre_menu, String destino_menu, int status) {
-        this.id = id_menu;
-        this.name = nombre_menu;
-        this.parent = padre_menu;
-        this.path = destino_menu;
+    public Page(int id, String name, int parent, String icon, String path, int status) {
+        this.id = id;
+        this.name = name;
+        this.parent = parent;
+        this.icon = icon;
+        this.path = path;
         this.status = status;
     }
 
@@ -69,5 +71,14 @@ public class Page implements Serializable {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+    
 
 }

@@ -30,7 +30,7 @@ public class PageDAO {
             ps.setInt(1, profileId);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                Page objPage= new Page(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getInt(5));                
+                Page objPage= new Page(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getInt(6));                
                 listPages.add(objPage);
             }
         }catch(Exception e){
