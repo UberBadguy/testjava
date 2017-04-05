@@ -19,7 +19,7 @@ public class Page implements Serializable {
     private String icon;
     private String path;
     private int status;
-
+    
     public Page() {
     }
 
@@ -80,5 +80,14 @@ public class Page implements Serializable {
         this.icon = icon;
     }
     
+    public String toString() {
+        return "{\"data\":{" +
+                "\"id\":" + id +
+                "\"name\":\"" + name + "\"" +
+                "\"parent\":" + parent +
+                "\"icon\":\"" + icon + "\"" +
+                "\"path\":\"" + path + "\"" +
+                "\"status\":" + status +"}}";
+    }
 
 }

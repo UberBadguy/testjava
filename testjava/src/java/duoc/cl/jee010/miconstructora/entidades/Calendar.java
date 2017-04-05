@@ -21,7 +21,7 @@ public class Calendar implements Serializable {
     private int rut;
     private Date date;
     private int status;
-
+    
     public Calendar() {
     }
 

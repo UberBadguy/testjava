@@ -17,7 +17,7 @@ public class BuildingSite implements Serializable {
     private String name;
     private String address;
     private int status;
-
+    
     public BuildingSite() {
     }
 
@@ -60,5 +60,12 @@ public class BuildingSite implements Serializable {
         this.status = status;
     }
     
+    public String toString() {
+        return "{\"data\":{" +
+                "\"id\":" + id +
+                "\"name\":\"" + name + "\"" +
+                "\"address\":\"" + address + "\"" +
+                "\"status\":" + status +"}}";
+    }
     
 }

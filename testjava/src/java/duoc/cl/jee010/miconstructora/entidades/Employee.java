@@ -109,5 +109,17 @@ public class Employee {
         this.status = status;
     }
     
+    public String toString() {
+        return "{\"data\":{" +
+                "\"id\":" + id +
+                "\"rut\":" + rut +
+                "\"dv\":\"" + dv + "\"" +
+                "\"name\":\"" + name + "\"" +
+                "\"last_name\":\"" + last_name + "\"" +
+                "\"birth\":\"" + birth + "\"" +
+                "\"gender\":\"" + gender + "\"" +
+                "\"building_site_id\":" + building_site_id +
+                "\"status\":" + status +"}}";
+    }
     
 }

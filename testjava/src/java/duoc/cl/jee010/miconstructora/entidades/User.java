@@ -108,4 +108,15 @@ public class User implements Serializable{
     public void setProfile_name(String profile_name) {
         this.profile_name = profile_name;
     }
+    
+    public String toString() {
+        return "{\"data\":{" +
+                "\"id\":" + id +
+                "\"login\":\"" + login + "\"" +
+                "\"password\":\"" + password +"\"" +
+                "\"email\":\"" + email +"\"" +
+                "\"profile_id\":" + profile_id +
+                "\"employee_id\":" + employee_id +
+                "\"status\":" + status +"}}";
+    }
 }

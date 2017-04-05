@@ -48,4 +48,11 @@ public class Profile implements Serializable{
     public void setStatus(int status) {
         this.status = status;
     } 
+    
+    public String toString() {
+        return "{\"data\":{" +
+                "\"id\":" + id +
+                "\"name\":\"" + name + "\"" +
+                "\"status\":" + status +"}}";
+    }
 }
