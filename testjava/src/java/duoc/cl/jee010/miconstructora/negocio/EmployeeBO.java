@@ -21,7 +21,7 @@ public class EmployeeBO {
         this.objEmployeeDAO=new EmployeeDAO();
     }
     
-    public List<Employee>getAllEmployee(){
+    public List<Employee>getAllEmployees(){
         return this.objEmployeeDAO.readElements();
     }
     
@@ -39,6 +39,10 @@ public class EmployeeBO {
     
     public Employee getEmployee(int codigo){
         return this.objEmployeeDAO.getElement(codigo);
+    }
+    
+    public List<Employee>getAllAvailableEmployees(){
+        return this.objEmployeeDAO.getAllAvailableEmployees();
     }
     
 }

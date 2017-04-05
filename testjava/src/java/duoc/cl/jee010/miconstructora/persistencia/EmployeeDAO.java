@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.LinkedList;
@@ -23,13 +24,19 @@ public class EmployeeDAO implements ICrud{
 
     @Override
     public boolean addElement(Object objetoInsert) {
-        Employee objUsuario=(Employee)objetoInsert;
+        Employee objEmployee=(Employee)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
             String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
-
-            ps.setInt(6, objUsuario.getStatus());
+            ps.setInt(1, objEmployee.getRut());
+            ps.setString(2, objEmployee.getDv());
+            ps.setString(3, objEmployee.getName());
+            ps.setString(4, objEmployee.getLast_name());
+            ps.setDate(5, new Date(objEmployee.getBirth().getTime()));
+            ps.setString(6, objEmployee.getGender());
+            ps.setInt(7, objEmployee.getBuilding_site_id());
+            ps.setInt(8, objEmployee.getStatus());
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
@@ -47,12 +54,21 @@ public class EmployeeDAO implements ICrud{
         List<Employee>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, U.STATUS, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID;";
+            String query="SELECT * FROM EMPLOYEES;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                Employee objUsuario= new Employee();
-                listadoUsuario.add(objUsuario);
+                Employee objEmployee= new Employee(
+                        rs.getInt(1), 
+                        rs.getInt(2), 
+                        rs.getString(3),
+                        rs.getString(4), 
+                        rs.getString(5), 
+                        rs.getDate(6), 
+                        rs.getString(7), 
+                        rs.getInt(8), 
+                        rs.getInt(9));
+                listadoUsuario.add(objEmployee);
             }            
         }catch(Exception e){
             System.out.println("Problemas en la lectura "+e.getMessage());
@@ -62,14 +78,20 @@ public class EmployeeDAO implements ICrud{
     
     @Override
     public boolean updateElement(Object objetoUpdate) {
-           Employee objUsuario = (Employee) objetoUpdate;
+           Employee objEmployee = (Employee) objetoUpdate;
         try {
             Connection con = Conexion.getConexion();
-            String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=? WHERE ID=?";
+            String query = "UPDATE EMPLOYEES SET RUT=?,DV=?,NAME=?,LAST_NAME=?,BIRTH_DATE=?,GENDER=?,BUILDING_SITE_ID=?,STATUS=? WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
-
-            ps.setInt(6, objUsuario.getStatus());
-            ps.setInt(7, objUsuario.getId());
+            ps.setInt(1, objEmployee.getRut());
+            ps.setString(2, objEmployee.getDv());
+            ps.setString(3, objEmployee.getName());
+            ps.setString(4, objEmployee.getLast_name());
+            ps.setDate(5, new Date(objEmployee.getBirth().getTime()));
+            ps.setString(6, objEmployee.getGender());
+            ps.setInt(7, objEmployee.getBuilding_site_id());
+            ps.setInt(8, objEmployee.getStatus());
+            ps.setInt(9, objEmployee.getId());
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
@@ -85,7 +107,7 @@ public class EmployeeDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM USERS WHERE ID=?";
+            String query = "DELETE FROM EMPLOYEES WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {
@@ -102,18 +124,53 @@ public class EmployeeDAO implements ICrud{
     @Override
     public Employee getElement(int id){
         Employee objEmployee=null;
-        String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, U.STATUS, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID AND U.ID=?;";
+        String query="SELECT * FROM EMPLOYEES WHERE ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
             ps.setInt(1,id);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                    objEmployee= new Employee();
+                    objEmployee= new Employee(
+                        rs.getInt(1), 
+                        rs.getInt(2), 
+                        rs.getString(3),
+                        rs.getString(4), 
+                        rs.getString(5), 
+                        rs.getDate(6), 
+                        rs.getString(7), 
+                        rs.getInt(8), 
+                        rs.getInt(9));
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());
         }
         return objEmployee;
+    }
+    
+    public List getAllAvailableEmployees() {
+        List<Employee>listadoUsuario= new LinkedList<>();
+        try{
+            Connection con = Conexion.getConexion();
+            String query="SELECT * FROM EMPLOYEES WHERE ID NOT IN (SELECT EMPLOYEE_ID FROM USERS);";
+            PreparedStatement ps=con.prepareStatement(query);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                Employee objEmployee= new Employee(
+                        rs.getInt(1), 
+                        rs.getInt(2), 
+                        rs.getString(3),
+                        rs.getString(4), 
+                        rs.getString(5), 
+                        rs.getDate(6), 
+                        rs.getString(7), 
+                        rs.getInt(8), 
+                        rs.getInt(9));
+                listadoUsuario.add(objEmployee);
+            }            
+        }catch(Exception e){
+            System.out.println("Problemas en la lectura "+e.getMessage());
+        }
+        return listadoUsuario;
     }
 }
