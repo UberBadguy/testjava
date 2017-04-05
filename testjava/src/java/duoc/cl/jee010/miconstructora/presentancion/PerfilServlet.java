@@ -6,7 +6,6 @@
 package duoc.cl.jee010.miconstructora.presentancion;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,9 +32,7 @@ public class PerfilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher r;
-        r = request.getRequestDispatcher("/perfil.jsp");
-        r.forward(request, response);
+        view("/perfil.jsp", request, response);
     }
 
     /**
@@ -49,6 +46,13 @@ public class PerfilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    }
+    
+    private void view(String view, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher r;
+        r = request.getRequestDispatcher(view);
+        r.forward(request, response);
     }
 
     /**

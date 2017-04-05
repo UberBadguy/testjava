@@ -5,11 +5,14 @@
  */
 package duoc.cl.jee010.miconstructora.presentancion.mantenedores.users;
 
-import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
+import duoc.cl.jee010.miconstructora.entidades.Employee;
+import duoc.cl.jee010.miconstructora.entidades.Profile;
 import duoc.cl.jee010.miconstructora.entidades.User;
+import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
+import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -39,12 +42,16 @@ public class AllInsertServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        RequestDispatcher r;
         UserBO userBO = new UserBO();
+        ProfileBO profileBO = new ProfileBO();
+        EmployeeBO employeeBo = new EmployeeBO();
         List<User> listado = userBO.getAllUser();
+        List<Profile> profiles = profileBO.getAllProfile();
+        List<Employee> employees = employeeBo.getAllAvailableEmployees();
+        session.setAttribute("profiles", profiles);
+        session.setAttribute("employees", employees);
         session.setAttribute("listado", listado);
-        r = request.getRequestDispatcher("/mantenedores/usuarios/listado.jsp");
-        r.forward(request, response);
+        view("/mantenedores/usuarios/listado.jsp", request, response);
     }
 
     /**
@@ -59,8 +66,8 @@ public class AllInsertServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        RequestDispatcher r;
         String json = "{\"response\":0}";
+        UserDAO userDAO = new UserDAO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             String login = request.getParameter("login");
@@ -70,12 +77,19 @@ public class AllInsertServlet extends HttpServlet {
             int profile_id = Integer.valueOf(request.getParameter("profile_id"));
             int status = Integer.valueOf(request.getParameter("status"));
             User user = new User(id, login, password, email, profile_id, employee_id, status);
-            json = "{\"response\":1}";
+            if (userDAO.addElement(user))
+                json = "{\"response\":1}";
         } catch (Exception e) {
             System.out.println(e);
         }
         session.setAttribute("json", json);
-        r = request.getRequestDispatcher("/include/json.jsp");
+        view("/include/json.jsp", request, response);
+    }
+    
+    private void view(String view, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher r;
+        r = request.getRequestDispatcher(view);
         r.forward(request, response);
     }
 
