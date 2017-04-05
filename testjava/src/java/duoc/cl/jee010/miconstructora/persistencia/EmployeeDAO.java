@@ -27,7 +27,7 @@ public class EmployeeDAO implements ICrud{
         Employee objEmployee=(Employee)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
-            String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?);";
+            String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
             ps.setInt(1, objEmployee.getRut());
             ps.setString(2, objEmployee.getDv());

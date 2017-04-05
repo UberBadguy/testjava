@@ -94,8 +94,8 @@
                                 <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
                                     <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${residentes}" var="residente">
-                                            <option value="${residente.idResidente}">${residente.persona.nombre}</option>
+                                        <c:forEach items="${employees}" var="employee">
+                                            <option value="${employee.id}">${employee.name} ${employee.last_name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
@@ -104,8 +104,8 @@
                                 <label for="idPerfil" class="col-sm-2 control-label">Perfil</label>
                                 <div class="col-sm-10">
                                     <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${perfiles}" var="perfil">
-                                            <option value="${perfil.idPerfil}">${perfil.nombre}</option>
+                                        <c:forEach items="${profiles}" var="profile">
+                                            <option value="${profile.id}">${profile.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
