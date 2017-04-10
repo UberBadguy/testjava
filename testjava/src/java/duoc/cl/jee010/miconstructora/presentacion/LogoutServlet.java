@@ -3,22 +3,24 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package duoc.cl.jee010.miconstructora.presentancion;
+package duoc.cl.jee010.miconstructora.presentacion;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "PerfilServlet", urlPatterns = {"/perfil"})
-public class PerfilServlet extends HttpServlet {
+@WebServlet(name = "LogoutServlet", urlPatterns = {"/salir"})
+public class LogoutServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -32,7 +34,9 @@ public class PerfilServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        view("/perfil.jsp", request, response);
+        HttpSession session = request.getSession();
+        session.invalidate();
+        response.sendRedirect("./login");
     }
 
     /**
@@ -46,13 +50,6 @@ public class PerfilServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    }
-    
-    private void view(String view, HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        RequestDispatcher r;
-        r = request.getRequestDispatcher(view);
-        r.forward(request, response);
     }
 
     /**

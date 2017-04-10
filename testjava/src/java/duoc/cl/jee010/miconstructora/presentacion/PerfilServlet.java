@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package duoc.cl.jee010.miconstructora.presentancion;
+package duoc.cl.jee010.miconstructora.presentacion;
 
-import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
-import duoc.cl.jee010.miconstructora.negocio.UserBO;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -14,14 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "PerfilServlet", urlPatterns = {"/perfil"})
+public class PerfilServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -35,7 +32,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        view("/login.jsp", request, response);
+        view("/perfil.jsp", request, response);
     }
 
     /**
@@ -49,18 +46,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
-        UserBO userBo = new UserBO();
-        UserProfilePagesDTO user = userBo.authenticate(login, password);
-        if (user == null) {
-            view("/login.jsp", request, response);
-        } else {
-            session.setAttribute("user", user);
-            session.setAttribute("pageList", user.getPages());
-            response.sendRedirect("./perfil");
-        }
     }
     
     private void view(String view, HttpServletRequest request, HttpServletResponse response)
