@@ -73,7 +73,7 @@
                         <form class="form-horizontal form" id="addForm">
                             <input class="form-control" name="id" id="id" type="hidden">
                             <div class="form-group">
-                                <label for="usuario" class="col-sm-2 control-label">Usuario</label>
+                                <label for="login" class="col-sm-2 control-label">Usuario</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" name="login" id="login" placeholder="Usuario" type="text" required="required">
                                 </div>

@@ -54,6 +54,27 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String json = "{\"response\":0}";
+        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
+        try {
+            int id = Integer.valueOf(request.getParameter("id"));
+            String name = request.getParameter("name");
+            String address = request.getParameter("address");
+            int status = Integer.valueOf(request.getParameter("status"));
+            BuildingSite buildingSite = new BuildingSite(id, name, address, status);
+            if (id > 0) {
+                if (buildingSiteBO.updateBuildingSite(buildingSite))
+                    json = "{\"response\":1}";
+            } else {
+                if (buildingSiteBO.addBuildingSite(buildingSite))
+                    json = "{\"response\":1}";
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        session.setAttribute("json", json);
+        view("/include/json.jsp", request, response);
     }
     
     private void view(String view, HttpServletRequest request, HttpServletResponse response)

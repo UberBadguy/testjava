@@ -63,9 +63,9 @@ public class BuildingSite implements Serializable {
     public String toString() {
         return "{\"data\":{" +
                 "\"id\":" + id +
-                "\"name\":\"" + name + "\"" +
-                "\"address\":\"" + address + "\"" +
-                "\"status\":" + status +"}}";
+                ",\"name\":\"" + name + "\"" +
+                ",\"address\":\"" + address + "\"" +
+                ",\"status\":" + status +"}}";
     }
     
 }

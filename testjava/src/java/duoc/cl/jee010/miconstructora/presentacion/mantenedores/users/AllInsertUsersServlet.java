@@ -67,7 +67,7 @@ public class AllInsertUsersServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        UserDAO userDAO = new UserDAO();
+        UserBO userBO = new UserBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             String login = request.getParameter("login");
@@ -83,10 +83,10 @@ public class AllInsertUsersServlet extends HttpServlet {
             int status = Integer.valueOf(request.getParameter("status"));
             User user = new User(id, login, password, email, profile_id, employee_id, status);
             if (id > 0) {
-                if (userDAO.updateElement(user))
+                if (userBO.updateUser(user))
                     json = "{\"response\":1}";
             } else {
-                if (userDAO.addElement(user))
+                if (userBO.addUser(user))
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {

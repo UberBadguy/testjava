@@ -91,7 +91,7 @@ public class BuildingSiteDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM BUILDING_SITES WHERE ID=?";
+            String query = "UPDATE BUILDING_SITES SET STATUS=0 WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {
