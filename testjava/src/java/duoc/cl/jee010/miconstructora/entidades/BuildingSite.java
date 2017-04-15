@@ -16,16 +16,26 @@ public class BuildingSite implements Serializable {
     private int id;
     private String name;
     private String address;
+    private int district_id;
     private int status;
     
     public BuildingSite() {
     }
 
-    public BuildingSite(int id, String name, String address, int status) {
+    public BuildingSite(int id, String name, String address, int district_id, int status) {
         this.id = id;
         this.name = name;
         this.address = address;
         this.status = status;
+        this.district_id = district_id;
+    }
+
+    public int getDistrict_id() {
+        return district_id;
+    }
+
+    public void setDistrict_id(int district_id) {
+        this.district_id = district_id;
     }
 
     public int getId() {
@@ -65,6 +75,7 @@ public class BuildingSite implements Serializable {
                 "\"id\":" + id +
                 ",\"name\":\"" + name + "\"" +
                 ",\"address\":\"" + address + "\"" +
+                ",\"district_id\":\"" + district_id + "\"" +
                 ",\"status\":" + status +"}}";
     }
     

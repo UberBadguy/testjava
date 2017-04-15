@@ -26,11 +26,12 @@ public class BuildingSiteDAO implements ICrud{
         BuildingSite objBuildingSite=(BuildingSite)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
-            String query="INSERT INTO BUILDING_SITES VALUES (0,?,?,?);";
+            String query="INSERT INTO BUILDING_SITES VALUES (0,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
             ps.setString(1, objBuildingSite.getName());
             ps.setString(2, objBuildingSite.getAddress());
-            ps.setInt(3, objBuildingSite.getStatus());
+            ps.setInt(3, objBuildingSite.getDistrict_id());
+            ps.setInt(4, objBuildingSite.getStatus());
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
@@ -56,7 +57,8 @@ public class BuildingSiteDAO implements ICrud{
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getInt(4));
+                        rs.getInt(4),
+                        rs.getInt(5));
                 listadoUsuario.add(objBuildingSite);
             }            
         }catch(Exception e){
@@ -70,12 +72,13 @@ public class BuildingSiteDAO implements ICrud{
            BuildingSite objBuildingSite = (BuildingSite) objetoUpdate;
         try {
             Connection con = Conexion.getConexion();
-            String query = "UPDATE BUILDING_SITES SET NAME=?,ADDRESS=?,STATUS=? WHERE ID=?";
+            String query = "UPDATE BUILDING_SITES SET NAME=?,ADDRESS=?,DISTRICT_ID=?,STATUS=? WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objBuildingSite.getName());
             ps.setString(2, objBuildingSite.getAddress());
             ps.setInt(3, objBuildingSite.getStatus());
-            ps.setInt(4, objBuildingSite.getId());
+            ps.setInt(4, objBuildingSite.getDistrict_id());
+            ps.setInt(5, objBuildingSite.getId());
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
@@ -119,7 +122,8 @@ public class BuildingSiteDAO implements ICrud{
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getInt(4));
+                        rs.getInt(4),
+                        rs.getInt(5));
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());
