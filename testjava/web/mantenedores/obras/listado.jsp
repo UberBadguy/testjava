@@ -13,7 +13,7 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Mantenedor Usuarios</h1>
+            <h1>Mantenedor Obras</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
@@ -21,31 +21,29 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Usuarios</h3>
-                            <button type="submit" class="btn btn-primary pull-right" id="newItem">Nuevo</button>
+                            <h3 class="box-title">Obras</h3>
+                            <button type="submit" class="btn btn-primary pull-right" id="newItem">Nueva</button>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="mantenedor" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
-                                        <th>Email</th>
-                                        <th>Perfil</th>
+                                        <th>Nombre</th>
+                                        <th>Dirección</th>
                                         <th>Estado</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listado}" var="usuario">
+                                    <c:forEach items="${listado}" var="building_site">
                                         <tr>
-                                            <td>${usuario.login}</td>
-                                            <td>${usuario.email}</td>
-                                            <td>${usuario.profile_name}</td>
-                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
+                                            <td>${building_site.name}</td>
+                                            <td>${building_site.address}</td>
+                                            <td><span class="label label-${building_site.status==1?"success":"danger"}">${building_site.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${usuario.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
+                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${building_site.id}" data-url="./obras/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
+                                                <c:if test="${building_site.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${building_site.id}" data-url="./obras/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
