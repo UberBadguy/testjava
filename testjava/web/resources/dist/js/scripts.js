@@ -165,52 +165,6 @@
             });
         });
     });
-    $('#generaGastos').on('click', function () {
-        var url = $(this).attr('data-url');
-        var id = $('#condominio').val();
-        var date = new Date();
-        swal({
-            title: 'Generar Gastos',
-            text: 'Está seguro de generar gastos?',
-            type: "warning",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            animation: 'slide-from-top',
-            showLoaderOnConfirm: true
-        },
-        function () {
-            $.ajax({
-                url: url,
-                data: 'condominio=' + id + '&month=' + date.getMonth() + '&year=' + date.getFullYear(),
-                type: "POST",
-                success: function (data) {
-                    if (data.response === 1) {
-                        swal({
-                            title: "Datos guardados!",
-                            text: "",
-                            type: "success"
-                        },
-                                function () {
-                                    location.reload();
-                                });
-                    } else {
-                        swal({
-                            title: "Error al guardar los datos!",
-                            text: "Intente nuevamente.",
-                            type: "error"
-                        });
-                    }
-                },
-                error: function () {
-                    swal({
-                        title: "Error al guardar los datos!",
-                        text: "Intente nuevamente.",
-                        type: "error"
-                    });
-                }
-            });
-        });
-    });
 
     $('#new').on('hidden.bs.modal', function () {
         sigecoApp.clearFormMantanedor();
@@ -384,7 +338,7 @@
             $.ajax({
                 url: url,
                 data: 'id=' + id,
-                type: "POST",
+                type: "GET",
                 success: function (data) {
                     $('#addForm').find('.form-control').each(function () {
                         if ($(this).is('select'))

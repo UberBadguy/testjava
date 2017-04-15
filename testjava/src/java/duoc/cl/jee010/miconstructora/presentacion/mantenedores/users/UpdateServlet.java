@@ -5,18 +5,22 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.users;
 
+import duoc.cl.jee010.miconstructora.entidades.User;
+import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "UpdateServlet", urlPatterns = {"/update"})
+@WebServlet(name = "UpdateServlet", urlPatterns = {"/mantenedores/usuaros/update"})
 public class UpdateServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -31,6 +35,18 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String json = "";
+        UserDAO userDAO = new UserDAO();
+        try {
+            int id = Integer.valueOf(request.getParameter("id"));
+            User user = userDAO.getElement(id);
+            json = user.toString();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        session.setAttribute("json", json);
+        view("/include/json.jsp", request, response);
     }
 
     /**
@@ -44,6 +60,13 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    }
+    
+    private void view(String view, HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        RequestDispatcher r;
+        r = request.getRequestDispatcher(view);
+        r.forward(request, response);
     }
 
     /**

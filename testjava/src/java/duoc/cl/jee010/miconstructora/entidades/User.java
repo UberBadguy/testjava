@@ -111,12 +111,12 @@ public class User implements Serializable{
     
     public String toString() {
         return "{\"data\":{" +
-                "\"id\":" + id +
-                "\"login\":\"" + login + "\"" +
-                "\"password\":\"" + password +"\"" +
-                "\"email\":\"" + email +"\"" +
-                "\"profile_id\":" + profile_id +
-                "\"employee_id\":" + employee_id +
-                "\"status\":" + status +"}}";
+                "\"id\":" + id + 
+                ",\"login\":\"" + login + "\"" +
+                ",\"password\":\"" + password +"\"" +
+                ",\"email\":\"" + email +"\"" +
+                ",\"profile_id\":" + profile_id +
+                ",\"employee_id\":" + employee_id +
+                ",\"status\":" + status +"}}";
     }
 }

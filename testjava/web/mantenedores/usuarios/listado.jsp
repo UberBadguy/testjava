@@ -44,8 +44,8 @@
                                             <td>${usuario.profile_id}</td>
                                             <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="getUsuario.htm" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="eliminaUsuario.htm" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a>
+                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuaros/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
+                                                <a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuaros/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a>
                                             </td>
                                         </tr>
                                     </c:forEach>
