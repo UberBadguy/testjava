@@ -49,7 +49,7 @@ public class BuildingSiteDAO implements ICrud{
         List<BuildingSite>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT B.ID, B.NAME, B.ADDRESS, D.NAME, P.NAME, CONCAT(R.ORDINAL,' ',R.NAME), B.STATUS FROM BUILDING_SITES B, DISTRICTS D, PROVINCES P, REGIONS R WHERE B.ID=D.REGION_ID AND D.ID = P.PROVINCES_ID;";
+            String query="SELECT B.ID, B.NAME, B.ADDRESS, D.NAME, P.NAME, CONCAT(R.ORDINAL,' ',R.NAME), B.STATUS FROM BUILDING_SITES B, DISTRICTS D, PROVINCES P, REGIONS R WHERE D.ID=B.DISTRICT_ID AND P.REGION_ID = R.ID AND P.ID = D.PROVINCES_ID;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
@@ -115,7 +115,7 @@ public class BuildingSiteDAO implements ICrud{
         BuildingSite objBuildingSite=null;
         try{
             Connection con = Conexion.getConexion();
-            String query = "SELECT B.ID, B.NAME, B.ADDRESS, D.NAME, P.NAME, CONCAT(R.ORDINAL,' ',R.NAME), B.STATUS FROM BUILDING_SITES B, DISTRICTS D, PROVINCES P, REGIONS R WHERE B.ID=D.REGION_ID AND D.ID = P.PROVINCES_ID;";
+            String query = "SELECT B.ID, B.NAME, B.ADDRESS, D.NAME, P.NAME, CONCAT(R.ORDINAL,' ',R.NAME), B.STATUS FROM BUILDING_SITES B, DISTRICTS D, PROVINCES P, REGIONS R WHERE D.ID=B.DISTRICT_ID AND P.REGION_ID = R.ID AND P.ID = D.PROVINCES_ID;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
