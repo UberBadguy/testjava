@@ -5,7 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.negocio;
 
-import duoc.cl.jee010.miconstructora.entidades.Page;
+import duoc.cl.jee010.miconstructora.entidades.Province;
 import duoc.cl.jee010.miconstructora.persistencia.ProvinceDAO;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class ProvinceBO {
         this.objProvinceDAO= new ProvinceDAO();
     }
     
-    public List<Page>listadoRegiones(int regionId){
+    public List<Province> listadoProvincias(int regionId){
         return this.objProvinceDAO.listByRegion(regionId);
     }
     

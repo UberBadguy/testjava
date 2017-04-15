@@ -5,7 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.negocio;
 
-import duoc.cl.jee010.miconstructora.entidades.Page;
+import duoc.cl.jee010.miconstructora.entidades.District;
 import duoc.cl.jee010.miconstructora.persistencia.DistrictDAO;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class DistrictBO {
         this.objDistrictDAO= new DistrictDAO();
     }
     
-    public List<Page>listadoRegiones(int provinceId){
+    public List<District>listadoComunas(int provinceId){
         return this.objDistrictDAO.listByProvince(provinceId);
     }
     

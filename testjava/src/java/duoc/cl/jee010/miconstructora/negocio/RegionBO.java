@@ -5,7 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.negocio;
 
-import duoc.cl.jee010.miconstructora.entidades.Page;
+import duoc.cl.jee010.miconstructora.entidades.Region;
 import duoc.cl.jee010.miconstructora.persistencia.RegionDAO;
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class RegionBO {
         this.objRegionDAO= new RegionDAO();
     }
     
-    public List<Page>listadoRegiones(){
+    public List<Region> listadoRegiones(){
         return this.objRegionDAO.listAll();
     }
     
