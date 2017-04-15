@@ -73,15 +73,20 @@ public class AllInsertServlet extends HttpServlet {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
-            int employee_id = Integer.valueOf(request.getParameter("employee_id"));
+            int employee_id = 0;
+            try {
+                employee_id = Integer.valueOf(request.getParameter("employee_id"));
+            } catch (Exception e) {
+                employee_id = 0;
+            }
             int profile_id = Integer.valueOf(request.getParameter("profile_id"));
             int status = Integer.valueOf(request.getParameter("status"));
             User user = new User(id, login, password, email, profile_id, employee_id, status);
             if (id > 0) {
-                if (userDAO.addElement(user))
+                if (userDAO.updateElement(user))
                     json = "{\"response\":1}";
             } else {
-                if (userDAO.updateElement(user))
+                if (userDAO.addElement(user))
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {

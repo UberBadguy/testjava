@@ -45,7 +45,7 @@
                                             <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
                                                 <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuaros/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuaros/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a>
+                                                <c:if test="${usuario.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuaros/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -93,6 +93,7 @@
                             <div class="form-group">
                                 <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
+                                    <input class="form-control" name="name" id="name" disabled="disabled">
                                     <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${employees}" var="employee">
                                             <option value="${employee.id}">${employee.name} ${employee.last_name}</option>

@@ -60,6 +60,18 @@ public class UpdateServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String json = "{\"response\":0}";
+        UserDAO userDAO = new UserDAO();
+        try {
+            int id = Integer.valueOf(request.getParameter("id"));
+            if (userDAO.deleteElement(id))
+                json = "{\"response\":1}";
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        session.setAttribute("json", json);
+        view("/include/json.jsp", request, response);
     }
     
     private void view(String view, HttpServletRequest request, HttpServletResponse response)

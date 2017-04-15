@@ -26,15 +26,15 @@
                         <ul class="list-group list-group-unbordered">
                             <li class="list-group-item">
                                 <b>Rut</b>
-                                <a class="pull-right">{!! $user->rut . '-' . $user->dv !!}</a>
+                                <a class="pull-right">${user.employee_rut}-${user.employee_dv}</a>
                             </li>
                             <li class="list-group-item">
                                 <b>Correo</b><br>
                                 <a class="email-large">${user.user_email}</a>
                             </li>
                             <li class="list-group-item">
-                                <b>Curso</b>
-                                <a class="pull-right">{!! $grade != null ? $grade->glosa : '-' !!}</a>
+                                <b>Obra</b>
+                                <a class="pull-right">${user.building_site_name}</a>
                             </li>
                         </ul>
                         <button id="change-password" class="btn btn-primary btn-block"><b>Cambiar Contraseña</b></button>

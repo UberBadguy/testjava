@@ -78,23 +78,40 @@ public class UserDAO implements ICrud{
     public boolean updateElement(Object objetoUpdate) {
            User objUsuario = (User) objetoUpdate;
         try {
-            Connection con = Conexion.getConexion();
-            String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=? WHERE ID=?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, objUsuario.getLogin());
-            ps.setString(2, objUsuario.getPassword());
-            ps.setString(3, objUsuario.getEmail());
-            ps.setInt(4, objUsuario.getProfile_id());
-            ps.setInt(5, objUsuario.getEmployee_id());
-            ps.setInt(6, objUsuario.getStatus());
-            ps.setInt(7, objUsuario.getId());
-            try {
-                return ps.executeUpdate() == 1;
-            } catch (Exception e) {
-                System.out.println("Problemas al updatear"+e.getMessage());
+            if (objUsuario.getEmployee_id() == 0 ) {
+                Connection con = Conexion.getConexion();
+                String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,STATUS=? WHERE ID=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, objUsuario.getLogin());
+                ps.setString(2, objUsuario.getPassword());
+                ps.setString(3, objUsuario.getEmail());
+                ps.setInt(4, objUsuario.getProfile_id());
+                ps.setInt(5, objUsuario.getStatus());
+                ps.setInt(6, objUsuario.getId());
+                try {
+                    return ps.executeUpdate() == 1;
+                } catch (Exception e) {
+                    System.out.println("Problemas al updatear"+e.getMessage());
+                }
+            }  else {
+                Connection con = Conexion.getConexion();
+                String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=?,STATUS=? WHERE ID=?";
+                PreparedStatement ps = con.prepareStatement(query);
+                ps.setString(1, objUsuario.getLogin());
+                ps.setString(2, objUsuario.getPassword());
+                ps.setString(3, objUsuario.getEmail());
+                ps.setInt(4, objUsuario.getProfile_id());
+                ps.setInt(5, objUsuario.getEmployee_id());
+                ps.setInt(6, objUsuario.getStatus());
+                ps.setInt(7, objUsuario.getId());
+                try {
+                    return ps.executeUpdate() == 1;
+                } catch (Exception e) {
+                    System.out.println("Problemas al updatear"+e.getMessage());
+                }
             }
         } catch (Exception e) {
-            System.out.println("No se pudo updatear la base de datos");
+            System.out.println("No se pudo updatear la base de datos " + e.getMessage());
         }
         return false;
     }
@@ -103,7 +120,7 @@ public class UserDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM USERS WHERE ID=?";
+            String query = "UPDATE USERS SET STATUS=0 WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {
@@ -166,7 +183,7 @@ public class UserDAO implements ICrud{
     @Override
     public User getElement(int id){
         User objUser=null;
-        String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, U.STATUS, P.NAME FROM USERS U, PROFILES P WHERE U.PROFILE_ID = P.ID AND U.ID=?;";
+        String query="SELECT U.ID, U.LOGIN, U.PASSWORD, U.EMAIL, U.PROFILE_ID, U.EMPLOYEE_ID, U.STATUS, P.NAME, E.NAME, E.LAST_NAME FROM USERS U LEFT JOIN EMPLOYEES E ON U.EMPLOYEE_ID = E.ID LEFT JOIN PROFILES P ON U.PROFILE_ID = P.ID WHERE U.ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
@@ -181,7 +198,9 @@ public class UserDAO implements ICrud{
                         rs.getInt(5),
                         rs.getInt(6),
                         rs.getInt(7),
-                        rs.getString(8));
+                        rs.getString(8),
+                        (rs.getString(9) != null ? rs.getString(9) : "") + " " + (rs.getString(10) != null ? rs.getString(10) : "")
+                        );
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());

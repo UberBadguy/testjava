@@ -20,6 +20,7 @@ public class User implements Serializable{
     private int employee_id;
     private int status;
     private String profile_name;
+    private String name;
 
     public User() {
     }
@@ -33,6 +34,18 @@ public class User implements Serializable{
         this.employee_id = employee_id;
         this.status = status;
         this.profile_name = profile_name;
+    }
+    
+    public User(int id, String login, String password, String email, int profile_id, int employee_id, int status, String profile_name, String name) {
+        this.id = id;
+        this.login = login;
+        this.password = password;
+        this.email = email;
+        this.profile_id = profile_id;
+        this.employee_id = employee_id;
+        this.status = status;
+        this.profile_name = profile_name;
+        this.name = name;
     }
     
     public User(int id, String login, String password, String email, int profile_id, int employee_id, int status) {
@@ -108,6 +121,14 @@ public class User implements Serializable{
     public void setProfile_name(String profile_name) {
         this.profile_name = profile_name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     public String toString() {
         return "{\"data\":{" +
@@ -117,6 +138,7 @@ public class User implements Serializable{
                 ",\"email\":\"" + email +"\"" +
                 ",\"profile_id\":" + profile_id +
                 ",\"employee_id\":" + employee_id +
+                ",\"name\":\"" + name + "\"" +
                 ",\"status\":" + status +"}}";
     }
 }
