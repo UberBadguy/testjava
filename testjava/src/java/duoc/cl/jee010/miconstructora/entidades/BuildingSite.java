@@ -43,6 +43,30 @@ public class BuildingSite implements Serializable {
         this.status = status;
     }
 
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
     public int getDistrict_id() {
         return district_id;
     }
