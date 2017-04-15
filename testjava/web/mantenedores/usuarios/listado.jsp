@@ -41,7 +41,7 @@
                                         <tr>
                                             <td>${usuario.login}</td>
                                             <td>${usuario.email}</td>
-                                            <td>${usuario.profile_id}</td>
+                                            <td>${usuario.profile_name}</td>
                                             <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
                                                 <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuaros/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
