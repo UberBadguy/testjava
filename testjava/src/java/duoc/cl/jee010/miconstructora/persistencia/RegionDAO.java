@@ -29,7 +29,7 @@ public class RegionDAO {
             PreparedStatement ps= con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                Region objRegion= new Region(rs.getInt(0), rs.getString(1), rs.getString(2));                
+                Region objRegion= new Region(rs.getInt(1), rs.getString(2), rs.getString(3));                
                 listRegions.add(objRegion);
             }
         }catch(Exception e){

@@ -16,6 +16,9 @@ public class BuildingSite implements Serializable {
     private int id;
     private String name;
     private String address;
+    private String district;
+    private String province;
+    private String region;
     private int district_id;
     private int status;
     
@@ -26,8 +29,18 @@ public class BuildingSite implements Serializable {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.status = status;
         this.district_id = district_id;
+        this.status = status;
+    }
+
+    public BuildingSite(int id, String name, String address, String district, String province, String region, int status) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.district = district;
+        this.province = province;
+        this.region = region;
+        this.status = status;
     }
 
     public int getDistrict_id() {

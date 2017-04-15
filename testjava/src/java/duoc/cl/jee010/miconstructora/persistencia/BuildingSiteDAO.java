@@ -49,7 +49,7 @@ public class BuildingSiteDAO implements ICrud{
         List<BuildingSite>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT * FROM BUILDING_SITES;";
+            String query="SELECT B.ID, B.NAME, B.ADDRESS, D.NAME, P.NAME, CONCAT(R.ORDINAL,' ',R.NAME), B.STATUS FROM BUILDING_SITES B, DISTRICTS D, PROVINCES P, REGIONS R WHERE B.ID=D.REGIONS_ID AND D.ID = P.PROVINCES_ID;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
@@ -57,8 +57,10 @@ public class BuildingSiteDAO implements ICrud{
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getInt(4),
-                        rs.getInt(5));
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getInt(7));
                 listadoUsuario.add(objBuildingSite);
             }            
         }catch(Exception e){
@@ -111,19 +113,20 @@ public class BuildingSiteDAO implements ICrud{
     @Override
     public BuildingSite getElement(int id){
         BuildingSite objBuildingSite=null;
-        String query="SELECT * FROM BUILDING_SITES WHERE ID=?;";
         try{
-            Connection con= Conexion.getConexion();
-            PreparedStatement ps= con.prepareStatement(query);
-            ps.setInt(1,id);
+            Connection con = Conexion.getConexion();
+            String query = "SELECT B.ID, B.NAME, B.ADDRESS, D.NAME, P.NAME, CONCAT(R.ORDINAL,' ',R.NAME), B.STATUS FROM BUILDING_SITES B, DISTRICTS D, PROVINCES P, REGIONS R WHERE B.ID=D.REGIONS_ID AND D.ID = P.PROVINCES_ID;";
+            PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
                 objBuildingSite= new BuildingSite(
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
-                        rs.getInt(4),
-                        rs.getInt(5));
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6),
+                        rs.getInt(7));
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());
