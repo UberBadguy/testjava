@@ -84,9 +84,9 @@ public class Page implements Serializable {
         return "{\"data\":{" +
                 "\"id\":" + id +
                 "\"name\":\"" + name + "\"" +
-                "\"parent\":" + parent +
                 "\"icon\":\"" + icon + "\"" +
                 "\"path\":\"" + path + "\"" +
+                "\"parent\":" + parent +
                 "\"status\":" + status +"}}";
     }
 

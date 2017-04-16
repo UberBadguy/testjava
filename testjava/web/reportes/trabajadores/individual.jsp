@@ -13,7 +13,7 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Mantenedor Paginas</h1>
+            <h1>Mantenedor Usuarios</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
@@ -21,7 +21,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Paginas</h3>
+                            <h3 class="box-title">Usuarios</h3>
                             <button type="submit" class="btn btn-primary pull-right" id="newItem">Nuevo</button>
                         </div>
                         <!-- /.box-header -->
@@ -29,27 +29,23 @@
                             <table id="mantenedor" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Nombre</th>
-                                        <th>Ruta</th>
-                                        <th>Icono (FontAwesome)</th>
-                                        <th>Padre</th>
+                                        <th>Usuario</th>
+                                        <th>Email</th>
+                                        <th>Perfil</th>
                                         <th>Estado</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${pages}" var="pagina">
+                                    <c:forEach items="${listado}" var="usuario">
                                         <tr>
-                                            <td>${pagina.id}</td>
-                                            <td>${pagina.name}</td>
-                                            <td>${pagina.path}</td>
-                                            <td>${pagina.icon}</td>
-                                            <td>${pagina.parent}</td>
-                                            <td><span class="label label-${pagina.status==1?"success":"danger"}">${pagina.status==1?"Activo":"Inactivo"}</span></td>
+                                            <td>${usuario.login}</td>
+                                            <td>${usuario.email}</td>
+                                            <td>${usuario.profile_name}</td>
+                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${pagina.id}" data-url="./paginas/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${pagina.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${pagina.id}" data-url="./paginas/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
+                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
+                                                <c:if test="${usuario.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -71,41 +67,52 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                        <h4 class="modal-title">Detalles Pagina</h4>
+                        <h4 class="modal-title">Detalles Usuario</h4>
                     </div>
                     <div class="modal-body">
                         <form class="form-horizontal form" id="addForm">
                             <input class="form-control" name="id" id="id" type="hidden">
                             <div class="form-group">
-                                <label for="name" class="col-sm-2 control-label">Nombre</label>
+                                <label for="login" class="col-sm-2 control-label">Usuario</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="name" id="name" placeholder="Nombre de Pagina" type="text" required="required">
+                                    <input class="form-control" name="login" id="login" placeholder="Usuario" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="path" class="col-sm-2 control-label">Url</label>
+                                <label for="pass" class="col-sm-2 control-label">Contraseña</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="path" id="path" placeholder="Ruta" type="text" required="required">
+                                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="icon" class="col-sm-2 control-label">Icono</label>
+                                <label for="email" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="icon" id="icon" placeholder="Icono FontAwesome ej. fa-circle" type="text" required="required">
+                                    <input class="form-control" name="email" id="email" placeholder="Email" type="email" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="parent" class="col-sm-2 control-label">Padre</label>
+                                <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
-                                    <select name="parent" id="parent" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${parentPages}" var="page">
-                                            <option value="${page.id}">${page.name}</option>
+                                    <input class="form-control" name="name" id="name" disabled="disabled">
+                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;" required="required">
+                                        <c:forEach items="${employees}" var="employee">
+                                            <option value="${employee.id}">${employee.name} ${employee.last_name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="estado" class="col-sm-2 control-label">Estado</label>
+                                <label for="idPerfil" class="col-sm-2 control-label">Perfil</label>
+                                <div class="col-sm-10">
+                                    <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;" required="required">
+                                        <c:forEach items="${profiles}" var="profile">
+                                            <option value="${profile.id}">${profile.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="status" class="col-sm-2 control-label">Estado</label>
                                 <div class="col-sm-10">
                                     <select name="status" id="status" class="form-control" style="width: 100%;" required="required">
                                         <option value="1">Activo</option>
@@ -117,7 +124,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="addNew" data-controller="paginas" data-url="./paginas">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="addNew" data-controller="usuarios" data-url="./usuarios">Guardar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

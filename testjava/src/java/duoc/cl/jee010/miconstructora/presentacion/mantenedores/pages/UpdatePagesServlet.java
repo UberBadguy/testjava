@@ -20,7 +20,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "UpdateServlet", urlPatterns = {"/mantenedores/paginas/update"})
+@WebServlet(name = "UpdateServlet", urlPatterns = {"/mantenedores/paginas/update/"})
 public class UpdatePagesServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

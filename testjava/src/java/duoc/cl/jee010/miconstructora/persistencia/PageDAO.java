@@ -25,16 +25,22 @@ public class PageDAO implements ICrud{
         List listPages= new LinkedList();
         try{
             Connection con= Conexion.getConexion();
-            String query="SELECT * FROM PAGES WHERE ID IN (SELECT PAGE_ID FROM PROFILES_PAGES WHERE PROFILE_ID=?) ORDER BY PARENT";
+            String query="SELECT ID,NAME,PATH,ICON,PARENT,STATUS FROM PAGES WHERE ID IN (SELECT PAGE_ID FROM PROFILES_PAGES WHERE PROFILE_ID=?) AND STATUS = 1 ORDER BY ID";
             PreparedStatement ps= con.prepareStatement(query);
             ps.setInt(1, profileId);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                Page objPage= new Page(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getInt(5), rs.getInt(6));                
+                Page objPage= new Page(
+                        rs.getInt(1), 
+                        rs.getString(2), 
+                        rs.getString(3), 
+                        rs.getString(4), 
+                        rs.getInt(5), 
+                        rs.getInt(6));                
                 listPages.add(objPage);
             }
         }catch(Exception e){
-            System.out.println("Problemas en la extracción de información"+e.getMessage());
+            System.out.println("Problemas en la extracción de información "+e.getMessage());
         }
         return listPages;
     }
@@ -132,7 +138,7 @@ public class PageDAO implements ICrud{
     @Override
     public Page getElement(int id){
         Page objPage=null;
-        String query="SELECT * FROM PAGES WHERE ID=?;";
+        String query="SELECT ID,NAME,PATH,ICON,PARENT,STATUS FROM PAGES WHERE ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
@@ -157,7 +163,7 @@ public class PageDAO implements ICrud{
         List<Page> listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT * FROM PAGES WHERE PATH = '#';";
+            String query="SELECT ID,NAME,PATH,ICON,PARENT,STATUS FROM PAGES WHERE PATH='#';";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
