@@ -100,7 +100,7 @@ public class CalendarDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM CALENDAR WHERE ID=?";
+            String query = "UPDATE CALENDAR SET STATUS = 0 WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {

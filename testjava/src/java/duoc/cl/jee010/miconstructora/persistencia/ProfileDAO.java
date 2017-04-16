@@ -96,7 +96,7 @@ public class ProfileDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM PROFILES WHERE ID=?";
+            String query = "UPDATE PROFILES SET STATUS = 0 WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {

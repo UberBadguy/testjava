@@ -115,7 +115,7 @@ public class EmployeeDAO implements ICrud{
     public boolean deleteElement(int id) {
          try {
             Connection con = Conexion.getConexion();
-            String query = "DELETE FROM EMPLOYEES WHERE ID=?";
+            String query = "UPDATE EMPLOYEES SET STATUS = 0 WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, id);
             try {

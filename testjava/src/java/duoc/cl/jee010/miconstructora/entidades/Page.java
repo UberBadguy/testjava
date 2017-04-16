@@ -15,23 +15,23 @@ public class Page implements Serializable {
 
     private int id;
     private String name;
-    private int parent;
-    private String icon;
     private String path;
+    private String icon;
+    private int parent;
     private int status;
     
     public Page() {
     }
 
-    public Page(int id, String name, int parent, String icon, String path, int status) {
+    public Page(int id, String name, String path, String icon, int parent, int status) {
         this.id = id;
         this.name = name;
-        this.parent = parent;
-        this.icon = icon;
         this.path = path;
+        this.icon = icon;
+        this.parent = parent;
         this.status = status;
     }
-
+    
     public int getId() {
         return id;
     }
