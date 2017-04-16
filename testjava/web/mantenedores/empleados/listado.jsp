@@ -99,8 +99,8 @@
                                 <div class="col-sm-10">
                                     <input class="form-control" name="name" id="name" disabled="disabled">
                                     <select name="building_site_id" id="building_site_id" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${obras}" var="employee">
-                                            <option value="${obras.id}">${obras.name}</option>
+                                        <c:forEach items="${obras}" var="buildingSite">
+                                            <option value="${buildingSite.id}">${buildingSite.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>

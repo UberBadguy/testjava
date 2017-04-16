@@ -42,9 +42,9 @@ public class AllInsertEmployeesServlet extends HttpServlet {
         BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
         EmployeeBO employeeBO = new EmployeeBO();
         List<Employee> listado = employeeBO.getAllEmployees();
-        //List<BuildingSite> obras = buildingSiteBO.getAllBuildingSite();
+        List<BuildingSite> obras = buildingSiteBO.getAllBuildingSite();
         session.setAttribute("listado", listado);
-        //session.setAttribute("obras", obras);
+        session.setAttribute("obras", obras);
         view("/mantenedores/empleados/listado.jsp", request, response);
     }
 
