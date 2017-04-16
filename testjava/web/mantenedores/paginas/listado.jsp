@@ -74,29 +74,29 @@
                         <form class="form-horizontal form" id="addForm">
                             <input class="form-control" name="id" id="id" type="hidden">
                             <div class="form-group">
-                                <label for="login" class="col-sm-2 control-label">Nombre</label>
+                                <label for="name" class="col-sm-2 control-label">Nombre</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="login" id="login" placeholder="Pagina" type="text" required="required">
+                                    <input class="form-control" name="name" id="login" placeholder="Nombre de Pagina" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="pass" class="col-sm-2 control-label">Url</label>
+                                <label for="path" class="col-sm-2 control-label">Url</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password" required="required">
+                                    <input class="form-control" name="path" id="password" placeholder="Ruta" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="col-sm-2 control-label">Icono</label>
+                                <label for="icon" class="col-sm-2 control-label">Icono</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="email" id="email" placeholder="Email" type="email" required="required">
+                                    <input class="form-control" name="icon" id="email" placeholder="Icono FontAwesome ej. fa-circle" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="idResidente" class="col-sm-2 control-label">Padre</label>
+                                <label for="parent" class="col-sm-2 control-label">Padre</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" name="name" id="name" disabled="disabled">
-                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${pages}" var="page">
+                                    <select name="parent" id="employee_id" class="form-control" style="width: 100%;">
+                                        <c:forEach items="${parentPages}" var="page">
                                             <option value="${page.id}">${page.name}</option>
                                         </c:forEach>
                                     </select>

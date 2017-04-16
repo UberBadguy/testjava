@@ -20,8 +20,34 @@ public class PageBO {
         this.objPageDAO= new PageDAO();
     }
     
-    public List<Page>listadoMenuPorUsuario(int perfil){
+    public List<Page>getAllPages(){
+        return this.objPageDAO.readElements();
+    }
+    
+    public boolean addPage(Page objPage){
+        return this.objPageDAO.addElement(objPage);
+    }
+    
+    public boolean deletePage(int codigo){
+        return this.objPageDAO.deleteElement(codigo);
+    }
+    
+    public boolean updatePage(Page objPage){
+        return this.objPageDAO.updateElement(objPage);
+    }
+    
+    public Page getPage(int codigo){
+        return this.objPageDAO.getElement(codigo);
+    }
+    
+    public List<Page>getAllAvailableParents(){
+        return this.objPageDAO.getAllAvailableParents();
+    }
+    
+    public List<Page>listadoMenuPorPerfil(int perfil){
         return this.objPageDAO.listPageByProfile(perfil);
     }
+    
+    
     
 }

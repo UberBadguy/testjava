@@ -27,7 +27,7 @@ public class EmployeeDAO implements ICrud{
         Employee objEmployee=(Employee)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
-            String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?,?,?);";
+            String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?,?,?,?,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
             ps.setInt(1, objEmployee.getRut());
             ps.setString(2, objEmployee.getDv());
@@ -36,7 +36,12 @@ public class EmployeeDAO implements ICrud{
             ps.setDate(5, new Date(objEmployee.getBirth().getTime()));
             ps.setString(6, objEmployee.getGender());
             ps.setInt(7, objEmployee.getBuilding_site_id());
-            ps.setInt(8, objEmployee.getStatus());
+            ps.setString(8, objEmployee.getPayment_method());
+            ps.setString(9, objEmployee.getAccount_number());
+            ps.setString(10, objEmployee.getBank());
+            ps.setInt(11, objEmployee.getValue_per_hour());
+            ps.setString(12, objEmployee.getGender());
+            ps.setInt(13, objEmployee.getStatus());
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
@@ -94,12 +99,13 @@ public class EmployeeDAO implements ICrud{
             ps.setDate(5, new Date(objEmployee.getBirth().getTime()));
             ps.setString(6, objEmployee.getGender());
             ps.setInt(7, objEmployee.getBuilding_site_id());
-            ps.setString(6, objEmployee.getPayment_method());
-            ps.setString(6, objEmployee.getAccount_number());
-            ps.setString(6, objEmployee.getBank());
-            ps.setInt(8, objEmployee.getValue_per_hour());
-            ps.setString(6, objEmployee.getGender());
-            ps.setInt(9, objEmployee.getId());
+            ps.setString(8, objEmployee.getPayment_method());
+            ps.setString(9, objEmployee.getAccount_number());
+            ps.setString(10, objEmployee.getBank());
+            ps.setInt(11, objEmployee.getValue_per_hour());
+            ps.setString(12, objEmployee.getGender());
+            ps.setInt(13, objEmployee.getStatus());
+            ps.setInt(14, objEmployee.getId());
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
