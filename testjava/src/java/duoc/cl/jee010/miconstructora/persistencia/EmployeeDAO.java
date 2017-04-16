@@ -66,8 +66,12 @@ public class EmployeeDAO implements ICrud{
                         rs.getString(5), 
                         rs.getDate(6), 
                         rs.getString(7), 
-                        rs.getInt(8), 
-                        rs.getInt(9));
+                        rs.getInt(8),
+                        rs.getString(9), 
+                        rs.getString(10), 
+                        rs.getString(11), 
+                        rs.getInt(12), 
+                        rs.getInt(13));
                 listadoUsuario.add(objEmployee);
             }            
         }catch(Exception e){
@@ -81,7 +85,7 @@ public class EmployeeDAO implements ICrud{
            Employee objEmployee = (Employee) objetoUpdate;
         try {
             Connection con = Conexion.getConexion();
-            String query = "UPDATE EMPLOYEES SET RUT=?,DV=?,NAME=?,LAST_NAME=?,BIRTH_DATE=?,GENDER=?,BUILDING_SITE_ID=?,STATUS=? WHERE ID=?";
+            String query = "UPDATE EMPLOYEES SET RUT=?,DV=?,NAME=?,LAST_NAME=?,BIRTH_DATE=?,GENDER=?,BUILDING_SITE_ID=?,PAYMENT_METHOD=?,ACCOUNT_NUMBER=?,BANK=?,VALUE_PER_HOUR=?,STATUS=? WHERE ID=?";
             PreparedStatement ps = con.prepareStatement(query);
             ps.setInt(1, objEmployee.getRut());
             ps.setString(2, objEmployee.getDv());
@@ -90,7 +94,11 @@ public class EmployeeDAO implements ICrud{
             ps.setDate(5, new Date(objEmployee.getBirth().getTime()));
             ps.setString(6, objEmployee.getGender());
             ps.setInt(7, objEmployee.getBuilding_site_id());
-            ps.setInt(8, objEmployee.getStatus());
+            ps.setString(6, objEmployee.getPayment_method());
+            ps.setString(6, objEmployee.getAccount_number());
+            ps.setString(6, objEmployee.getBank());
+            ps.setInt(8, objEmployee.getValue_per_hour());
+            ps.setString(6, objEmployee.getGender());
             ps.setInt(9, objEmployee.getId());
             try {
                 return ps.executeUpdate() == 1;
@@ -139,8 +147,12 @@ public class EmployeeDAO implements ICrud{
                         rs.getString(5), 
                         rs.getDate(6), 
                         rs.getString(7), 
-                        rs.getInt(8), 
-                        rs.getInt(9));
+                        rs.getInt(8),
+                        rs.getString(9), 
+                        rs.getString(10), 
+                        rs.getString(11), 
+                        rs.getInt(12), 
+                        rs.getInt(13));
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());
@@ -164,8 +176,12 @@ public class EmployeeDAO implements ICrud{
                         rs.getString(5), 
                         rs.getDate(6), 
                         rs.getString(7), 
-                        rs.getInt(8), 
-                        rs.getInt(9));
+                        rs.getInt(8),
+                        rs.getString(9), 
+                        rs.getString(10), 
+                        rs.getString(11), 
+                        rs.getInt(12), 
+                        rs.getInt(13));
                 listadoUsuario.add(objEmployee);
             }            
         }catch(Exception e){

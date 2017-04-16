@@ -20,12 +20,16 @@ public class Employee {
     private Date birth;
     private String gender;
     private int building_site_id;
+    private String payment_method;
+    private String account_number;
+    private String bank;
+    private int value_per_hour;
     private int status;
 
     public Employee() {
     }
 
-    public Employee(int id, int rut, String dv, String name, String last_name, Date birth, String gender, int building_site_id, int status) {
+    public Employee(int id, int rut, String dv, String name, String last_name, Date birth, String gender, int building_site_id, String payment_method, String account_number, String bank, int value_per_hour, int status) {
         this.id = id;
         this.rut = rut;
         this.dv = dv;
@@ -34,8 +38,46 @@ public class Employee {
         this.birth = birth;
         this.gender = gender;
         this.building_site_id = building_site_id;
+        this.payment_method = payment_method;
+        this.account_number = account_number;
+        this.bank = bank;
+        this.value_per_hour = value_per_hour;
         this.status = status;
     }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
+    }
+
+    public String getAccount_number() {
+        return account_number;
+    }
+
+    public void setAccount_number(String account_number) {
+        this.account_number = account_number;
+    }
+
+    public String getBank() {
+        return bank;
+    }
+
+    public void setBank(String bank) {
+        this.bank = bank;
+    }
+
+    public int getValue_per_hour() {
+        return value_per_hour;
+    }
+
+    public void setValue_per_hour(int value_per_hour) {
+        this.value_per_hour = value_per_hour;
+    }
+    
+    
 
     public int getId() {
         return id;
