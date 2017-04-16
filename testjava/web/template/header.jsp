@@ -97,8 +97,28 @@
                                 </a>
                                 <ul class="treeview-menu">
                                     <c:forEach items="${pageList}" var="objPageChild">
-                                        <c:if test="${objPageChild.id!=0 && objPage.id ==objPageChild.parent}">
-                                            <li><a href="${objPageChild.path}"><i class="fa ${objPageChild.icon}"></i> ${objPageChild.name}</a></li>
+                                        <li>
+                                        <c:if test="${objPageChild.id!=0 && objPage.id == objPageChild.parent}">
+                                            <c:choose>
+                                                <c:when test="${objPageChild.path=='#'}">
+                                                    <a href="${objPageChild.path}">
+                                                        <i class="fa ${objPageChild.icon}"></i>
+                                                        <span>${objPageChild.name}</span>
+                                                        <i class="fa fa-angle-left pull-right"></i>
+                                                    </a>
+                                                    <ul class="treeview-menu">
+                                                        <c:forEach items="${pageList}" var="objPageSubChild">
+                                                            <c:if test="${objPageSubChild.id!=0 && objPageChild.id == objPageSubChild.parent}">
+                                                                <li><a href="${objPageSubChild.path}"><i class="fa ${objPageSubChild.icon}"></i> ${objPageSubChild.name}</a></li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+                                                 </c:when>
+                                                <c:otherwise>
+                                                    <a href="${objPageChild.path}"><i class="fa ${objPageChild.icon}"></i> ${objPageChild.name}</a>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </li>
                                         </c:if>
                                     </c:forEach>
                                 </ul>
