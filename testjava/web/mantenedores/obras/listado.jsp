@@ -39,7 +39,7 @@
                                     <c:forEach items="${listado}" var="building_site">
                                         <tr>
                                             <td>${building_site.name}</td>
-                                            <td>${building_site.address}</td>
+                                            <td>${building_site.address}, ${building_site.district}, ${building_site.region}</td>
                                             <td><span class="label label-${building_site.status==1?"success":"danger"}">${building_site.status==1?"Activa":"Inactiva"}</span></td>
                                             <td>
                                                 <a class="btn btn-primary btn-xs btnEditar" data-id="${building_site.id}" data-url="./obras/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
@@ -83,7 +83,31 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="estado" class="col-sm-2 control-label">Estado</label>
+                                <label for="region_id" class="col-sm-2 control-label">Región</label>
+                                <div class="col-sm-10">
+                                    <select name="region_id" id="region_id" class="form-control" style="width: 100%;" required="required">
+                                        <c:forEach items="${regions}" var="region">
+                                            <option value="${region.id}">${region.name}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="province_id" class="col-sm-2 control-label">Provincia</label>
+                                <div class="col-sm-10">
+                                    <select name="province_id" id="province_id" class="form-control" style="width: 100%;" required="required">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="district_id" class="col-sm-2 control-label">Comuna</label>
+                                <div class="col-sm-10">
+                                    <select name="district_id" id="district_id" class="form-control" style="width: 100%;" required="required">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="status" class="col-sm-2 control-label">Estado</label>
                                 <div class="col-sm-10">
                                     <select name="status" id="status" class="form-control" style="width: 100%;" required="required">
                                         <option value="1">Activa</option>

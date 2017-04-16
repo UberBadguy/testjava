@@ -13,7 +13,7 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Mantenedor Usuarios</h1>
+            <h1>Mantenedor Empleados</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
@@ -21,7 +21,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Usuarios</h3>
+                            <h3 class="box-title">Empleados</h3>
                             <button type="submit" class="btn btn-primary pull-right" id="newItem">Nuevo</button>
                         </div>
                         <!-- /.box-header -->
@@ -94,7 +94,7 @@
                                 <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" name="name" id="name" disabled="disabled">
-                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;" required="required">
+                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${employees}" var="employee">
                                             <option value="${employee.id}">${employee.name} ${employee.last_name}</option>
                                         </c:forEach>
@@ -104,7 +104,7 @@
                             <div class="form-group">
                                 <label for="idPerfil" class="col-sm-2 control-label">Perfil</label>
                                 <div class="col-sm-10">
-                                    <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;" required="required">
+                                    <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${profiles}" var="profile">
                                             <option value="${profile.id}">${profile.name}</option>
                                         </c:forEach>

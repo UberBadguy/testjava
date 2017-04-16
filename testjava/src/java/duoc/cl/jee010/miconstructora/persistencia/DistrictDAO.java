@@ -26,7 +26,7 @@ public class DistrictDAO {
         listDistricts = new LinkedList();
         try{
             Connection con= Conexion.getConexion();
-            String query="SELECT * FROM DISTRICT WHERE PROVINCE_ID = ?";
+            String query="SELECT * FROM DISTRICTS WHERE PROVINCES_ID = ?";
             PreparedStatement ps= con.prepareStatement(query);
             ps.setInt(1, provinceId);
             ResultSet rs=ps.executeQuery();

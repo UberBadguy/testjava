@@ -78,8 +78,8 @@ public class BuildingSiteDAO implements ICrud{
             PreparedStatement ps = con.prepareStatement(query);
             ps.setString(1, objBuildingSite.getName());
             ps.setString(2, objBuildingSite.getAddress());
-            ps.setInt(3, objBuildingSite.getStatus());
-            ps.setInt(4, objBuildingSite.getDistrict_id());
+            ps.setInt(3, objBuildingSite.getDistrict_id());
+            ps.setInt(4, objBuildingSite.getStatus());
             ps.setInt(5, objBuildingSite.getId());
             try {
                 return ps.executeUpdate() == 1;

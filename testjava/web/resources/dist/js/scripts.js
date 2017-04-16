@@ -110,7 +110,67 @@
             allowClear: true
         });
     }
-
+    
+    $('#region_id').select2().on('change', function() {
+        if (this.value > 0) {
+            $.ajax({
+                url: './provincias',
+                data: {region_id: this.value},
+                type: 'POST',
+                success: function (data) {
+                    if (typeof(data.provinces) !== undefined) {
+                        $('#province_id').html('').select2({
+                            data: data.provinces
+                        });
+                    } else {
+                        swal({
+                            title: "Error al buscar provincias!",
+                            text: "Intente nuevamente.",
+                            type: "error"
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Error al buscar provincias!",
+                        text: "Intente nuevamente.",
+                        type: "error"
+                    });
+                }
+            });
+        }
+    });
+    
+    $('#province_id').select2().on('change', function() {
+        if (this.value > 0) {
+            $.ajax({
+                url: './comunas',
+                data: {province_id: this.value},
+                type: 'POST',
+                success: function (data) {
+                    if (typeof(data.districts) !== undefined) {
+                        $('#district_id').html('').select2({
+                            data: data.districts
+                        });
+                    } else {
+                        swal({
+                            title: "Error al buscar comunas!",
+                            text: "Intente nuevamente.",
+                            type: "error"
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Error al buscar comunas!",
+                        text: "Intente nuevamente.",
+                        type: "error"
+                    });
+                }
+            });
+        }
+    });
+    
     $('#newItem').on('click', function () {
         sigecoApp.clearFormMantanedor();
         $('#new').modal('show');
