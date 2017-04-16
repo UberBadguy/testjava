@@ -29,23 +29,27 @@
                             <table id="mantenedor" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
-                                        <th>Email</th>
-                                        <th>Perfil</th>
+                                        <th>Rut</th>
+                                        <th>Nombre</th>
+                                        <th>Fecha Nacimiento</th>
+                                        <th>Género</th>
+                                        <th>Obra</th>
                                         <th>Estado</th>
                                         <th>Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listado}" var="usuario">
+                                    <c:forEach items="${listado}" var="employee">
                                         <tr>
-                                            <td>${usuario.login}</td>
-                                            <td>${usuario.email}</td>
-                                            <td>${usuario.profile_name}</td>
-                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
+                                            <td>${employee.rut}-${employee.dv}</td>
+                                            <td>${employee.name} ${employee.last_name}</td>
+                                            <td>${employee.birth}</td>
+                                            <td>${employee.gender}</td>
+                                            <td>${employee.building_site_id}</td>
+                                            <td><span class="label label-${employee.status==1?"success":"danger"}">${employee.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${usuario.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
+                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${employee.id}" data-url="./empleados/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
+                                                <c:if test="${employee.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${employee.id}" data-url="./empleados/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -91,22 +95,12 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
+                                <label for="building_site_id" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" name="name" id="name" disabled="disabled">
-                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${employees}" var="employee">
-                                            <option value="${employee.id}">${employee.name} ${employee.last_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="idPerfil" class="col-sm-2 control-label">Perfil</label>
-                                <div class="col-sm-10">
-                                    <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;">
-                                        <c:forEach items="${profiles}" var="profile">
-                                            <option value="${profile.id}">${profile.name}</option>
+                                    <select name="building_site_id" id="building_site_id" class="form-control" style="width: 100%;">
+                                        <c:forEach items="${obras}" var="employee">
+                                            <option value="${obras.id}">${obras.name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
