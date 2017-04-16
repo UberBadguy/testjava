@@ -85,6 +85,7 @@
                             <div class="form-group">
                                 <label for="region_id" class="col-sm-2 control-label">Región</label>
                                 <div class="col-sm-10">
+                                    <input class="form-control" name="region" id="region" disabled="disabled">
                                     <select name="region_id" id="region_id" class="form-control" style="width: 100%;" required="required">
                                         <c:forEach items="${regions}" var="region">
                                             <option value="${region.id}">${region.name}</option>
@@ -95,6 +96,7 @@
                             <div class="form-group">
                                 <label for="province_id" class="col-sm-2 control-label">Provincia</label>
                                 <div class="col-sm-10">
+                                    <input class="form-control" name="province" id="province" disabled="disabled">
                                     <select name="province_id" id="province_id" class="form-control" style="width: 100%;" required="required">
                                     </select>
                                 </div>
@@ -102,6 +104,7 @@
                             <div class="form-group">
                                 <label for="district_id" class="col-sm-2 control-label">Comuna</label>
                                 <div class="col-sm-10">
+                                    <input class="form-control" name="district" id="district" disabled="disabled">
                                     <select name="district_id" id="district_id" class="form-control" style="width: 100%;" required="required">
                                     </select>
                                 </div>

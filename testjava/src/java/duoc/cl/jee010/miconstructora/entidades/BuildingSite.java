@@ -111,6 +111,9 @@ public class BuildingSite implements Serializable {
         return "{\"data\":{" +
                 "\"id\":" + id +
                 ",\"name\":\"" + name + "\"" +
+                ",\"region\":\"" + region + "\"" +
+                ",\"province\":\"" + province + "\"" +
+                ",\"district\":\"" + district + "\"" +
                 ",\"address\":\"" + address + "\"" +
                 ",\"district_id\":\"" + district_id + "\"" +
                 ",\"status\":" + status +"}}";
