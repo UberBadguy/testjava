@@ -3,11 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package duoc.cl.jee010.miconstructora.presentacion.mantenedores.pages;
+package duoc.cl.jee010.miconstructora.presentacion.mantenedores.reportes.trabajadores;
 
-import duoc.cl.jee010.miconstructora.entidades.Page;
-import duoc.cl.jee010.miconstructora.negocio.PageBO;
+import duoc.cl.jee010.miconstructora.presentacion.mantenedores.reportes.obra.*;
+import duoc.cl.jee010.miconstructora.presentacion.mantenedores.users.*;
+import duoc.cl.jee010.miconstructora.entidades.Employee;
+import duoc.cl.jee010.miconstructora.entidades.Profile;
+import duoc.cl.jee010.miconstructora.entidades.User;
+import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
+import duoc.cl.jee010.miconstructora.negocio.UserBO;
+import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
 import java.io.IOException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +28,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "UpdatePagesServlet", urlPatterns = {"/mantenedores/paginas/update"})
-public class UpdatePagesServlet extends HttpServlet {
+@WebServlet(name = "byOneEmployeeServlet", urlPatterns = {"/reportes/trabajadores/individual"})
+public class byOneEmployeeServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -36,17 +44,16 @@ public class UpdatePagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String json = "";
-        PageBO pageBO = new PageBO();
-        try {
-            int id = Integer.valueOf(request.getParameter("id"));
-            Page page = pageBO.getPage(id);
-            json = page.toString();
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        session.setAttribute("json", json);
-        view("/include/json.jsp", request, response);
+        UserBO userBO = new UserBO();
+        ProfileBO profileBO = new ProfileBO();
+        EmployeeBO employeeBo = new EmployeeBO();
+        List<User> listado = userBO.getAllUser();
+        List<Profile> profiles = profileBO.getAllProfile();
+        List<Employee> employees = employeeBo.getAllAvailableEmployees();
+        session.setAttribute("profiles", profiles);
+        session.setAttribute("employees", employees);
+        session.setAttribute("listado", listado);
+        view("/mantenedores/usuarios/listado.jsp", request, response);
     }
 
     /**
@@ -62,11 +69,28 @@ public class UpdatePagesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        PageBO pageBO = new PageBO();
+        UserBO userBO = new UserBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            if (pageBO.deletePage(id))
-                json = "{\"response\":1}";
+            String login = request.getParameter("login");
+            String password = request.getParameter("password");
+            String email = request.getParameter("email");
+            int employee_id = 0;
+            try {
+                employee_id = Integer.valueOf(request.getParameter("employee_id"));
+            } catch (Exception e) {
+                employee_id = 0;
+            }
+            int profile_id = Integer.valueOf(request.getParameter("profile_id"));
+            int status = Integer.valueOf(request.getParameter("status"));
+            User user = new User(id, login, password, email, profile_id, employee_id, status);
+            if (id > 0) {
+                if (userBO.updateUser(user))
+                    json = "{\"response\":1}";
+            } else {
+                if (userBO.addUser(user))
+                    json = "{\"response\":1}";
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
