@@ -83,11 +83,11 @@ public class Page implements Serializable {
     public String toString() {
         return "{\"data\":{" +
                 "\"id\":" + id +
-                "\"name\":\"" + name + "\"" +
-                "\"icon\":\"" + icon + "\"" +
-                "\"path\":\"" + path + "\"" +
-                "\"parent\":" + parent +
-                "\"status\":" + status +"}}";
+                ",\"name\":\"" + name + "\"" +
+                ",\"icon\":\"" + icon + "\"" +
+                ",\"path\":\"" + path + "\"" +
+                ",\"parent\":" + parent +
+                ",\"status\":" + status +"}}";
     }
 
 }

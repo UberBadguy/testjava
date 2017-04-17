@@ -52,7 +52,7 @@ public class Profile implements Serializable{
     public String toString() {
         return "{\"data\":{" +
                 "\"id\":" + id +
-                "\"name\":\"" + name + "\"" +
-                "\"status\":" + status +"}}";
+                ",\"name\":\"" + name + "\"" +
+                ",\"status\":" + status +"}}";
     }
 }

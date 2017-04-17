@@ -48,8 +48,8 @@
                                             <td>${pagina.parent}</td>
                                             <td><span class="label label-${pagina.status==1?"success":"danger"}">${pagina.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${pagina.id}" data-url="./paginas/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${pagina.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${pagina.id}" data-url="./paginas/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
+                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${pagina.id}" data-url="./update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
+                                                <c:if test="${pagina.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${pagina.id}" data-url="./update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -117,7 +117,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="addNew" data-controller="paginas" data-url="./paginas">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="addNew" data-controller="paginas" data-url="./">Guardar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->

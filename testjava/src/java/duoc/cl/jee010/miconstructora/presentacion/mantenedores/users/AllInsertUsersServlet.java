@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "AllInsertServlet", urlPatterns = {"/mantenedores/usuarios"})
+@WebServlet(name = "AllInsertUsersServlet", urlPatterns = {"/mantenedores/usuarios/"})
 public class AllInsertUsersServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "AllInsertServlet", urlPatterns = {"/mantenedores/paginas/"})
+@WebServlet(name = "AllInsertPagesServlet", urlPatterns = {"/mantenedores/paginas/"})
 public class AllInsertPagesServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
