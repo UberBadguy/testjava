@@ -94,7 +94,7 @@
                                 <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" name="name" id="name" disabled="disabled">
-                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;" required="required">
+                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${employees}" var="employee">
                                             <option value="${employee.id}">${employee.name} ${employee.last_name}</option>
                                         </c:forEach>

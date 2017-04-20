@@ -43,16 +43,10 @@ public class byWorkerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserBO userBO = new UserBO();
         ProfileBO profileBO = new ProfileBO();
-        EmployeeBO employeeBo = new EmployeeBO();
-        List<User> listado = userBO.getAllUser();
         List<Profile> profiles = profileBO.getAllProfile();
-        List<Employee> employees = employeeBo.getAllAvailableEmployees();
         session.setAttribute("profiles", profiles);
-        session.setAttribute("employees", employees);
-        session.setAttribute("listado", listado);
-        view("/mantenedores/usuarios/listado.jsp", request, response);
+        view("/reportes/obra/obreros.jsp", request, response);
     }
 
     /**
@@ -67,34 +61,10 @@ public class byWorkerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String json = "{\"response\":0}";
-        UserBO userBO = new UserBO();
-        try {
-            int id = Integer.valueOf(request.getParameter("id"));
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            int employee_id = 0;
-            try {
-                employee_id = Integer.valueOf(request.getParameter("employee_id"));
-            } catch (Exception e) {
-                employee_id = 0;
-            }
-            int profile_id = Integer.valueOf(request.getParameter("profile_id"));
-            int status = Integer.valueOf(request.getParameter("status"));
-            User user = new User(id, login, password, email, profile_id, employee_id, status);
-            if (id > 0) {
-                if (userBO.updateUser(user))
-                    json = "{\"response\":1}";
-            } else {
-                if (userBO.addUser(user))
-                    json = "{\"response\":1}";
-            }
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        session.setAttribute("json", json);
-        view("/include/json.jsp", request, response);
+        EmployeeBO employeeBo = new EmployeeBO();
+        List<Employee> listado = employeeBo.getWorkerReport();
+        session.setAttribute("listado", listado);
+        view("/reportes/obras/reporte.jsp", request, response);
     }
     
     private void view(String view, HttpServletRequest request, HttpServletResponse response)
