@@ -37,7 +37,7 @@
                 </form>
                 <div class="social-auth-links text-center"></div>
                 <!-- /.social-auth-links -->
-                <a href="#">Recuperar contraseña</a>
+                <!-- <a href="#">Recuperar contraseña</a> -->
             </div>
             <!-- /.login-box-body -->
         </div>

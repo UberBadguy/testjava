@@ -141,7 +141,7 @@
                             <div class="form-group">
                                 <label for="value_per_hour" class="col-sm-2 control-label">Valor Hora</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="value_per_hour" id="value_per_hour" placeholder="Valor Hora" type="text" required="required">
+                                    <input class="form-control" name="value_per_hour" id="value_per_hour" placeholder="Valor Hora" type="number" required="required">
                                 </div>
                             </div>
                             <div class="form-group">

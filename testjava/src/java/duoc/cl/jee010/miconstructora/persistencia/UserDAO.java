@@ -82,7 +82,7 @@ public class UserDAO extends LogSystem implements ICrud{
         try {
             if (objUsuario.getEmployee_id() == 0 ) {
                 Connection con = Conexion.getConexion();
-                String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,STATUS=? WHERE ID=?";
+                String query = "UPDATE USERS SET LOGIN=?,PASSWORD=MD5(?),EMAIL=?,PROFILE_ID=?,STATUS=? WHERE ID=?";
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setString(1, objUsuario.getLogin());
                 ps.setString(2, objUsuario.getPassword());
@@ -97,7 +97,7 @@ public class UserDAO extends LogSystem implements ICrud{
                 }
             }  else {
                 Connection con = Conexion.getConexion();
-                String query = "UPDATE USERS SET LOGIN=?,PASSWORD=?,EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=?,STATUS=? WHERE ID=?";
+                String query = "UPDATE USERS SET LOGIN=?,PASSWORD=MD5(?),EMAIL=?,PROFILE_ID=?,EMPLOYEE_ID=?,STATUS=? WHERE ID=?";
                 PreparedStatement ps = con.prepareStatement(query);
                 ps.setString(1, objUsuario.getLogin());
                 ps.setString(2, objUsuario.getPassword());
@@ -156,7 +156,7 @@ public class UserDAO extends LogSystem implements ICrud{
                 + "AND E.ID = U.EMPLOYEE_ID "
                 + "AND B.ID = E.BUILDING_SITE_ID "
                 + "AND U.STATUS = 1 "
-                + "AND U.LOGIN=? AND U.PASSWORD=?;";
+                + "AND U.LOGIN=? AND U.PASSWORD=MD5(?);";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
