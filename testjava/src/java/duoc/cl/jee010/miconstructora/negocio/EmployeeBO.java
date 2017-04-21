@@ -42,6 +42,10 @@ public class EmployeeBO {
         return this.objEmployeeDAO.getElement(codigo);
     }
     
+    public Employee getEmployeeByRUT(int rut){
+        return this.objEmployeeDAO.getElementbyRut(rut);
+    }
+    
     public List<Employee>getAllAvailableEmployees(){
         return this.objEmployeeDAO.getAllAvailableEmployees();
     }

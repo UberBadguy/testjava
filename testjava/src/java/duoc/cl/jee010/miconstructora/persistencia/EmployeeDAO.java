@@ -214,6 +214,36 @@ public class EmployeeDAO extends LogSystem implements ICrud{
         }
         return objEmployee;
     }
+    public Employee getElementbyRut(int rut){
+        Employee objEmployee=null;
+        String query="SELECT E.*, B.NAME FROM EMPLOYEES E LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID = B.ID WHERE E.RUT=?;";
+        try{
+            Connection con= Conexion.getConexion();
+            PreparedStatement ps= con.prepareStatement(query);
+            ps.setInt(1,rut);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                    objEmployee= new Employee(
+                        rs.getInt(1), 
+                        rs.getInt(2), 
+                        rs.getString(3),
+                        rs.getString(4), 
+                        rs.getString(5), 
+                        rs.getDate(6), 
+                        rs.getString(7), 
+                        rs.getInt(8),
+                        rs.getString(9), 
+                        rs.getString(10), 
+                        rs.getString(11), 
+                        rs.getInt(12), 
+                        rs.getInt(13), 
+                        rs.getString(14));
+            }
+        }catch(Exception e){
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
+        }
+        return objEmployee;
+    }
     
     public List getAllAvailableEmployees() {
         List<Employee>listadoUsuario= new LinkedList<>();

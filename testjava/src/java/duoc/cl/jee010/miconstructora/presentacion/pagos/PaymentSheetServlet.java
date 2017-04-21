@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package duoc.cl.jee010.miconstructora.presentacion.reportes.trabajadores;
+package duoc.cl.jee010.miconstructora.presentacion.pagos;
 
+import duoc.cl.jee010.miconstructora.dto.EmployeePaymentDTO;
+import duoc.cl.jee010.miconstructora.presentacion.reportes.obra.*;
 import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
-import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
 import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
-import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
 import duoc.cl.jee010.miconstructora.negocio.ReportBO;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
@@ -28,9 +28,9 @@ import javax.servlet.http.HttpSession;
  *
  * @author Joe-Xidu
  */
-@WebServlet(name = "byOneEmployeeServlet", urlPatterns = {"/reportes/trabajadores/individual"})
-public class byOneEmployeeServlet extends HttpServlet {
-private LogSystem log = new LogSystem(this.getClass());
+@WebServlet(name = "byEmployeeServlet", urlPatterns = {"/reportes/obra/empleados"})
+public class PaymentSheetServlet extends HttpServlet {
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -44,18 +44,15 @@ private LogSystem log = new LogSystem(this.getClass());
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        EmployeeBO employeeBo = new EmployeeBO();
-        String json = "";
-        
+        ReportBO reportBO = new ReportBO();
+        List<EmployeePaymentDTO> employeePayments = null;
         try {
-            String rut = request.getParameter("rut");
-            Employee employee = employeeBo.getEmployeeByRUT(Integer.valueOf(rut.substring(0, rut.length() - 2)));
-            json = employee.toString();
+            employeePayments = reportBO.reportEmployeesPayments();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
-        session.setAttribute("json", json);
-        view("/include/json.jsp", request, response);
+        session.setAttribute("data", employeePayments);
+        view("/reportes/obra/empleados.jsp", request, response);
     }
 
     /**

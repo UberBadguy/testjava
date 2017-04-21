@@ -27,7 +27,6 @@ public class Conexion {
             Class.forName(driverClassName);
             con = DriverManager.getConnection(driverUrl,properties.get("dbuser"),properties.get("dbpassword"));
         }catch(Exception e){
-            System.out.println(e.getMessage());
             LOGGER.fatal("Error fatal de coneion a DB. "+e.getMessage());
             throw new ConexionException("error al conectar la BD "+e.getMessage());
         }

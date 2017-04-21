@@ -52,13 +52,13 @@ public class byTotalServlet extends HttpServlet {
         List<ReportEmployeeDTO> listado = null;
         try {
             profiles = profileBO.getAllProfile();
-            listado = reportBo.reportBuildingSitebyEmployee(0);
+            listado = reportBo.reportAllEmployees();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
         session.setAttribute("tabla", listado);
         session.setAttribute("profiles", profiles);
-        view("/reportes/obra/empleados.jsp", request, response);
+        view("/reportes/trabajadores/total.jsp", request, response);
     }
 
     /**

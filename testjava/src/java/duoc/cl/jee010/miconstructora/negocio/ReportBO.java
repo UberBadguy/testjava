@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.negocio;
 
+import duoc.cl.jee010.miconstructora.dto.EmployeePaymentDTO;
 import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
 import duoc.cl.jee010.miconstructora.persistencia.ReportDAO;
 import java.util.List;
@@ -27,6 +28,14 @@ public class ReportBO {
     
     public List<ReportEmployeeDTO> reportBuildingSitebyWorker(int building_site_id){
         return objReportDAO.buildingSiteXWorker(building_site_id);
+    }
+    
+    public List<ReportEmployeeDTO> reportAllEmployees(){
+        return objReportDAO.AllEmployeesDetailed();
+    }
+    
+    public List<EmployeePaymentDTO> reportEmployeesPayments(){
+        return objReportDAO.AllPayments();
     }
     
 }

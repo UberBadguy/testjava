@@ -13,41 +13,44 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Mantenedor Usuarios</h1>
+            <h1>Reporte Trabajadores</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Usuarios</h3>
-                            <button type="submit" class="btn btn-primary pull-right" id="newItem">Nuevo</button>
-                        </div>
                         <!-- /.box-header -->
                         <div class="box-body">
                             <table id="mantenedor" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
-                                        <th>Email</th>
+                                        <th>Rut</th>
+                                        <th>Nombre</th>
                                         <th>Perfil</th>
-                                        <th>Estado</th>
-                                        <th>Opciones</th>
+                                        <th>Nombre de Obra</th>
+                                        <th>Dias Trabajados</th>
+                                        <th>Horas Trabajadas</th>
+                                        <th>Atrasos</th>
+                                        <th>Detalles</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listado}" var="usuario">
-                                        <tr>
-                                            <td>${usuario.login}</td>
-                                            <td>${usuario.email}</td>
-                                            <td>${usuario.profile_name}</td>
-                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
-                                            <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${usuario.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
-                                            </td>
-                                        </tr>
+                                    <c:forEach items="${tabla}" var="employeeDTO">
+                                        <c:if test="${employeeDTO.rut!=null}">
+                                            <tr>
+                                                <td>${employeeDTO.rut}</td>
+                                                <td>${employeeDTO.full_name}</td>
+                                                <td>${employeeDTO.role}</td>
+                                                <td>${employeeDTO.building_site_name}</td>
+                                                <td>${employeeDTO.worked_days}</td>
+                                                <td>${employeeDTO.worked_hours}</td>
+                                                <td>${employeeDTO.delayed_entry}</td>
+                                                <td>
+                                                    <a class="btn btn-primary btn-xs btnDetalles" data-id="${usuario.id}" data-url="./individual" data-rut="${employeeDTO.rut}" data-original-title="Detalles" data-toggle="tooltip"><i class="fa fa-user"></i></a>
+                                                </td>
+                                            </tr>
+                                        </c:if>
                                     </c:forEach>
                                 </tbody>
                                 <tfoot></tfoot>
@@ -70,57 +73,31 @@
                         <h4 class="modal-title">Detalles Usuario</h4>
                     </div>
                     <div class="modal-body">
-                        <form class="form-horizontal form" id="addForm">
-                            <input class="form-control" name="id" id="id" type="hidden">
-                            <div class="form-group">
-                                <label for="login" class="col-sm-2 control-label">Usuario</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="login" id="login" placeholder="Usuario" type="text" required="required">
-                                </div>
+                        <div class="box box-primary">
+                            <div class="box-body box-profile" id="details">
+                              <img class="profile-user-img img-responsive img-circle" src="../../dist/img/user4-128x128.jpg" alt="User profile picture">
+
+                              <h3 class="profile-username text-center data" id="name"></h3>
+                              <h3 class="profile-username text-center data" id="last_name"></h3>
+
+                              <p class="text-muted text-center data" id="profile"></p>
+
+                              <ul class="list-group list-group-unbordered">
+                                <li class="list-group-item">
+                                  <b>Followers</b> <a class="pull-right data"></a>
+                                </li>
+                                <li class="list-group-item">
+                                  <b>Following</b> <a class="pull-right data"></a>
+                                </li>
+                                <li class="list-group-item">
+                                  <b>Friends</b> <a class="pull-right data"></a>
+                                </li>
+                              </ul>
+
+                              <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                             </div>
-                            <div class="form-group">
-                                <label for="pass" class="col-sm-2 control-label">Contraseña</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password" required="required">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="email" class="col-sm-2 control-label">Email</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="email" id="email" placeholder="Email" type="email" required="required">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="idResidente" class="col-sm-2 control-label">Empleado</label>
-                                <div class="col-sm-10">
-                                    <input class="form-control" name="name" id="name" disabled="disabled">
-                                    <select name="employee_id" id="employee_id" class="form-control" style="width: 100%;" required="required">
-                                        <c:forEach items="${employees}" var="employee">
-                                            <option value="${employee.id}">${employee.name} ${employee.last_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="idPerfil" class="col-sm-2 control-label">Perfil</label>
-                                <div class="col-sm-10">
-                                    <select name="profile_id" id="profile_id" class="form-control" style="width: 100%;" required="required">
-                                        <c:forEach items="${profiles}" var="profile">
-                                            <option value="${profile.id}">${profile.name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="status" class="col-sm-2 control-label">Estado</label>
-                                <div class="col-sm-10">
-                                    <select name="status" id="status" class="form-control" style="width: 100%;" required="required">
-                                        <option value="1">Activo</option>
-                                        <option value="0">Inactivo</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </form>
+                            <!-- /.box-body -->
+                          </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>

@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
+import duoc.cl.jee010.miconstructora.dto.EmployeePaymentDTO;
 import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
@@ -99,6 +100,84 @@ public class ReportDAO extends LogSystem{
                         rs.getInt(5),
                         rs.getInt(6),
                         rs.getInt(7));
+                list.add(objReportEmpoyeeDTO);
+            }
+        }catch(Exception e){
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
+        }
+        return list;
+    }
+    
+       public List<ReportEmployeeDTO> AllEmployeesDetailed(){
+        List<ReportEmployeeDTO> list = new LinkedList();
+        ReportEmployeeDTO objReportEmpoyeeDTO=null;
+        try{
+            Connection con = Conexion.getConexion();
+            String query="SELECT "
+                    + "CONCAT(E.RUT, '-', E.DV), "
+                    + "CONCAT(E.NAME, ' ', E.LAST_NAME), "
+                    + "P.NAME, "
+                    + "B.NAME, "
+                    + "COUNT(C.ID), "
+                    + "SUM(HOUR(c.end) - HOUR(c.start)), "
+                    + "(SELECT COUNT(*) FROM calendar C WHERE c.rut = e.rut AND c.start>'9:00') "
+                    + "FROM EMPLOYEES E "
+                    + "LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID=B.ID "
+                    + "LEFT JOIN CALENDAR C ON C.RUT = E.RUT "
+                    + "LEFT JOIN USERS U ON U.EMPLOYEE_ID = E.ID "
+                    + "LEFT JOIN PROFILES P ON U.PROFILE_ID = P.ID "
+                    + "WHERE C.START IS NOT NULL "
+                    + "AND C.END IS NOT NULL;";
+            PreparedStatement ps=con.prepareStatement(query);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                objReportEmpoyeeDTO = new ReportEmployeeDTO(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getInt(5),
+                        rs.getInt(6),
+                        rs.getInt(7));
+                list.add(objReportEmpoyeeDTO);
+            }
+        }catch(Exception e){
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
+        }
+        return list;
+    }
+       
+       public List<EmployeePaymentDTO> AllPayments(){
+        List<EmployeePaymentDTO> list = new LinkedList();
+        EmployeePaymentDTO objReportEmpoyeeDTO=null;
+        try{
+            Connection con = Conexion.getConexion();
+            String query="SELECT "
+                    + "CONCAT(E.RUT, '-', E.DV), "
+                    + "CONCAT(E.NAME, ' ', E.LAST_NAME), "
+                    + "P.NAME, "
+                    + "B.NAME, "
+                    + "COUNT(C.ID), "
+                    + "SUM(HOUR(c.end) - HOUR(c.start)), "
+                    + "(SELECT COUNT(*) FROM calendar C WHERE c.rut = e.rut AND c.start>'9:00') "
+                    + "FROM EMPLOYEES E "
+                    + "LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID=B.ID "
+                    + "LEFT JOIN CALENDAR C ON C.RUT = E.RUT "
+                    + "LEFT JOIN USERS U ON U.EMPLOYEE_ID = E.ID "
+                    + "LEFT JOIN PROFILES P ON U.PROFILE_ID = P.ID "
+                    + "WHERE C.START IS NOT NULL "
+                    + "AND B.ID = ? "
+                    + "AND C.END IS NOT NULL;";
+            PreparedStatement ps=con.prepareStatement(query);
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                objReportEmpoyeeDTO = new EmployeePaymentDTO(
+                        rs.getString(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getInt(4),
+                        rs.getInt(5),
+                        rs.getInt(6));
                 list.add(objReportEmpoyeeDTO);
             }
         }catch(Exception e){

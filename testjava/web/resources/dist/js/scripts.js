@@ -319,7 +319,7 @@ var Fn = {
     });
     
     $('.btnDetalles').on('click', function () {
-        MiConstructora.fillDetails($(this).attr('data-id'), $(this).attr('data-url'));
+        MiConstructora.fillDetails($(this).attr('data-rut'), $(this).attr('data-url'));
         $('#new').modal('show');
     });
 
@@ -577,14 +577,16 @@ var Fn = {
                 }
             });
         },
-        fillDetails: function (id, url) {
+        fillDetails: function (rut, url) {
+            
             $.ajax({
                 url: url,
-                data: 'id=' + id,
+                data: 'rut=' + rut,
                 type: "GET",
                 success: function (data) {
-                    $('#details').find('h3, strong, ').each(function () {
-                            $(this).val(data.data[$(this).attr('name')]);
+                    $('#details').find('.data').each(function () {
+                        console.log($(this).attr('id'));
+                        $(this).text(data.data[$(this).attr('id')]);
                     });
                 }
             });

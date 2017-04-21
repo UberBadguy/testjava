@@ -9,6 +9,7 @@ import duoc.cl.jee010.miconstructora.entidades.Calendar;
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.negocio.CalendarBO;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.sql.Time;
 import java.text.Format;
@@ -29,7 +30,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "MarkingServlet", urlPatterns = {"/asistencia/marcaje"})
 public class MarkingServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -44,9 +45,15 @@ public class MarkingServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         EmployeeBO employeeBO = new EmployeeBO();
-        List<Employee> listado = employeeBO.getAllEmployeesCalendar();
-        Format formatter = new SimpleDateFormat("dd-MM-yyyy");
-        String date = formatter.format(new java.util.Date());
+        String date = null;
+        List<Employee> listado = null;
+        try {
+            listado = employeeBO.getAllEmployeesCalendar();
+            Format formatter = new SimpleDateFormat("dd-MM-yyyy");
+            date = formatter.format(new java.util.Date());
+        } catch (Exception e) {
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
+        }
         session.setAttribute("listado", listado);
         session.setAttribute("date", date);
         view("/asistencia/marcaje.jsp", request, response);
@@ -98,6 +105,7 @@ public class MarkingServlet extends HttpServlet {
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {
+            this.log.getLogger().warn("Fallo al actualizar informacion. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

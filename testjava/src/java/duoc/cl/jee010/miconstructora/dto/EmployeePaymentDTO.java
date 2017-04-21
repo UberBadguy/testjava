@@ -17,6 +17,8 @@ public class EmployeePaymentDTO {
     private int worked_hours;
     private int delayed_entry;
     private int value_per_hour;
+    private int total_payment;
+    private String payment_method;
 
     public EmployeePaymentDTO() {
     }
