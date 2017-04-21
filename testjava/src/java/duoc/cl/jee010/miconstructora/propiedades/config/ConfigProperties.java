@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package duoc.cl.jee010.miconstructora.config.propiedades;
+package duoc.cl.jee010.miconstructora.propiedades.config;
 
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -5,7 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
-import duoc.cl.jee010.miconstructora.config.propiedades.ConfigProperties;
+import duoc.cl.jee010.miconstructora.propiedades.config.ConfigProperties;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
