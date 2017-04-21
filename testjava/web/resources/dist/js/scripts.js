@@ -318,17 +318,17 @@ var Fn = {
         MiConstructora.clearFormMantanedor();
     });
     
-    $('.btnDetalles').on('click', function () {
+    $('body').on('click', '.btnDetalles', function () {
         MiConstructora.fillDetails($(this).attr('data-rut'), $(this).attr('data-url'));
         $('#new').modal('show');
     });
 
-    $('.btnEditar').on('click', function () {
+    $('body').on('click', '.btnEditar', function () {
         MiConstructora.fillInputMantenedor($(this).attr('data-id'), $(this).attr('data-url'));
         $('#new').modal('show');
     });
 
-    $('.btnEliminar').on('click', function () {
+    $('body').on('click', '.btnEliminar', function () {
         var id = $(this).attr('data-id');
         var url = $(this).attr('data-url');
         swal({
@@ -373,100 +373,8 @@ var Fn = {
             });
         });
     });
-
-    $('.btnRechazar').on('click', function () {
-        var id = $(this).attr('data-id');
-        var url = $(this).attr('data-url');
-        swal({
-            title: 'Rechazar Solicitud',
-            text: 'Está seguro que desea rechazar esta solicitud?',
-            type: "warning",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            animation: 'slide-from-top',
-            showLoaderOnConfirm: true
-        },
-        function () {
-            $.ajax({
-                url: url,
-                data: 'id=' + id,
-                type: "POST",
-                success: function (data) {
-                    if (data.response === 1) {
-                        swal({
-                            title: "Solicitud rechazada!",
-                            text: "",
-                            type: "success"
-                        },
-                                function () {
-                                    location.reload();
-                                });
-                    } else {
-                        swal({
-                            title: "Error al rechazar la solicitud!",
-                            text: "Intente nuevamente.",
-                            type: "error"
-                        });
-                    }
-                },
-                error: function () {
-                    swal({
-                        title: "Error al rechazar la solicitud!",
-                        text: "Intente nuevamente.",
-                        type: "error"
-                    });
-                }
-            });
-        });
-    });
-
-    $('.btnAprobar').on('click', function () {
-        var id = $(this).attr('data-id');
-        var url = $(this).attr('data-url');
-        swal({
-            title: 'Aprobar Solicitud',
-            text: 'Está seguro que desea aprobar esta solicitud?',
-            type: "warning",
-            showCancelButton: true,
-            closeOnConfirm: false,
-            animation: 'slide-from-top',
-            showLoaderOnConfirm: true
-        },
-        function () {
-            $.ajax({
-                url: url,
-                data: 'id=' + id,
-                type: "POST",
-                success: function (data) {
-                    if (data.response === 1) {
-                        swal({
-                            title: "Solicitud aprobada!",
-                            text: "",
-                            type: "success"
-                        },
-                                function () {
-                                    location.reload();
-                                });
-                    } else {
-                        swal({
-                            title: "Error al aprobar la solicitud!",
-                            text: "Intente nuevamente.",
-                            type: "error"
-                        });
-                    }
-                },
-                error: function () {
-                    swal({
-                        title: "Error al aprobar la solicitud!",
-                        text: "Intente nuevamente.",
-                        type: "error"
-                    });
-                }
-            });
-        });
-    });
     
-    $('.btnMarcaje').on('click', function () {
+    $('body').on('click', '.btnMarcaje', function () {
         var rut = $(this).attr('data-id');
         var url = $(this).attr('data-url');
         var type = $(this).attr('data-original-title');
@@ -524,7 +432,7 @@ var Fn = {
                         $('#report-table').html(data);
                     } else {
                         swal({
-                            title: "Error al bla!",
+                            title: "Error al obtener datos!",
                             text: "Intente nuevamente.",
                             type: "error"
                         });
@@ -532,7 +440,7 @@ var Fn = {
                 },
                 error: function () {
                     swal({
-                        title: "Error al bla!",
+                        title: "Error al obtener datos!",
                         text: "Intente nuevamente.",
                         type: "error"
                     });
@@ -623,115 +531,5 @@ var Fn = {
                 j = (j = i.length) > 3 ? j % 3 : 0;
         return symbol + ' ' + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : '');
     };
-    
-    if (document.URL.indexOf('historialGastosComunes') > -1) {
-        //******* BAR CHART
-        var data = [[0, 11065161], [1, 15632865], [2, 15045372], [3, 14109583], [4, 13634087], [5, 17182678]];
-        var dataset = [{label: ' Gastos Comunes', data: data, color: '#5482FF'}];
-        var ticks = [[0, 'Enero'], [1, 'Febrero'], [2, 'Marzo'], [3, 'Abril'], [4, 'Mayo'], [5, 'Junio']];
-
-        var options = {
-            series: {
-                bars: {
-                    show: true,
-                    barWidth: 0.5,
-                    align: 'center'
-                }
-            },
-            bars: {
-                align: 'center',
-                barWidth: 0.5
-            },
-            xaxis: {
-                axisLabel: 'Meses',
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 10,
-                tickLength: 0,
-                ticks: ticks
-            },
-            yaxis: {
-                axisLabel: 'Valor',
-                axisLabelUseCanvas: true,
-                axisLabelFontSizePixels: 12,
-                axisLabelFontFamily: 'Verdana, Arial',
-                axisLabelPadding: 3,
-                tickFormatter: function (v, axis) {
-                    return formatMoney(v);
-                }
-            },
-            legend: {
-                noColumns: 0,
-                labelBoxBorderColor: '#000000',
-                position: 'nw'
-            },
-            grid: {
-                hoverable: true,
-                clickable: true,
-                borderWidth: 1,
-                borderColor: '#f3f3f3',
-                tickColor: '#f3f3f3'
-            }
-        };
-
-        $(document).ready(function () {
-            $.plot($('#flot-placeholder'), dataset, options);
-            $('#flot-placeholder').useTooltip();
-            $("#flot-placeholder").bind("plotclick", function (event, pos, item) {
-                if (item) {
-                    var x = item.datapoint[0];
-                    var y = item.datapoint[1];
-                    alert(item.series.xaxis.ticks[x].label);
-                }
-            });
-        });
-
-        function gd(year, month, day) {
-            return new Date(year, month, day).getTime();
-        }
-
-        var previousPoint = null, previousLabel = null;
-
-        $.fn.useTooltip = function () {
-            $(this).bind("plothover", function (event, pos, item) {
-                if (item) {
-                    $("#flot-placeholder").css('cursor','pointer');
-                    if ((previousLabel != item.series.label) || (previousPoint != item.dataIndex)) {
-                        previousPoint = item.dataIndex;
-                        previousLabel = item.series.label;
-                        $("#tooltip").remove();
-
-                        var x = item.datapoint[0];
-                        var y = item.datapoint[1];
-
-                        var color = item.series.color;
-
-                        showTooltip(item.pageX,
-                            item.pageY,
-                            color,
-                            item.series.xaxis.ticks[x].label + ' : <strong>' + formatMoney(y) + '</strong>');
-                    }
-                } else {
-                    $('#tooltip').remove();
-                    $("#flot-placeholder").css('cursor','auto');
-                    previousPoint = null;
-                }
-            });
-        };
-
-        function showTooltip(x, y, color, contents) {
-            $('<div class="tooltip-inner" id="tooltip">' + contents + '</div>').css({
-                position: 'absolute',
-                display: 'none',
-                top: y - 40,
-                left: x - 90,
-                padding: '5px 8px',
-                'font-size': '11px',
-                'border-radius': '5px',
-                opacity: 0.82
-            }).appendTo('body').fadeIn(200);
-        }
-    }
     
 }(jQuery));
