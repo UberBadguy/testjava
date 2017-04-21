@@ -42,8 +42,8 @@
                                                 <td>${payment.rut}</td>
                                                 <td>${payment.full_name}</td>
                                                 <td>${payment.role}</td>
-                                                <td>${payment.worked_hours}</td>
                                                 <td>${payment.delayed_entry}</td>
+                                                <td>${payment.worked_hours}</td>
                                                 <td>${payment.value_per_hour}</td>
                                                 <td>${payment.total_payment}</td>
                                                 <td>${payment.payment_method}</td>
