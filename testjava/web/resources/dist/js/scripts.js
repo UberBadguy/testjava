@@ -311,6 +311,11 @@ var Fn = {
     $('#new').on('hidden.bs.modal', function () {
         MiConstructora.clearFormMantanedor();
     });
+    
+    $('.btnDetalles').on('click', function () {
+        MiConstructora.fillDetails($(this).attr('data-id'), $(this).attr('data-url'));
+        $('#new').modal('show');
+    });
 
     $('.btnEditar').on('click', function () {
         MiConstructora.fillInputMantenedor($(this).attr('data-id'), $(this).attr('data-url'));
@@ -514,6 +519,18 @@ var Fn = {
                         if ($(this).is('select'))
                             $(this).select2('val', data.data[$(this).attr('name')]);
                         else
+                            $(this).val(data.data[$(this).attr('name')]);
+                    });
+                }
+            });
+        },
+        fillDetails: function (id, url) {
+            $.ajax({
+                url: url,
+                data: 'id=' + id,
+                type: "GET",
+                success: function (data) {
+                    $('#details').find('h3, strong, ').each(function () {
                             $(this).val(data.data[$(this).attr('name')]);
                     });
                 }
