@@ -3,6 +3,82 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/*
+ *
+ * Método que devuelve la posición de un elemento en un string.
+ *
+ * @param  string   f_haystack  Texto a origen.
+ * @param  string   f_needle    Texto a buscar.
+ * @param  int      f_offset    Segunda Posición.
+ * @return mixed                Posición encontrada | false.
+ *
+ */
+
+function stripos( f_haystack, f_needle, f_offset ) {
+
+    var haystack = ( f_haystack + '' ).toLowerCase();
+    var needle = ( f_needle + '' ).toLowerCase();
+    var index = 0;
+
+    if ( ( index = haystack.indexOf( needle, f_offset ) ) !== -1)
+        return index;
+
+    return false;
+
+}
+
+/*
+ *
+ * Fn
+ * -----------------------------
+ *
+ * Objeto que contiene las validaciones para aplicar sobre un rut en particular.
+ * La forma de utilizar es Fn.validaRut( rut ).
+ *
+ * @param  string   rutCompleto     Rut a revisar (debe contender dígito verificador).
+ * @return boolean                  Es un Rut válido.
+ *
+ */
+
+var Fn = {
+
+    validaRut: function( rutCompleto ) {
+        rutCompleto = rutCompleto.replace( /\./g, '' );
+        var $length = rutCompleto.length;
+        var $pos = stripos( rutCompleto, '-' );
+
+        if ( $pos == '0' )
+            rutCompleto = rutCompleto.substring( 0, $length - 1 ) + '-' + rutCompleto.substring( $length - 1, $length );
+
+        if ( !/^[0-9]+-[0-9kK]{1}$/.test( rutCompleto ) )
+            return false;
+
+        var tmp = rutCompleto.split( '-' );
+        var digv = tmp[1];
+        var rut = tmp[0];
+
+        if ( digv == 'K' )
+            digv = 'k';
+
+        var digesto = Fn.dv( rut );
+
+        if ( digesto == digv )
+            return true;
+        else
+            return false;
+    },
+    dv: function( t ) {
+        var m = 0, s = 1;
+
+        for ( ; t; t = Math.floor( t / 10 ) )
+            s = ( s + t % 10 * ( 9 - m++ % 6 ) ) % 11;
+
+        return s ? s - 1 : 'k';
+    }
+
+};
+
 (function ($) {
     
     $(document).ajaxStart(function() { Pace.restart(); });
@@ -14,12 +90,18 @@
             increaseArea: '20%'
         });
     }
-
+    
+    if ($('.datepicker').length) {
+        $('.datepicker').datepicker({
+          autoclose: true,
+          format: 'dd-mm-yyyy'
+        });
+    }
     $('#login').on('click', function (e) {
-        if (!sigecoApp.validForm())
+        if (!MiConstructora.validForm())
             return;
         else {
-            var data = sigecoApp.dataFormMantenedor();
+            var data = MiConstructora.dataFormMantenedor();
             $.ajax({
                 url: 'valida.htm',
                 data: 'action=login' + data,
@@ -55,10 +137,10 @@
     });
 
     $('#registra').on('click', function (e) {
-        if (!sigecoApp.validForm())
+        if (!MiConstructora.validForm())
             return;
         else {
-            var data = sigecoApp.dataFormMantenedor();
+            var data = MiConstructora.dataFormMantenedor();
             $.ajax({
                 url: 'registrarse.htm',
                 data: 'action=register' + data,
@@ -172,13 +254,13 @@
     });
     
     $('#newItem').on('click', function () {
-        sigecoApp.clearFormMantanedor();
+        MiConstructora.clearFormMantanedor();
         $('#new').modal('show');
     });
 
     $('#addNew').on('click', function () {
-        var data = sigecoApp.dataFormMantenedor();
-        if (!sigecoApp.validForm())
+        var data = MiConstructora.dataFormMantenedor();
+        if (!MiConstructora.validForm())
             return;
         $('#new').modal('hide');
         var controller = $(this).attr('data-controller');
@@ -227,11 +309,11 @@
     });
 
     $('#new').on('hidden.bs.modal', function () {
-        sigecoApp.clearFormMantanedor();
+        MiConstructora.clearFormMantanedor();
     });
 
     $('.btnEditar').on('click', function () {
-        sigecoApp.fillInputMantenedor($(this).attr('data-id'), $(this).attr('data-url'));
+        MiConstructora.fillInputMantenedor($(this).attr('data-id'), $(this).attr('data-url'));
         $('#new').modal('show');
     });
 
@@ -401,7 +483,7 @@
         }
     });
 
-    var sigecoApp = {
+    var MiConstructora = {
         dataFormMantenedor: function () {
             var data = '';
             $('.form').find('.form-control').each(function () {
@@ -441,7 +523,13 @@
             var valid = true;
             $('.form').find('.form-control').each(function () {
                 if ($(this).attr('required') === 'required' || $(this).attr('required') === 'true') {
-                    if ($(this).val() === '' || $(this).val() === null) {
+                    if ($(this).hasClass('rut')) {
+                        if (!Fn.validaRut($(this).val())) {
+                            $(this).parents('.form-group').addClass('has-error');
+                            valid = false;
+                        } else
+                            $(this).parents('.form-group').removeClass('has-error');
+                    } else if ($(this).val() === '' || $(this).val() === null) {
                         $(this).parents('.form-group').addClass('has-error');
                         valid = false;
                     } else

@@ -179,7 +179,7 @@ public class Employee {
     
     @Override
     public String toString() {
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Format formatter = new SimpleDateFormat("dd-MM-yyyy");
         return "{\"data\":{" +
                 "\"id\":" + id +
                 ",\"rut\":\"" + rut + "-" + dv + "\"" +

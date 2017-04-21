@@ -46,6 +46,7 @@
         <!-- date-range-picker -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
         <script src="/testjava/resources/plugins/daterangepicker/daterangepicker.js"></script>
+        <script src="/testjava/resources/plugins/datepicker/bootstrap-datepicker.js"></script>
         <script src="/testjava/resources/dist/js/pages/dashboard2.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="/testjava/resources/dist/js/demo.js"></script>

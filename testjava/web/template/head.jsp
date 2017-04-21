@@ -27,7 +27,9 @@
         <!-- SweetAlert -->
         <link rel="stylesheet" href="/testjava/resources/plugins/sweetalert/sweetalert.css">
         <!-- daterange picker -->
-        <link rel="stylesheet" href="/testjava/testjava/resources/plugins/daterangepicker/daterangepicker-bs3.css">
+        <link rel="stylesheet" href="/testjava/resources/plugins/daterangepicker/daterangepicker-bs3.css">
+        <!-- datepicker -->
+        <link rel="stylesheet" href="/testjava/resources/plugins/datepicker/datepicker3.css">
         <!-- Bootstrap time Picker -->
         <link rel="stylesheet" href="/testjava/resources/plugins/timepicker/bootstrap-timepicker.min.css">
         <!-- Theme style -->

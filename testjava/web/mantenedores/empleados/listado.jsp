@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label for="rut" class="col-sm-2 control-label">Rut</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="rut" id="rut" placeholder="Rut" type="text" required="required">
+                                    <input class="form-control rut" name="rut" id="rut" placeholder="Rut" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -97,7 +97,7 @@
                             <div class="form-group">
                                 <label for="birth" class="col-sm-2 control-label">Fecha Nacimiento</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="birth" id="birth_date" placeholder="Fecha Nacimiento" type="date" required="required">
+                                    <input class="form-control datepicker" name="birth" id="birth_date" placeholder="Fecha Nacimiento" type="date" required="required">
                                 </div>
                             </div>
                             <div class="form-group">

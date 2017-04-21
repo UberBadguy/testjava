@@ -28,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AllInsertEmployeesServlet", urlPatterns = {"/mantenedores/empleados/"})
 public class AllInsertEmployeesServlet extends HttpServlet {
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -75,7 +75,7 @@ public class AllInsertEmployeesServlet extends HttpServlet {
             String dv = String.valueOf(rut.charAt(rut.length() - 1));
             String name = request.getParameter("name");
             String last_name = request.getParameter("last_name");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
             Date birth_date = df.parse(request.getParameter("birth"));
             String gender = request.getParameter("gender");
             int building_site_id;
