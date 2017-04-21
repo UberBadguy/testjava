@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package duoc.cl.jee010.miconstructora.presentacion.mantenedores.reportes.trabajadores;
+package duoc.cl.jee010.miconstructora.presentacion.reportes.trabajadores;
 
-import duoc.cl.jee010.miconstructora.presentacion.mantenedores.reportes.obra.*;
 import duoc.cl.jee010.miconstructora.presentacion.mantenedores.users.*;
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
