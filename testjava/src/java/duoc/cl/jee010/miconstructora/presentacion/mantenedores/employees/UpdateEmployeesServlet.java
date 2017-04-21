@@ -5,29 +5,23 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.employees;
 
-import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Employee;
-import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import javax.servlet.http.HttpSession;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author Joe-Xidu
+ * @author jose.becerra
  */
-@WebServlet(name = "AllInsertEmployeesServlet", urlPatterns = {"/mantenedores/empleados/"})
-public class AllInsertEmployeesServlet extends HttpServlet {
+@WebServlet(name = "UpdateEmployeesServlet", urlPatterns = {"/mantenedores/empleados/update"})
+public class UpdateEmployeesServlet extends HttpServlet {
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -42,13 +36,17 @@ public class AllInsertEmployeesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
+        String json = "";
         EmployeeBO employeeBO = new EmployeeBO();
-        List<Employee> listado = employeeBO.getAllEmployees();
-        List<BuildingSite> obras = buildingSiteBO.getAllBuildingSite();
-        session.setAttribute("listado", listado);
-        session.setAttribute("obras", obras);
-        view("/mantenedores/empleados/listado.jsp", request, response);
+        try {
+            int id = Integer.valueOf(request.getParameter("id"));
+            Employee employee = employeeBO.getEmployee(id);
+            json = employee.toString();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        session.setAttribute("json", json);
+        view("/include/json.jsp", request, response);
     }
 
     /**
@@ -67,36 +65,8 @@ public class AllInsertEmployeesServlet extends HttpServlet {
         EmployeeBO employeeBO = new EmployeeBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            String rut = request.getParameter("rut");
-            rut =  rut.toUpperCase();
-            rut = rut.replace(".", "");
-            rut = rut.replace("-", "");
-            int rutAux = Integer.parseInt(rut.substring(0, rut.length() - 1));
-            String dv = String.valueOf(rut.charAt(rut.length() - 1));
-            String name = request.getParameter("name");
-            String last_name = request.getParameter("last_name");
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            Date birth_date = df.parse(request.getParameter("birth"));
-            String gender = request.getParameter("gender");
-            int building_site_id;
-            try {
-                building_site_id = Integer.valueOf(request.getParameter("building_site_id"));
-            } catch (Exception e) {
-                building_site_id = 0;
-            }
-            String payment_method = request.getParameter("payment_method");
-            String account_number = request.getParameter("account_number");
-            String bank = request.getParameter("bank");
-            int value_per_hour = Integer.valueOf(request.getParameter("value_per_hour"));
-            int status = Integer.valueOf(request.getParameter("status"));
-            Employee employee = new Employee(id, rutAux, dv, name, last_name, birth_date, gender, building_site_id, payment_method, account_number, bank, value_per_hour, status);
-            if (id > 0) {
-                if (employeeBO.updateEmployee(employee))
-                    json = "{\"response\":1}";
-            } else {
-                if (employeeBO.addEmployee(employee))
-                    json = "{\"response\":1}";
-            }
+            if (employeeBO.deleteEmployee(id))
+                json = "{\"response\":1}";
         } catch (Exception e) {
             System.out.println(e);
         }

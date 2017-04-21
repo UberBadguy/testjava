@@ -59,7 +59,7 @@ public class EmployeeDAO implements ICrud{
         List<Employee>listadoUsuario= new LinkedList<>();
         try{
             Connection con = Conexion.getConexion();
-            String query="SELECT * FROM EMPLOYEES;";
+            String query="SELECT E.*, B.NAME FROM EMPLOYEES E LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID = B.ID;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
@@ -76,7 +76,8 @@ public class EmployeeDAO implements ICrud{
                         rs.getString(10), 
                         rs.getString(11), 
                         rs.getInt(12), 
-                        rs.getInt(13));
+                        rs.getInt(13), 
+                        rs.getString(14));
                 listadoUsuario.add(objEmployee);
             }            
         }catch(Exception e){
@@ -103,16 +104,15 @@ public class EmployeeDAO implements ICrud{
             ps.setString(9, objEmployee.getAccount_number());
             ps.setString(10, objEmployee.getBank());
             ps.setInt(11, objEmployee.getValue_per_hour());
-            ps.setString(12, objEmployee.getGender());
-            ps.setInt(13, objEmployee.getStatus());
-            ps.setInt(14, objEmployee.getId());
+            ps.setInt(12, objEmployee.getStatus());
+            ps.setInt(13, objEmployee.getId());
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
-                System.out.println("Problemas al updatear"+e.getMessage());
+                System.out.println("Problemas al updatear "+e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("No se pudo updatear la base de datos");
+            System.out.println("No se pudo updatear la base de datos "+e.getMessage());
         }
         return false;
     }
@@ -138,7 +138,7 @@ public class EmployeeDAO implements ICrud{
     @Override
     public Employee getElement(int id){
         Employee objEmployee=null;
-        String query="SELECT * FROM EMPLOYEES WHERE ID=?;";
+        String query="SELECT E.*, B.NAME FROM EMPLOYEES E LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID = B.ID WHERE E.ID=?;";
         try{
             Connection con= Conexion.getConexion();
             PreparedStatement ps= con.prepareStatement(query);
@@ -158,7 +158,8 @@ public class EmployeeDAO implements ICrud{
                         rs.getString(10), 
                         rs.getString(11), 
                         rs.getInt(12), 
-                        rs.getInt(13));
+                        rs.getInt(13), 
+                        rs.getString(14));
             }
         }catch(Exception e){
             System.out.println("problemas al recuperar informacion "+e.getMessage());

@@ -95,21 +95,24 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="birth_date" class="col-sm-2 control-label">Fecha Nacimiento</label>
+                                <label for="birth" class="col-sm-2 control-label">Fecha Nacimiento</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="birth_date" id="birth_date" placeholder="Fecha Nacimiento" type="text" required="required">
+                                    <input class="form-control" name="birth" id="birth_date" placeholder="Fecha Nacimiento" type="date" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="gender" class="col-sm-2 control-label">Sexo</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="gender" id="gender" placeholder="Sexo" type="text" required="required">
+                                    <select name="gender" id="gender" class="form-control" style="width: 100%;" required="required">
+                                        <option value="M">M</option>
+                                        <option value="F">F</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="building_site_id" class="col-sm-2 control-label">Obra</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="name" id="name" disabled="disabled">
+                                    <input class="form-control" name="building_site_name" id="building_site_name" disabled="disabled">
                                     <select name="building_site_id" id="building_site_id" class="form-control" style="width: 100%;">
                                         <c:forEach items="${obras}" var="buildingSite">
                                             <option value="${buildingSite.id}">${buildingSite.name}</option>
