@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.negocio;
 
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.persistencia.EmployeeDAO;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +44,10 @@ public class EmployeeBO {
     
     public List<Employee>getAllAvailableEmployees(){
         return this.objEmployeeDAO.getAllAvailableEmployees();
+    }
+    
+    public List<Employee>getAllEmployeesCalendar(){
+        return this.objEmployeeDAO.readElementsCalendar();
     }
     
 }

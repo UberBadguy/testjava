@@ -5,12 +5,16 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
+import duoc.cl.jee010.miconstructora.entidades.Calendar;
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -79,6 +83,49 @@ public class EmployeeDAO extends LogSystem implements ICrud{
                         rs.getInt(12), 
                         rs.getInt(13), 
                         rs.getString(14));
+                listadoUsuario.add(objEmployee);
+            }            
+        }catch(Exception e){
+            LOGGER.error("Problemas en la lectura "+e.getMessage());
+        }
+        return listadoUsuario;
+    }
+    
+    
+    public List readElementsCalendar() {
+        List<Employee>listadoUsuario= new LinkedList<>();
+        try{
+            Connection con = Conexion.getConexion();
+            String query="SELECT E.*, B.NAME, C.* FROM EMPLOYEES E LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID = B.ID LEFT JOIN CALENDAR C ON C.RUT = E.RUT AND C.DATE = ?;";
+            PreparedStatement ps=con.prepareStatement(query);
+            Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+            ps.setString(1, formatter.format(new java.util.Date()));
+            ResultSet rs=ps.executeQuery();
+            while(rs.next()){
+                Calendar calendar = new Calendar(
+                        rs.getInt(15), 
+                        rs.getTime(16),
+                        rs.getTime(17),
+                        rs.getInt(18),
+                        rs.getDate(19), 
+                        rs.getInt(20)
+                );
+                Employee objEmployee= new Employee(
+                        rs.getInt(1), 
+                        rs.getInt(2), 
+                        rs.getString(3),
+                        rs.getString(4), 
+                        rs.getString(5), 
+                        rs.getDate(6), 
+                        rs.getString(7), 
+                        rs.getInt(8),
+                        rs.getString(9), 
+                        rs.getString(10), 
+                        rs.getString(11), 
+                        rs.getInt(12), 
+                        rs.getInt(13), 
+                        rs.getString(14),
+                        calendar);
                 listadoUsuario.add(objEmployee);
             }            
         }catch(Exception e){

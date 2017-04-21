@@ -1,7 +1,7 @@
 <%-- 
-    Document   : listado
-    Created on : 02-04-2017, 03:37:02 PM
-    Author     : Joe-Xidu
+    Document   : marcaje
+    Created on : 21-04-2017, 03:31:26 PM
+    Author     : jose.becerra
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,7 +13,7 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Mantenedor Empleados</h1>
+            <h1>Marcaje ${date}</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
@@ -22,7 +22,6 @@
                     <div class="box">
                         <div class="box-header">
                             <h3 class="box-title">Empleados</h3>
-                            <button type="submit" class="btn btn-primary pull-right" id="newItem">Nuevo</button>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
@@ -31,11 +30,9 @@
                                     <tr>
                                         <th>Rut</th>
                                         <th>Nombre</th>
-                                        <th>Fecha</th>
-                                        <th>Género</th>
                                         <th>Obra</th>
-                                        <th>Estado</th>
-                                        <th>Opciones</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -43,14 +40,9 @@
                                         <tr>
                                             <td>${employee.rut}-${employee.dv}</td>
                                             <td>${employee.name} ${employee.last_name}</td>
-                                            <td>${employee.birth}</td>
-                                            <td>${employee.gender}</td>
                                             <td>${employee.building_site_name}</td>
-                                            <td><span class="label label-${employee.status==1?"success":"danger"}">${employee.status==1?"Activo":"Inactivo"}</span></td>
-                                            <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${employee.id}" data-url="./update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${employee.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${employee.id}" data-url="./update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
-                                            </td>
+                                            <td><c:if test="${employee.calendar.start == null}"><a class="btn btn-primary btn-xs btnMarcaje" data-id="${employee.rut}" data-url="./marcaje" data-original-title="Entrada" data-toggle="tooltip"><i class="fa fa-check-square"></i></a></c:if>${employee.calendar.start}</td>
+                                            <td><c:if test="${employee.calendar.end == null}"><a class="btn btn-primary btn-xs btnMarcaje" data-id="${employee.rut}" data-url="./marcaje" data-original-title="Salida" data-toggle="tooltip"><i class="fa fa-check-square"></i></a></c:if>${employee.calendar.end}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

@@ -186,6 +186,12 @@ var Fn = {
         });
     }
 
+    if ($('#asistencia').length) {
+        $('#asistencia').DataTable({
+            "autoWidth": false
+        });
+    }
+
     if ($('select').length) {
         $('select').select2({
             placeholder: "Seleccione...",
@@ -455,6 +461,53 @@ var Fn = {
         });
     });
     
+    $('.btnMarcaje').on('click', function () {
+        var rut = $(this).attr('data-id');
+        var url = $(this).attr('data-url');
+        var type = $(this).attr('data-original-title');
+        swal({
+            title: 'Marcar Asistencia',
+            text: 'Está seguro que desea registrar asistencia?',
+            type: "warning",
+            showCancelButton: true,
+            closeOnConfirm: false,
+            animation: 'slide-from-top',
+            showLoaderOnConfirm: true
+        },
+        function () {
+            $.ajax({
+                url: url,
+                data: 'rut=' + rut + '&type=' + type,
+                type: "POST",
+                success: function (data) {
+                    if (data.response === 1) {
+                        swal({
+                            title: "Marcaje registrado!",
+                            text: "",
+                            type: "success"
+                        },
+                                function () {
+                                    location.reload();
+                                });
+                    } else {
+                        swal({
+                            title: "Error al registrar marcaje!",
+                            text: "Intente nuevamente.",
+                            type: "error"
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Error al registrar marcaje!",
+                        text: "Intente nuevamente.",
+                        type: "error"
+                    });
+                }
+            });
+        });
+    });
+    
     $('#report-selector').select2().on('change', function() {
         if (this.value > 0) {
             $.ajax({
@@ -662,100 +715,4 @@ var Fn = {
         }
     }
     
-    if (document.URL.indexOf('estacionamientos') > -1 || document.URL.indexOf('espaciosComunes') > -1) {
-        $('#fechas').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'DD/MM/YYYY h:mm A'});
-    }
-    
-    if (document.URL.indexOf('morosidad') > -1) {
-        var donutData = [
-            {label: "Debe", data: 30, color: "#3c8dbc"},
-            {label: "Morosos", data: 20, color: "#dd4b39"},
-            {label: "Pagos", data: 50, color: "#00c0ef"}
-        ];
-        $.plot("#donut-chart", donutData, {
-            series: {
-                pie: {
-                    show: true,
-                    radius: 1,
-                    innerRadius: 0.5,
-                    label: {
-                        show: true,
-                        radius: 2 / 3,
-                        formatter: labelFormatter,
-                        threshold: 0.1
-                    }
-
-                }
-            },
-            legend: {
-                show: false
-            }
-        });
-
-        /*
-         * Custom Label formatter
-         * ----------------------
-         */
-        function labelFormatter(label, series) {
-            return '<div style="font-size:13px; text-align:center; padding:2px; color: #fff; font-weight: 600;">'
-                    + label
-                    + "<br>"
-                    + Math.round(series.percent) + "%</div>";
-        }
-    }
 }(jQuery));
-/*
-var obj = {
-  "users": {
-    "admin": {
-      "clave": "admin",
-      "condominio": 1
-    },
-    "conserje": {
-      "clave": "asdasd",
-      "condominio": 2
-    },
-    "usuario1": {
-      "clave": "usuario",
-      "condominio": 2
-    }
-  },
-  "gastosComunes": {
-    "usuario1": 51928
-  },
-  "morosidad": {
-    "usuario1": 0
-  },
-  "estacionamientos": {
-    "condominio": {
-      "2": {
-        "1": 0,
-        "2": 1,
-        "3": 1
-      }
-    }
-  },
-  "espaciosComunes": {
-    "condominio": {
-      "quincho": 0,
-      "salaMultiuso": 1
-    }
-  }
-};
-var data = JSON.stringify(obj);
-
-$("#clickMe").click(function () {
-       // do update
-      $.ajax({
-        url: "https://api.myjson.com/bins/2t2db",
-        type: "PUT",
-        data: data,
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function (data, textStatus, jqXHR) {
-          var json = JSON.stringify(data);
-          $("#data").val(json);
-        }
-      });
-});
-*/

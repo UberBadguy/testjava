@@ -41,4 +41,8 @@ public class CalendarBO {
         return this.objCalendarDAO.getElement(id);
     }
     
+    public Calendar getCalendarByDate(String date, int rut){
+        return this.objCalendarDAO.getElementByDate(date, rut);
+    }
+    
 }

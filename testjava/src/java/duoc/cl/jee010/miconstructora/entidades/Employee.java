@@ -28,6 +28,7 @@ public class Employee {
     private String bank;
     private int value_per_hour;
     private int status;
+    private Calendar calendar;
 
     public Employee() {
     }
@@ -47,6 +48,7 @@ public class Employee {
         this.value_per_hour = value_per_hour;
         this.status = status;
     }
+    
     public Employee(int id, int rut, String dv, String name, String last_name, Date birth, String gender, int building_site_id, String payment_method, String account_number, String bank, int value_per_hour, int status, String building_site_name) {
         this.id = id;
         this.rut = rut;
@@ -62,6 +64,24 @@ public class Employee {
         this.value_per_hour = value_per_hour;
         this.status = status;
         this.building_site_name = building_site_name;
+    }
+    
+    public Employee(int id, int rut, String dv, String name, String last_name, Date birth, String gender, int building_site_id, String payment_method, String account_number, String bank, int value_per_hour, int status, String building_site_name, Calendar calendar) {
+        this.id = id;
+        this.rut = rut;
+        this.dv = dv;
+        this.name = name;
+        this.last_name = last_name;
+        this.birth = birth;
+        this.gender = gender;
+        this.building_site_id = building_site_id;
+        this.payment_method = payment_method;
+        this.account_number = account_number;
+        this.bank = bank;
+        this.value_per_hour = value_per_hour;
+        this.status = status;
+        this.building_site_name = building_site_name;
+        this.calendar = calendar;
     }
 
     public String getPayment_method() {
@@ -175,7 +195,14 @@ public class Employee {
     public void setBuilding_site_name(String building_site_name) {
         this.building_site_name = building_site_name;
     }
-    
+
+    public Calendar getCalendar() {
+        return calendar;
+    }
+
+    public void setCalendar(Calendar calendar) {
+        this.calendar = calendar;
+    }
     
     @Override
     public String toString() {

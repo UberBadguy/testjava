@@ -1,7 +1,7 @@
 <%-- 
     Document   : listado
-    Created on : 02-04-2017, 03:37:02 PM
-    Author     : Joe-Xidu
+    Created on : 21-04-2017, 02:55:15 PM
+    Author     : jose.becerra
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,7 +13,7 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Mantenedor Empleados</h1>
+            <h1>Asistencia</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
@@ -21,36 +21,30 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Empleados</h3>
-                            <button type="submit" class="btn btn-primary pull-right" id="newItem">Nuevo</button>
+                            <h3 class="box-title">Registros</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">
-                            <table id="mantenedor" class="table table-bordered table-hover">
+                            <table id="asistencia" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
                                         <th>Rut</th>
                                         <th>Nombre</th>
-                                        <th>Fecha</th>
-                                        <th>Género</th>
                                         <th>Obra</th>
-                                        <th>Estado</th>
-                                        <th>Opciones</th>
+                                        <th>Fecha</th>
+                                        <th>Entrada</th>
+                                        <th>Salida</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listado}" var="employee">
+                                    <c:forEach items="${listado}" var="calendar">
                                         <tr>
-                                            <td>${employee.rut}-${employee.dv}</td>
-                                            <td>${employee.name} ${employee.last_name}</td>
-                                            <td>${employee.birth}</td>
-                                            <td>${employee.gender}</td>
-                                            <td>${employee.building_site_name}</td>
-                                            <td><span class="label label-${employee.status==1?"success":"danger"}">${employee.status==1?"Activo":"Inactivo"}</span></td>
-                                            <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${employee.id}" data-url="./update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${employee.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${employee.id}" data-url="./update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
-                                            </td>
+                                            <td>${calendar.employee.rut}-${calendar.employee.dv}</td>
+                                            <td>${calendar.employee.name} ${calendar.employee.last_name}</td>
+                                            <td>${calendar.employee.building_site_name}</td>
+                                            <td>${calendar.date}</td>
+                                            <td>${calendar.start}</td>
+                                            <td>${calendar.end}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

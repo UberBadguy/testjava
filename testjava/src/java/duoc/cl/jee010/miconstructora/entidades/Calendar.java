@@ -20,6 +20,7 @@ public class Calendar implements Serializable {
     private Time end;   
     private int rut;
     private Date date;
+    private Employee employee;
     private int status;
     
     public Calendar() {
@@ -32,6 +33,16 @@ public class Calendar implements Serializable {
         this.rut = rut;
         this.date = date;
         this.status = status;
+    }
+
+    public Calendar(int id, Time start, Time end, int rut, Date date, int status, Employee employee) {
+        this.id = id;
+        this.start = start;
+        this.end = end;
+        this.rut = rut;
+        this.date = date;
+        this.status = status;
+        this.employee = employee;
     }
 
     public int getId() {
@@ -80,6 +91,19 @@ public class Calendar implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    @Override
+    public String toString() {
+        return "Calendar{" + "id=" + id + ", start=" + start + ", end=" + end + ", rut=" + rut + ", date=" + date + ", employee=" + employee + ", status=" + status + '}';
     }
     
     
