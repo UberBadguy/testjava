@@ -20,28 +20,28 @@ import java.util.Properties;
  */
 public class ConfigProperties {
 
-    String file = "config.properties";
+    private final String file = "config.properties";
+    private final HashMap<String, String> properties;
     
     public ConfigProperties() {
+        this.setProperties();
+        this.properties = new HashMap<>();
     }
     
     public HashMap<String,String> getConfigProperties() {
-        this.setProperties();
-        HashMap<String,String> properties = new HashMap<>();
         Properties prop = new Properties();
     	InputStream input = null;
 
     	try {
-            input = new FileInputStream(file);
-
+            input = new FileInputStream(this.file);
             prop.load(input);
-
             Enumeration<?> e = prop.propertyNames();
             String key, value;
+            
             while (e.hasMoreElements()) {
                 key = (String) e.nextElement();
                 value = prop.getProperty(key);
-                properties.put(key, value);
+                this.properties.put(key, value);
             }
 	} catch (IOException ex) {
 		ex.printStackTrace();
@@ -55,25 +55,21 @@ public class ConfigProperties {
             }
 	}
         
-        return properties;
+        return this.properties;
     }
     
-    public void setProperties() {
+    private void setProperties() {
         Properties prop = new Properties();
 	OutputStream output = null;
 
 	try {
-
             output = new FileOutputStream(this.file);
-
             prop.setProperty("driver", "com.mysql.jdbc.Driver");
             prop.setProperty("url", "jdbc:mysql://localhost:3306/");
             prop.setProperty("database", "constructora");
             prop.setProperty("dbuser", "root");
             prop.setProperty("dbpassword", "");
-
             prop.store(output, null);
-
 	} catch (IOException io) {
             io.printStackTrace();
 	} finally {
