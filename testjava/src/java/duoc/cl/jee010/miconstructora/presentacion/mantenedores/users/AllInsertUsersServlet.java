@@ -11,7 +11,6 @@ import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
-import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -73,7 +72,7 @@ public class AllInsertUsersServlet extends HttpServlet {
             String login = request.getParameter("login");
             String password = request.getParameter("password");
             String email = request.getParameter("email");
-            int employee_id = 0;
+            int employee_id;
             try {
                 employee_id = Integer.valueOf(request.getParameter("employee_id"));
             } catch (Exception e) {

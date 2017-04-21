@@ -154,8 +154,7 @@ public class Employee {
     public String toString() {
         return "{\"data\":{" +
                 "\"id\":" + id +
-                ",\"rut\":" + rut +
-                ",\"dv\":\"" + dv + "\"" +
+                ",\"rut\":\"" + rut + "-\"" + dv + "\"" +
                 ",\"name\":\"" + name + "\"" +
                 ",\"last_name\":\"" + last_name + "\"" +
                 ",\"birth\":\"" + birth + "\"" +

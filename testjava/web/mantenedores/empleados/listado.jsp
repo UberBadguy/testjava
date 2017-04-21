@@ -48,8 +48,8 @@
                                             <td>${employee.building_site_id}</td>
                                             <td><span class="label label-${employee.status==1?"success":"danger"}">${employee.status==1?"Activo":"Inactivo"}</span></td>
                                             <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${employee.id}" data-url="./empleados/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${employee.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${employee.id}" data-url="./empleados/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
+                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${employee.id}" data-url="./update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
+                                                <c:if test="${employee.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${employee.id}" data-url="./update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
                                             </td>
                                         </tr>
                                     </c:forEach>
@@ -77,25 +77,37 @@
                         <form class="form-horizontal form" id="addForm">
                             <input class="form-control" name="id" id="id" type="hidden">
                             <div class="form-group">
-                                <label for="login" class="col-sm-2 control-label">Usuario</label>
+                                <label for="rut" class="col-sm-2 control-label">Rut</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="login" id="login" placeholder="Usuario" type="text" required="required">
+                                    <input class="form-control" name="rut" id="rut" placeholder="Rut" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="pass" class="col-sm-2 control-label">Contraseña</label>
+                                <label for="name" class="col-sm-2 control-label">Nombre</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="password" id="password" placeholder="Contraseña" type="password" required="required">
+                                    <input class="form-control" name="name" id="name" placeholder="Nombre" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="email" class="col-sm-2 control-label">Email</label>
+                                <label for="last_name" class="col-sm-2 control-label">Apellido</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" name="email" id="email" placeholder="Email" type="email" required="required">
+                                    <input class="form-control" name="last_name" id="last_name" placeholder="Apellido" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="building_site_id" class="col-sm-2 control-label">Empleado</label>
+                                <label for="birth_date" class="col-sm-2 control-label">Fecha Nacimiento</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="birth_date" id="birth_date" placeholder="Fecha Nacimiento" type="text" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender" class="col-sm-2 control-label">Sexo</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="gender" id="gender" placeholder="Sexo" type="text" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="building_site_id" class="col-sm-2 control-label">Obra</label>
                                 <div class="col-sm-10">
                                     <input class="form-control" name="name" id="name" disabled="disabled">
                                     <select name="building_site_id" id="building_site_id" class="form-control" style="width: 100%;">
@@ -103,6 +115,30 @@
                                             <option value="${buildingSite.id}">${buildingSite.name}</option>
                                         </c:forEach>
                                     </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="payment_method" class="col-sm-2 control-label">Medio de Pago</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="payment_method" id="payment_method" placeholder="Medio de Pago" type="text" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="account_number" class="col-sm-2 control-label">Número de Cuenta</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="account_number" id="account_number" placeholder="Número de Cuenta" type="text" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bank" class="col-sm-2 control-label">Banco</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="bank" id="bank" placeholder="Banco" type="text" required="required">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="value_per_hour" class="col-sm-2 control-label">Valor Hora</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" name="value_per_hour" id="value_per_hour" placeholder="Valor Hora" type="text" required="required">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -118,7 +154,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Cerrar</button>
-                        <button type="button" class="btn btn-primary" id="addNew" data-controller="usuarios" data-url="./usuarios">Guardar</button>
+                        <button type="button" class="btn btn-primary" id="addNew" data-controller="employees" data-url="./">Guardar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
