@@ -62,8 +62,8 @@ public class byWorkerServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         EmployeeBO employeeBo = new EmployeeBO();
-        List<Employee> listado = employeeBo.getWorkerReport();
-        session.setAttribute("listado", listado);
+        //List<Employee> listado = employeeBo.getWorkerReport();
+        //session.setAttribute("listado", listado);
         view("/reportes/obras/reporte.jsp", request, response);
     }
     
