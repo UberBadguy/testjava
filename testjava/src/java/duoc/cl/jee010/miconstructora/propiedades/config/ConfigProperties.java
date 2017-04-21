@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.propiedades.config;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,17 +26,13 @@ public class ConfigProperties {
     }
     
     public HashMap<String,String> getConfigProperties() {
+        this.setProperties();
         HashMap<String,String> properties = new HashMap<>();
         Properties prop = new Properties();
     	InputStream input = null;
 
     	try {
-            input = getClass().getClassLoader().getResourceAsStream(file);
-            if (input == null) {
-                this.setProperties();
-                input = getClass().getClassLoader().getResourceAsStream(file);
-                System.out.println(input);
-            }
+            input = new FileInputStream(file);
 
             prop.load(input);
 
@@ -47,7 +44,6 @@ public class ConfigProperties {
                 properties.put(key, value);
             }
 	} catch (IOException ex) {
-                System.out.println(input);
 		ex.printStackTrace();
 	} finally {
             if (input != null) {
@@ -77,7 +73,6 @@ public class ConfigProperties {
             prop.setProperty("dbpassword", "");
 
             prop.store(output, null);
-                System.out.println(prop);
 
 	} catch (IOException io) {
             io.printStackTrace();
