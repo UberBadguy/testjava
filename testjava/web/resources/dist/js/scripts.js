@@ -6,7 +6,7 @@
 (function ($) {
     
     $(document).ajaxStart(function() { Pace.restart(); });
-    
+    $(document).ajaxComplete(function(){ $('table-ajax').dataTable(); });
     if ($('.checkbox').length) {
         $('.checkbox').iCheck({
             checkboxClass: 'icheckbox_square-blue',
@@ -371,6 +371,34 @@
                 }
             });
         });
+    });
+    
+    $('#report-selector').select2().on('change', function() {
+        if (this.value > 0) {
+            $.ajax({
+                url: $(this).data('url'),
+                data: {id: this.value},
+                type: 'POST',
+                success: function (data) {
+                    if(data!=null){
+                        $('#report-table').html(data);
+                    } else {
+                        swal({
+                            title: "Error al bla!",
+                            text: "Intente nuevamente.",
+                            type: "error"
+                        });
+                    }
+                },
+                error: function () {
+                    swal({
+                        title: "Error al bla!",
+                        text: "Intente nuevamente.",
+                        type: "error"
+                    });
+                }
+            });
+        }
     });
 
     var sigecoApp = {

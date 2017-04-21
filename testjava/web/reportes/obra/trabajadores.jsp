@@ -29,24 +29,21 @@
                             <table id="mantenedor" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <th>Usuario</th>
-                                        <th>Email</th>
-                                        <th>Perfil</th>
-                                        <th>Estado</th>
-                                        <th>Opciones</th>
+                                        <th>Rut</th>
+                                        <th>Nombre</th>
+                                        <th>Dias Trabajados</th>
+                                        <th>Horas Trabajadas</th>
+                                        <th>Atrasos</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${listado}" var="usuario">
+                                    <c:forEach items="${listado}" var="employeeDTO">
                                         <tr>
-                                            <td>${usuario.login}</td>
-                                            <td>${usuario.email}</td>
-                                            <td>${usuario.profile_name}</td>
-                                            <td><span class="label label-${usuario.status==1?"success":"danger"}">${usuario.status==1?"Activo":"Inactivo"}</span></td>
-                                            <td>
-                                                <a class="btn btn-primary btn-xs btnEditar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Editar" data-toggle="tooltip"><i class="fa fa-pencil-square-o"></i></a>
-                                                <c:if test="${usuario.status==1}"><a class="btn btn-primary btn-xs btnEliminar" data-id="${usuario.id}" data-url="./usuarios/update" data-original-title="Eliminar" data-toggle="tooltip"><i class="fa fa-times-circle"></i></a></c:if>
-                                            </td>
+                                            <td>${employeeDTO.rut}</td>
+                                            <td>${employeeDTO.full_name}</td>
+                                            <td>${employeeDTO.worked_days}</td>
+                                            <td>${employeeDTO.worked_hours}</td>
+                                            <td>${employeeDTO.delayed_entry}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>

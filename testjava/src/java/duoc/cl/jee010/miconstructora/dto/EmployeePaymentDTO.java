@@ -9,21 +9,25 @@ package duoc.cl.jee010.miconstructora.dto;
  *
  * @author Administrator
  */
-public class ReporteObraObreroDTO {
+public class EmployeePaymentDTO {
     
     private String rut;
     private String full_name;
+    private String role;
     private int worked_hours;
-    private int lagged_entry;
+    private int delayed_entry;
+    private int value_per_hour;
 
-    public ReporteObraObreroDTO() {
+    public EmployeePaymentDTO() {
     }
 
-    public ReporteObraObreroDTO(String rut, String full_name, int worked_hours, int lagged_entry) {
+    public EmployeePaymentDTO(String rut, String full_name, String role, int worked_hours, int delayed_entry, int value_per_hour) {
         this.rut = rut;
         this.full_name = full_name;
+        this.role = role;
         this.worked_hours = worked_hours;
-        this.lagged_entry = lagged_entry;
+        this.delayed_entry = delayed_entry;
+        this.value_per_hour = value_per_hour;
     }
 
     public String getRut() {
@@ -42,6 +46,14 @@ public class ReporteObraObreroDTO {
         this.full_name = full_name;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public int getWorked_hours() {
         return worked_hours;
     }
@@ -50,11 +62,22 @@ public class ReporteObraObreroDTO {
         this.worked_hours = worked_hours;
     }
 
-    public int getLagged_entry() {
-        return lagged_entry;
+    public int getDelayed_entry() {
+        return delayed_entry;
     }
 
-    public void setLagged_entry(int lagged_entry) {
-        this.lagged_entry = lagged_entry;
+    public void setDelayed_entry(int delayed_entry) {
+        this.delayed_entry = delayed_entry;
     }
+
+    public int getValue_per_hour() {
+        return value_per_hour;
+    }
+
+    public void setValue_per_hour(int value_per_hour) {
+        this.value_per_hour = value_per_hour;
+    }
+    
+    
+
 }

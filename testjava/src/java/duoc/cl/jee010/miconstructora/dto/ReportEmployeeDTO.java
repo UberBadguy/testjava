@@ -9,25 +9,38 @@ package duoc.cl.jee010.miconstructora.dto;
  *
  * @author Administrator
  */
-public class ReporteObraTrabajadorDTO {
+public class ReportEmployeeDTO {
     
     private String rut;
     private String full_name;
     private String role;
+    private String building_site_name;
+    private int worked_days;
     private int worked_hours;
-    private int lagged_entry;
+    private int delayed_entry;
 
-    public ReporteObraTrabajadorDTO() {
+    public ReportEmployeeDTO() {
     }
 
-    public ReporteObraTrabajadorDTO(String rut, String full_name, String role, int worked_hours, int lagged_entry) {
+    public ReportEmployeeDTO(String rut, String full_name, String role, String building_site_name, int worked_days, int worked_hours, int delayed_entry) {
         this.rut = rut;
         this.full_name = full_name;
         this.role = role;
+        this.building_site_name = building_site_name;
+        this.worked_days = worked_days;
         this.worked_hours = worked_hours;
-        this.lagged_entry = lagged_entry;
+        this.delayed_entry = delayed_entry;
     }
 
+    public int getWorked_days() {
+        return worked_days;
+    }
+
+    public void setWorked_days(int worked_days) {
+        this.worked_days = worked_days;
+    }
+
+    
     public String getRut() {
         return rut;
     }
@@ -52,12 +65,12 @@ public class ReporteObraTrabajadorDTO {
         this.worked_hours = worked_hours;
     }
 
-    public int getLagged_entry() {
-        return lagged_entry;
+    public int getDelayed_entry() {
+        return delayed_entry;
     }
 
-    public void setLagged_entry(int lagged_entry) {
-        this.lagged_entry = lagged_entry;
+    public void setDelayed_entry(int delayed_entry) {
+        this.delayed_entry = delayed_entry;
     }
 
     public String getRole() {
@@ -67,6 +80,13 @@ public class ReporteObraTrabajadorDTO {
     public void setRole(String role) {
         this.role = role;
     }
-    
+
+    public String getBuilding_site_name() {
+        return building_site_name;
+    }
+
+    public void setBuilding_site_name(String building_site_name) {
+        this.building_site_name = building_site_name;
+    }
     
 }

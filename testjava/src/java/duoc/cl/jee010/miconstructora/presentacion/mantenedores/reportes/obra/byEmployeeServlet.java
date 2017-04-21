@@ -5,14 +5,12 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.reportes.obra;
 
-import duoc.cl.jee010.miconstructora.presentacion.mantenedores.users.*;
-import duoc.cl.jee010.miconstructora.entidades.Employee;
+import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
+import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
-import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
-import duoc.cl.jee010.miconstructora.negocio.UserBO;
-import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
+import duoc.cl.jee010.miconstructora.negocio.ReportBO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -43,16 +41,13 @@ public class byEmployeeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserBO userBO = new UserBO();
         ProfileBO profileBO = new ProfileBO();
-        EmployeeBO employeeBo = new EmployeeBO();
-        List<User> listado = userBO.getAllUser();
+        BuildingSiteBO buildingSitesBO = new BuildingSiteBO();
         List<Profile> profiles = profileBO.getAllProfile();
-        List<Employee> employees = employeeBo.getAllAvailableEmployees();
+        List<BuildingSite> buildingSites = buildingSitesBO.getAllBuildingSite();
         session.setAttribute("profiles", profiles);
-        session.setAttribute("employees", employees);
-        session.setAttribute("listado", listado);
-        view("/mantenedores/usuarios/listado.jsp", request, response);
+        session.setAttribute("obras", buildingSites);
+        view("/reportes/obra/obreros.jsp", request, response);
     }
 
     /**
@@ -67,34 +62,16 @@ public class byEmployeeServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        String json = "{\"response\":0}";
-        UserBO userBO = new UserBO();
+        ReportBO reportBo = new ReportBO();
+        List<ReportEmployeeDTO> listado = null;
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            String login = request.getParameter("login");
-            String password = request.getParameter("password");
-            String email = request.getParameter("email");
-            int employee_id = 0;
-            try {
-                employee_id = Integer.valueOf(request.getParameter("employee_id"));
-            } catch (Exception e) {
-                employee_id = 0;
-            }
-            int profile_id = Integer.valueOf(request.getParameter("profile_id"));
-            int status = Integer.valueOf(request.getParameter("status"));
-            User user = new User(id, login, password, email, profile_id, employee_id, status);
-            if (id > 0) {
-                if (userBO.updateUser(user))
-                    json = "{\"response\":1}";
-            } else {
-                if (userBO.addUser(user))
-                    json = "{\"response\":1}";
-            }
+            listado = reportBo.reportBuildingSitebyEmployee(id);
         } catch (Exception e) {
             System.out.println(e);
         }
-        session.setAttribute("json", json);
-        view("/include/json.jsp", request, response);
+        session.setAttribute("tabla", listado);
+        view("/reportes/obra/tabla-empleados.jsp", request, response);
     }
     
     private void view(String view, HttpServletRequest request, HttpServletResponse response)
