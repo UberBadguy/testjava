@@ -11,6 +11,7 @@ import duoc.cl.jee010.miconstructora.entidades.Profile;
 import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
 import duoc.cl.jee010.miconstructora.negocio.ReportBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "byEmployeeServlet", urlPatterns = {"/reportes/obra/empleados"})
 public class byEmployeeServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -43,8 +44,14 @@ public class byEmployeeServlet extends HttpServlet {
         HttpSession session = request.getSession();
         ProfileBO profileBO = new ProfileBO();
         BuildingSiteBO buildingSitesBO = new BuildingSiteBO();
-        List<Profile> profiles = profileBO.getAllProfile();
-        List<BuildingSite> buildingSites = buildingSitesBO.getAllBuildingSite();
+        List<Profile> profiles = null;
+        List<BuildingSite> buildingSites = null;
+        try {
+            profiles = profileBO.getAllProfile();
+            buildingSites = buildingSitesBO.getAllBuildingSite();
+        } catch (Exception e) {
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
+        }
         session.setAttribute("profiles", profiles);
         session.setAttribute("obras", buildingSites);
         view("/reportes/obra/empleados.jsp", request, response);
@@ -68,7 +75,7 @@ public class byEmployeeServlet extends HttpServlet {
             int id = Integer.valueOf(request.getParameter("id"));
             listado = reportBo.reportBuildingSitebyEmployee(id);
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
         session.setAttribute("tabla", listado);
         view("/reportes/obra/tabla-empleados.jsp", request, response);

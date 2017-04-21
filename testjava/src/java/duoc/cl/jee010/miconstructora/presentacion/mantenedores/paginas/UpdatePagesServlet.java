@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.paginas;
 
 import duoc.cl.jee010.miconstructora.entidades.Page;
 import duoc.cl.jee010.miconstructora.negocio.PageBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "UpdatePagesServlet", urlPatterns = {"/mantenedores/paginas/update"})
 public class UpdatePagesServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -43,7 +44,7 @@ public class UpdatePagesServlet extends HttpServlet {
             Page page = pageBO.getPage(id);
             json = page.toString();
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);
@@ -68,7 +69,7 @@ public class UpdatePagesServlet extends HttpServlet {
             if (pageBO.deletePage(id))
                 json = "{\"response\":1}";
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al actualizar informacion. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

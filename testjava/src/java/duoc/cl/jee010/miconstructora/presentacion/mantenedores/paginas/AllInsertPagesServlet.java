@@ -8,6 +8,7 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.paginas;
 
 import duoc.cl.jee010.miconstructora.entidades.Page;
 import duoc.cl.jee010.miconstructora.negocio.PageBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -24,7 +25,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AllInsertPagesServlet", urlPatterns = {"/mantenedores/paginas/"})
 public class AllInsertPagesServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -39,8 +40,14 @@ public class AllInsertPagesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         PageBO pageBO = new PageBO();
-        List<Page> list = pageBO.getAllPages();
-        List<Page> parentList = pageBO.getAllAvailableParents();
+        List<Page> list = null;
+        List<Page> parentList = null;
+        try {
+            list = pageBO.getAllPages();
+            parentList = pageBO.getAllAvailableParents();
+        } catch (Exception e) {
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
+        }
         session.setAttribute("pages", list);
         session.setAttribute("parentPages", parentList);
         view("/mantenedores/paginas/listado.jsp", request, response);
@@ -65,9 +72,9 @@ public class AllInsertPagesServlet extends HttpServlet {
             String login = request.getParameter("name");
             String password = request.getParameter("path");
             String email = request.getParameter("icon");
-            int parent = Integer.valueOf(request.getParameter("parent"));
+            int parent = 0;
             try {
-                parent = parent = Integer.valueOf(request.getParameter("parent"));
+                parent = Integer.valueOf(request.getParameter("parent"));
             } catch (Exception e) {
                 parent = 0;
             }
@@ -81,7 +88,7 @@ public class AllInsertPagesServlet extends HttpServlet {
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

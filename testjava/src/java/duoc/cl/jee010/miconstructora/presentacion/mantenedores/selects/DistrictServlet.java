@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.selects;
 
 import duoc.cl.jee010.miconstructora.entidades.District;
 import duoc.cl.jee010.miconstructora.negocio.DistrictBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "DistrictServlet", urlPatterns = {"/mantenedores/comunas"})
 public class DistrictServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -63,7 +64,7 @@ public class DistrictServlet extends HttpServlet {
                     json += "{\"id\": " + district.getId() + ", \"text\": \"" + district.getName() + "\"},";
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
         json += "]}";
         session.setAttribute("json", json);

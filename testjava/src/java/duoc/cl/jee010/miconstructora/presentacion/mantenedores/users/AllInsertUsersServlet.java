@@ -11,6 +11,7 @@ import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -27,7 +28,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AllInsertUsersServlet", urlPatterns = {"/mantenedores/usuarios/"})
 public class AllInsertUsersServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -44,9 +45,16 @@ public class AllInsertUsersServlet extends HttpServlet {
         UserBO userBO = new UserBO();
         ProfileBO profileBO = new ProfileBO();
         EmployeeBO employeeBo = new EmployeeBO();
-        List<User> listado = userBO.getAllUser();
-        List<Profile> profiles = profileBO.getAllProfile();
-        List<Employee> employees = employeeBo.getAllAvailableEmployees();
+        List<User> listado = null;
+        List<Profile> profiles = null;
+        List<Employee> employees = null;
+        try {
+            listado = userBO.getAllUser();
+            profiles = profileBO.getAllProfile();
+            employees = employeeBo.getAllAvailableEmployees();
+        } catch (Exception e) {
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
+        }
         session.setAttribute("profiles", profiles);
         session.setAttribute("employees", employees);
         session.setAttribute("listado", listado);
@@ -89,7 +97,7 @@ public class AllInsertUsersServlet extends HttpServlet {
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

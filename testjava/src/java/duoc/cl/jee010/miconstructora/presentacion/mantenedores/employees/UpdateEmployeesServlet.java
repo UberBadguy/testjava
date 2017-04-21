@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.employees;
 
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import javax.servlet.http.HttpSession;
 import javax.servlet.RequestDispatcher;
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "UpdateEmployeesServlet", urlPatterns = {"/mantenedores/empleados/update"})
 public class UpdateEmployeesServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -43,7 +44,7 @@ public class UpdateEmployeesServlet extends HttpServlet {
             Employee employee = employeeBO.getEmployee(id);
             json = employee.toString();
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);
@@ -68,7 +69,7 @@ public class UpdateEmployeesServlet extends HttpServlet {
             if (employeeBO.deleteEmployee(id))
                 json = "{\"response\":1}";
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

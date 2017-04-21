@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.propiedades.config;
 
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -18,12 +19,13 @@ import java.util.Properties;
  *
  * @author Joe-Xidu
  */
-public class ConfigProperties {
+public class ConfigProperties extends LogSystem{
 
     private final String file = "config.properties";
     private final HashMap<String, String> properties;
     
     public ConfigProperties() {
+        this.setLogger();
         this.setProperties();
         this.properties = new HashMap<>();
     }
@@ -44,13 +46,13 @@ public class ConfigProperties {
                 this.properties.put(key, value);
             }
 	} catch (IOException ex) {
-		ex.printStackTrace();
+            LOGGER.fatal("Error al establecer configuraciones "+ex.getMessage());
 	} finally {
             if (input != null) {
                 try {
                     input.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.fatal("Error al cerrar el archivo "+e.getMessage());
                 }
             }
 	}
@@ -71,13 +73,13 @@ public class ConfigProperties {
             prop.setProperty("dbpassword", "");
             prop.store(output, null);
 	} catch (IOException io) {
-            io.printStackTrace();
+            LOGGER.fatal("Error al establecer configuraciones "+io.getMessage());
 	} finally {
             if (output != null) {
                 try {
                     output.close();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    LOGGER.fatal("Error al cerrar el archivo "+e.getMessage());
                 }
             }
 

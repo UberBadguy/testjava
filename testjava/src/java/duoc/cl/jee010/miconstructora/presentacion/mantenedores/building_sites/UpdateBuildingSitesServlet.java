@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.building_sites;
 
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -23,7 +24,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "UpdateBuildingSitesServlet", urlPatterns = {"/mantenedores/obras/update"})
 public class UpdateBuildingSitesServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -44,7 +45,7 @@ public class UpdateBuildingSitesServlet extends HttpServlet {
             BuildingSite buildingSite = buildingSiteBO.getBuildingSite(id);
             json = buildingSite.toString();
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);
@@ -69,7 +70,7 @@ public class UpdateBuildingSitesServlet extends HttpServlet {
             if (buildingSiteBO.deleteBuildingSite(id))
                 json = "{\"response\":1}";
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

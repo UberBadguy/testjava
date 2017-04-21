@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.presentacion;
 
 import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -16,14 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.Logger;
 /**
  *
  * @author Joe-Xidu
  */
 @WebServlet(name = "LoginServlet", urlPatterns = {"/login"})
 public class LoginServlet extends HttpServlet{
-    static final Logger LOGGER = Logger.getLogger(LoginServlet.class);
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -56,6 +56,7 @@ public class LoginServlet extends HttpServlet{
         UserBO userBo = new UserBO();
         UserProfilePagesDTO user = userBo.authenticate(login, password);
         if (user == null) {
+            this.log.getLogger().warn("Intento de autenticacion fallido.");
             view("/login.jsp", request, response);
         } else {
             session.setAttribute("user", user);

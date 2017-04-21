@@ -9,6 +9,7 @@ import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AllInsertEmployeesServlet", urlPatterns = {"/mantenedores/empleados/"})
 public class AllInsertEmployeesServlet extends HttpServlet {
-    
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -44,8 +45,14 @@ public class AllInsertEmployeesServlet extends HttpServlet {
         HttpSession session = request.getSession();
         BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
         EmployeeBO employeeBO = new EmployeeBO();
-        List<Employee> listado = employeeBO.getAllEmployees();
-        List<BuildingSite> obras = buildingSiteBO.getAllBuildingSite();
+        List<Employee> listado = null;
+        List<BuildingSite> obras = null;
+        try{
+            listado = employeeBO.getAllEmployees();
+            obras = buildingSiteBO.getAllBuildingSite();
+        }catch (Exception e){
+            this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
+        }
         session.setAttribute("listado", listado);
         session.setAttribute("obras", obras);
         view("/mantenedores/empleados/listado.jsp", request, response);
@@ -98,7 +105,7 @@ public class AllInsertEmployeesServlet extends HttpServlet {
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);

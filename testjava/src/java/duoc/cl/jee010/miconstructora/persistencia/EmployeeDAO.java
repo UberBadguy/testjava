@@ -29,7 +29,7 @@ public class EmployeeDAO extends LogSystem implements ICrud{
         Employee objEmployee=(Employee)objetoInsert;
         try{
             Connection con=Conexion.getConexion();
-            String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+            String query="INSERT INTO EMPLOYEES VALUES (0,?,?,?,?,?,?,?,?,?,?,?,?);";
             PreparedStatement ps=con.prepareStatement(query);
             ps.setInt(1, objEmployee.getRut());
             ps.setString(2, objEmployee.getDv());
@@ -42,8 +42,7 @@ public class EmployeeDAO extends LogSystem implements ICrud{
             ps.setString(9, objEmployee.getAccount_number());
             ps.setString(10, objEmployee.getBank());
             ps.setInt(11, objEmployee.getValue_per_hour());
-            ps.setString(12, objEmployee.getGender());
-            ps.setInt(13, objEmployee.getStatus());
+            ps.setInt(12, objEmployee.getStatus());
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){

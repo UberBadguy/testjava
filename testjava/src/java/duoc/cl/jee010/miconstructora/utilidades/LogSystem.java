@@ -12,8 +12,20 @@ import org.apache.log4j.Logger;
  */
 public class LogSystem {
     protected Logger LOGGER;
+
+    public LogSystem() {
+    }
+
+    public LogSystem(Class classObj){
+        this.LOGGER = Logger.getLogger(classObj);
+    }
+   
     
     protected void setLogger(){
         this.LOGGER = Logger.getLogger(this.getClass());
+    }
+    
+    public Logger getLogger(){
+        return LOGGER;
     }
 }

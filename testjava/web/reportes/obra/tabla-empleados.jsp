@@ -13,7 +13,8 @@
         </tr>
     </thead>
     <tbody>
-        <c:forEach items="${listado}" var="employeeDTO">
+        <c:forEach items="${tabla}" var="employeeDTO">
+            <c:if test="${employeeDTO.rut!=null}">
             <tr>
                 <td>${employeeDTO.rut}</td>
                 <td>${employeeDTO.full_name}</td>
@@ -22,6 +23,7 @@
                 <td>${employeeDTO.worked_hours}</td>
                 <td>${employeeDTO.delayed_entry}</td>
             </tr>
+            </c:if>
         </c:forEach>
     </tbody>
     <tfoot></tfoot>

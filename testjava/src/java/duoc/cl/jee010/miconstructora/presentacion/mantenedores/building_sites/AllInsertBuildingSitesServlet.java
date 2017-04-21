@@ -9,6 +9,7 @@ import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Region;
 import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.RegionBO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -25,7 +26,7 @@ import javax.servlet.http.HttpSession;
  */
 @WebServlet(name = "AllInsertBuildingSitesServlet", urlPatterns = {"/mantenedores/obras"})
 public class AllInsertBuildingSitesServlet extends HttpServlet {
-
+    private LogSystem log = new LogSystem(this.getClass());
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -41,8 +42,14 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
         HttpSession session = request.getSession();
         BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
         RegionBO regionBO = new RegionBO();
-        List<Region> regions = regionBO.listadoRegiones();
-        List<BuildingSite> listado = buildingSiteBO.getAllBuildingSite();
+        List<Region> regions = null;
+        List<BuildingSite> listado = null;
+        try{
+            regions = regionBO.listadoRegiones();
+            listado = buildingSiteBO.getAllBuildingSite(); 
+        }catch (Exception e){
+            this.log.getLogger().warn("Fallo al solicitar la informacion. "+e.getMessage());
+        }
         session.setAttribute("listado", listado);
         session.setAttribute("regions", regions);
         view("/mantenedores/obras/listado.jsp", request, response);
@@ -77,7 +84,7 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {
-            System.out.println(e);
+            this.log.getLogger().warn("Fallo al solicitar la informacion. "+e.getMessage());
         }
         session.setAttribute("json", json);
         view("/include/json.jsp", request, response);
