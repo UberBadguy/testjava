@@ -29,7 +29,7 @@
                                 <div class="form-group">
                                     <label for="id" class="col-sm-2 control-label">Obras</label>
                                     <div class="col-sm-10">
-                                        <select name="id" id="report-selector" data-url="./obreros" class="form-control" style="width: 100%;">
+                                        <select name="id" id="report-selector" data-url="./empleados" class="form-control" style="width: 100%;">
                                             <c:forEach items="${obras}" var="obra">
                                                 <option value="${obra.id}">${obra.name}</option>
                                             </c:forEach>
