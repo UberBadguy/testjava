@@ -5,8 +5,10 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
+import duoc.cl.jee010.miconstructora.config.propiedades.ConfigProperties;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.util.HashMap;
 
 /**
  *
@@ -16,13 +18,15 @@ public class Conexion {
     public static Connection getConexion() throws ConexionException{
         Connection con=null;
         try{
-            String driverClassName="com.mysql.jdbc.Driver";
-            String driverUrl="jdbc:mysql://localhost:3306/constructora";
+            ConfigProperties cp = new ConfigProperties();
+            HashMap<String, String> properties = cp.getConfigProperties();
+            String driverClassName = properties.get("driver");
+            String driverUrl = properties.get("url") + properties.get("database");
             Class.forName(driverClassName);
-            con= DriverManager.getConnection(driverUrl,"root","");
+            con = DriverManager.getConnection(driverUrl,properties.get("dbuser"),properties.get("dbpassword"));
         }catch(Exception e){
             System.out.println(e.getMessage());
-            throw new ConexionException("error al conectar la BD"+e.getMessage());
+            throw new ConexionException("error al conectar la BD "+e.getMessage());
         }
         return con;
     }    
