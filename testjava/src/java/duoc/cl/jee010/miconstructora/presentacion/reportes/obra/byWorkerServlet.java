@@ -5,14 +5,12 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.reportes.obra;
 
-import duoc.cl.jee010.miconstructora.presentacion.mantenedores.users.*;
-import duoc.cl.jee010.miconstructora.entidades.Employee;
+import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
+import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
-import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
-import duoc.cl.jee010.miconstructora.negocio.UserBO;
-import duoc.cl.jee010.miconstructora.persistencia.UserDAO;
+import duoc.cl.jee010.miconstructora.negocio.ReportBO;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -44,8 +42,11 @@ public class byWorkerServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         ProfileBO profileBO = new ProfileBO();
+        BuildingSiteBO buildingSitesBO = new BuildingSiteBO();
         List<Profile> profiles = profileBO.getAllProfile();
+        List<BuildingSite> buildingSites = buildingSitesBO.getAllBuildingSite();
         session.setAttribute("profiles", profiles);
+        session.setAttribute("obras", buildingSites);
         view("/reportes/obra/obreros.jsp", request, response);
     }
 
@@ -61,10 +62,16 @@ public class byWorkerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        EmployeeBO employeeBo = new EmployeeBO();
-        //List<Employee> listado = employeeBo.getWorkerReport();
-        //session.setAttribute("listado", listado);
-        view("/reportes/obras/reporte.jsp", request, response);
+        ReportBO reportBo = new ReportBO();
+        List<ReportEmployeeDTO> listado = null;
+        try {
+            int id = Integer.valueOf(request.getParameter("id"));
+            listado = reportBo.reportBuildingSitebyWorker(id);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        session.setAttribute("tabla", listado);
+        view("/reportes/obra/tabla-obreros.jsp", request, response);
     }
     
     private void view(String view, HttpServletRequest request, HttpServletResponse response)

@@ -21,7 +21,7 @@
                 <div class="col-xs-12">
                     <div class="box">
                         <div class="box-header">
-                            <h3 class="box-title">Obreros</h3>
+                            <h3 class="box-title">Empleados</h3>
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body">

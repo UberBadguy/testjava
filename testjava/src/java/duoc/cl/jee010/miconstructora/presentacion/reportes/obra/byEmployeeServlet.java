@@ -47,7 +47,7 @@ public class byEmployeeServlet extends HttpServlet {
         List<BuildingSite> buildingSites = buildingSitesBO.getAllBuildingSite();
         session.setAttribute("profiles", profiles);
         session.setAttribute("obras", buildingSites);
-        view("/reportes/obra/obreros.jsp", request, response);
+        view("/reportes/obra/empleados.jsp", request, response);
     }
 
     /**
