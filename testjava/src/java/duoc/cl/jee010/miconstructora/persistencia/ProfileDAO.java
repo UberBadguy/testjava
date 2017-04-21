@@ -8,6 +8,7 @@ package duoc.cl.jee010.miconstructora.persistencia;
 import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,9 +20,10 @@ import java.util.List;
  *
  * @author amontess
  */
-public class ProfileDAO implements ICrud{
+public class ProfileDAO extends LogSystem implements ICrud{
 
     public ProfileDAO() {
+        this.setLogger();
     }
 
     @Override
@@ -40,11 +42,11 @@ public class ProfileDAO implements ICrud{
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
-                System.out.println("problemas al insertar en la bd "+e.getMessage());
+                LOGGER.error("problemas al insertar en la bd "+e.getMessage());
                 return false;
             }
         }catch(Exception e){
-            System.out.println("problemas para insertar en la BD"+e.getMessage());
+            LOGGER.error("problemas para insertar en la BD"+e.getMessage());
         }
         return false;
     }
@@ -65,7 +67,7 @@ public class ProfileDAO implements ICrud{
                 listProfile.add(objProfile);
             }            
         }catch(Exception e){
-            System.out.println("Problemas en la lectura "+e.getMessage());
+            LOGGER.error("Problemas en la lectura "+e.getMessage());
         }
         return listProfile;
     }
@@ -84,10 +86,10 @@ public class ProfileDAO implements ICrud{
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
-                System.out.println("Problemas al updatear"+e.getMessage());
+                LOGGER.error("Problemas al updatear"+e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("No se pudo updatear la base de datos");
+            LOGGER.error("No se pudo updatear la base de datos");
         }
         return false;
     }
@@ -102,10 +104,10 @@ public class ProfileDAO implements ICrud{
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
-                System.out.println("Error al Eliminar el registros" + e.getMessage());
+                LOGGER.error("Error al Eliminar el registros" + e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Error al borrar los registros" + e.getMessage());
+            LOGGER.error("Error al borrar los registros" + e.getMessage());
         }
         return false;
     }
@@ -126,7 +128,7 @@ public class ProfileDAO implements ICrud{
                         rs.getInt(3));
             }
         }catch(Exception e){
-            System.out.println("problemas al recuperar informacion "+e.getMessage());
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
         }
         return objUser;
     }

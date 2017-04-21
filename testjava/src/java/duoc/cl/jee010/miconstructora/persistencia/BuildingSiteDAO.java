@@ -6,6 +6,7 @@
 package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +17,10 @@ import java.util.List;
  *
  * @author amontess
  */
-public class BuildingSiteDAO implements ICrud{
+public class BuildingSiteDAO extends LogSystem implements ICrud{
 
     public BuildingSiteDAO() {
+        this.setLogger();
     }
     
 @Override
@@ -35,11 +37,11 @@ public class BuildingSiteDAO implements ICrud{
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
-                System.out.println("problemas al insertar en la bd "+e.getMessage());
+                LOGGER.error("problemas al insertar en la bd "+e.getMessage());
                 return false;
             }
         }catch(Exception e){
-            System.out.println("problemas para insertar en la BD"+e.getMessage());
+            LOGGER.error("problemas para insertar en la BD"+e.getMessage());
         }
         return false;
     }
@@ -64,7 +66,7 @@ public class BuildingSiteDAO implements ICrud{
                 listadoUsuario.add(objBuildingSite);
             }            
         }catch(Exception e){
-            System.out.println("Problemas en la lectura "+e.getMessage());
+            LOGGER.error("Problemas en la lectura "+e.getMessage());
         }
         return listadoUsuario;
     }
@@ -84,10 +86,10 @@ public class BuildingSiteDAO implements ICrud{
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
-                System.out.println("Problemas al updatear"+e.getMessage());
+                LOGGER.error("Problemas al updatear"+e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("No se pudo updatear la base de datos");
+            LOGGER.error("No se pudo updatear la base de datos");
         }
         return false;
     }
@@ -102,10 +104,10 @@ public class BuildingSiteDAO implements ICrud{
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
-                System.out.println("Error al Eliminar el registros" + e.getMessage());
+                LOGGER.error("Error al Eliminar el registros" + e.getMessage());
             }
         } catch (Exception e) {
-            System.out.println("Error al borrar los registros" + e.getMessage());
+            LOGGER.error("Error al borrar los registros" + e.getMessage());
         }
         return false;
     }
@@ -130,7 +132,7 @@ public class BuildingSiteDAO implements ICrud{
                         rs.getInt(7));
             }
         }catch(Exception e){
-            System.out.println("problemas al recuperar informacion "+e.getMessage());
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
         }
         return objBuildingSite;
     }

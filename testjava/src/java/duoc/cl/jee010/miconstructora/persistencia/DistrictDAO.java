@@ -6,6 +6,7 @@
 package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.entidades.District;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +17,10 @@ import java.util.List;
  *
  * @author amontess
  */
-public class DistrictDAO {
+public class DistrictDAO extends LogSystem {
 
     public DistrictDAO() {
+        this.setLogger();
     }
     
     public List listByProvince(int provinceId){
@@ -35,7 +37,7 @@ public class DistrictDAO {
                 listDistricts.add(objDistrict);
             }
         }catch(Exception e){
-            System.out.println("Problemas en la extracción de información"+e.getMessage());
+            LOGGER.error("Problemas en la extracción de información"+e.getMessage());
         }
         return listDistricts;
     }

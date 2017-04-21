@@ -10,11 +10,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.HashMap;
 
+import org.apache.log4j.Logger;
 /**
  *
  * @author amontess
  */
 public class Conexion {
+    static final Logger LOGGER = Logger.getLogger(Conexion.class);
     public static Connection getConexion() throws ConexionException{
         Connection con=null;
         try{
@@ -26,6 +28,7 @@ public class Conexion {
             con = DriverManager.getConnection(driverUrl,properties.get("dbuser"),properties.get("dbpassword"));
         }catch(Exception e){
             System.out.println(e.getMessage());
+            LOGGER.fatal("Error fatal de coneion a DB. "+e.getMessage());
             throw new ConexionException("error al conectar la BD "+e.getMessage());
         }
         return con;

@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,9 +18,10 @@ import java.util.List;
  *
  * @author amontess
  */
-public class ReportDAO{
+public class ReportDAO extends LogSystem{
 
     public ReportDAO() {
+        this.setLogger();
     }
     
     public List<ReportEmployeeDTO> buildingSiteXEmployee(int bsId){
@@ -58,7 +60,7 @@ public class ReportDAO{
                 list.add(objReportEmpoyeeDTO);
             }
         }catch(Exception e){
-            System.out.println("problemas al recuperar informacion "+e.getMessage());
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
         }
         return list;
     }
@@ -100,7 +102,7 @@ public class ReportDAO{
                 list.add(objReportEmpoyeeDTO);
             }
         }catch(Exception e){
-            System.out.println("problemas al recuperar informacion "+e.getMessage());
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
         }
         return list;
     }

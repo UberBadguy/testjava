@@ -7,6 +7,7 @@ package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -18,9 +19,10 @@ import java.util.List;
  *
  * @author amontess
  */
-public class UserDAO implements ICrud{
+public class UserDAO extends LogSystem implements ICrud{
 
     public UserDAO() {
+        this.setLogger();
     }
 
     @Override
@@ -39,11 +41,11 @@ public class UserDAO implements ICrud{
             try{
                 return ps.executeUpdate()==1;
             }catch(Exception e){
-                System.out.println("problemas al insertar en la bd "+e.getMessage());
+                LOGGER.error("problemas al insertar en la bd "+e.getMessage());
                 return false;
             }
         }catch(Exception e){
-            System.out.println("problemas para insertar en la BD"+e.getMessage());
+            LOGGER.error("problemas para insertar en la BD"+e.getMessage());
         }
         return false;
     }
@@ -69,7 +71,7 @@ public class UserDAO implements ICrud{
                 listadoUsuario.add(objUsuario);
             }            
         }catch(Exception e){
-            System.out.println("Problemas en la lectura "+e.getMessage());
+            LOGGER.error("Problemas en la lectura "+e.getMessage());
         }
         return listadoUsuario;
     }
@@ -91,7 +93,7 @@ public class UserDAO implements ICrud{
                 try {
                     return ps.executeUpdate() == 1;
                 } catch (Exception e) {
-                    System.out.println("Problemas al updatear"+e.getMessage());
+                    LOGGER.error("Problemas al updatear"+e.getMessage());
                 }
             }  else {
                 Connection con = Conexion.getConexion();
@@ -107,11 +109,11 @@ public class UserDAO implements ICrud{
                 try {
                     return ps.executeUpdate() == 1;
                 } catch (Exception e) {
-                    System.out.println("Problemas al updatear"+e.getMessage());
+                    LOGGER.error("Problemas al updatear"+e.getMessage());
                 }
             }
         } catch (Exception e) {
-            System.out.println("No se pudo updatear la base de datos " + e.getMessage());
+            LOGGER.error("No se pudo updatear la base de datos " + e.getMessage());
         }
         return false;
     }
@@ -126,7 +128,7 @@ public class UserDAO implements ICrud{
             try {
                 return ps.executeUpdate() == 1;
             } catch (Exception e) {
-                System.out.println("Error al Eliminar el registros" + e.getMessage());
+                LOGGER.error("Error al Eliminar el registros" + e.getMessage());
             }
         } catch (Exception e) {
             System.out.println("Error al borrar los registros" + e.getMessage());
@@ -135,6 +137,7 @@ public class UserDAO implements ICrud{
     }
     
     public UserProfilePagesDTO authenticate(String login,String password){
+
         UserProfilePagesDTO objUser=null;
         String query="SELECT "
                 + "U.ID, "
@@ -165,7 +168,7 @@ public class UserDAO implements ICrud{
                     objUser= new UserProfilePagesDTO(
                         rs.getInt(1), 
                         rs.getString(2), 
-                        rs.getString(3), 
+                        rs.getString(3),
                         rs.getString(4),
                         rs.getInt(5),
                         rs.getString(6),
@@ -176,7 +179,7 @@ public class UserDAO implements ICrud{
                         objPageDAO.listPageByProfile(rs.getInt(11)));
             }            
         }catch(Exception e){
-            System.out.println("problemas al validar "+e.getMessage());
+            LOGGER.error("problemas al validar "+e.getMessage());
         }
         return objUser;
     }
@@ -204,7 +207,7 @@ public class UserDAO implements ICrud{
                         );
             }
         }catch(Exception e){
-            System.out.println("problemas al recuperar informacion "+e.getMessage());
+            LOGGER.error("problemas al recuperar informacion "+e.getMessage());
         }
         return objUser;
     }

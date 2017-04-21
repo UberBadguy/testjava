@@ -6,6 +6,7 @@
 package duoc.cl.jee010.miconstructora.persistencia;
 
 import duoc.cl.jee010.miconstructora.entidades.Region;
+import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,9 +17,10 @@ import java.util.List;
  *
  * @author amontess
  */
-public class RegionDAO {
+public class RegionDAO extends LogSystem{
 
     public RegionDAO() {
+        this.setLogger();
     }
     
     public List listAll(){
@@ -33,7 +35,7 @@ public class RegionDAO {
                 listRegions.add(objRegion);
             }
         }catch(Exception e){
-            System.out.println("Problemas en la extracción de información"+e.getMessage());
+            LOGGER.error("Problemas en la extracción de información"+e.getMessage());
         }
         return listRegions;
     }
