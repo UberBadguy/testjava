@@ -5,6 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.entidades;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ public class Employee {
     private int rut;
     private String dv;
     private String name;
+    private String building_site_name;
     private String last_name;
     private Date birth;
     private String gender;
@@ -43,6 +46,22 @@ public class Employee {
         this.bank = bank;
         this.value_per_hour = value_per_hour;
         this.status = status;
+    }
+    public Employee(int id, int rut, String dv, String name, String last_name, Date birth, String gender, int building_site_id, String payment_method, String account_number, String bank, int value_per_hour, int status, String building_site_name) {
+        this.id = id;
+        this.rut = rut;
+        this.dv = dv;
+        this.name = name;
+        this.last_name = last_name;
+        this.birth = birth;
+        this.gender = gender;
+        this.building_site_id = building_site_id;
+        this.payment_method = payment_method;
+        this.account_number = account_number;
+        this.bank = bank;
+        this.value_per_hour = value_per_hour;
+        this.status = status;
+        this.building_site_name = building_site_name;
     }
 
     public String getPayment_method() {
@@ -77,8 +96,6 @@ public class Employee {
         this.value_per_hour = value_per_hour;
     }
     
-    
-
     public int getId() {
         return id;
     }
@@ -150,16 +167,32 @@ public class Employee {
     public void setStatus(int status) {
         this.status = status;
     }
+
+    public String getBuilding_site_name() {
+        return building_site_name;
+    }
+
+    public void setBuilding_site_name(String building_site_name) {
+        this.building_site_name = building_site_name;
+    }
     
+    
+    @Override
     public String toString() {
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
         return "{\"data\":{" +
                 "\"id\":" + id +
-                ",\"rut\":\"" + rut + "-\"" + dv + "\"" +
+                ",\"rut\":\"" + rut + "-" + dv + "\"" +
                 ",\"name\":\"" + name + "\"" +
                 ",\"last_name\":\"" + last_name + "\"" +
-                ",\"birth\":\"" + birth + "\"" +
+                ",\"birth\":\"" + formatter.format(birth) + "\"" +
                 ",\"gender\":\"" + gender + "\"" +
                 ",\"building_site_id\":" + building_site_id +
+                ",\"payment_method\":\"" + payment_method + "\"" +
+                ",\"building_site_name\":\"" + building_site_name + "\"" +
+                ",\"account_number\":\"" + account_number + "\"" + 
+                ",\"bank\":\"" + bank + "\"" + 
+                ",\"value_per_hour\":" + value_per_hour +
                 ",\"status\":" + status +"}}";
     }
     
