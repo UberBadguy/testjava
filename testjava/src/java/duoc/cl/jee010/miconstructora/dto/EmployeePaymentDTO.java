@@ -23,15 +23,34 @@ public class EmployeePaymentDTO {
     public EmployeePaymentDTO() {
     }
 
-    public EmployeePaymentDTO(String rut, String full_name, String role, int worked_hours, int delayed_entry, int value_per_hour) {
+    public EmployeePaymentDTO(String rut, String full_name, String role, int worked_hours, int delayed_entry, int value_per_hour, int total_payment, String payment_method) {
         this.rut = rut;
         this.full_name = full_name;
         this.role = role;
         this.worked_hours = worked_hours;
         this.delayed_entry = delayed_entry;
         this.value_per_hour = value_per_hour;
+        this.total_payment = total_payment;
+        this.payment_method = payment_method;
     }
 
+    public int getTotal_payment() {
+        return total_payment;
+    }
+
+    public void setTotal_payment(int total_payment) {
+        this.total_payment = total_payment;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
+    }
+
+    
     public String getRut() {
         return rut;
     }

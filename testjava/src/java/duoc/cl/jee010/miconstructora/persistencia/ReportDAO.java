@@ -149,36 +149,38 @@ public class ReportDAO extends LogSystem{
        
        public List<EmployeePaymentDTO> AllPayments(){
         List<EmployeePaymentDTO> list = new LinkedList();
-        EmployeePaymentDTO objReportEmpoyeeDTO=null;
+        EmployeePaymentDTO objEmployeePaymentDTO=null;
         try{
             Connection con = Conexion.getConexion();
             String query="SELECT "
                     + "CONCAT(E.RUT, '-', E.DV), "
                     + "CONCAT(E.NAME, ' ', E.LAST_NAME), "
                     + "P.NAME, "
-                    + "B.NAME, "
-                    + "COUNT(C.ID), "
+                    + "(SELECT COUNT(*) FROM calendar C WHERE c.rut = e.rut AND c.start>'9:00'), "
                     + "SUM(HOUR(c.end) - HOUR(c.start)), "
-                    + "(SELECT COUNT(*) FROM calendar C WHERE c.rut = e.rut AND c.start>'9:00') "
+                    + "E.VALUE_PER_HOUR, "
+                    + "SUM(HOUR(c.end) - HOUR(c.start))*E.VALUE_PER_HOUR, "
+                    + "E.PAYMENT_METHOD "
                     + "FROM EMPLOYEES E "
                     + "LEFT JOIN BUILDING_SITES B ON E.BUILDING_SITE_ID=B.ID "
                     + "LEFT JOIN CALENDAR C ON C.RUT = E.RUT "
                     + "LEFT JOIN USERS U ON U.EMPLOYEE_ID = E.ID "
                     + "LEFT JOIN PROFILES P ON U.PROFILE_ID = P.ID "
                     + "WHERE C.START IS NOT NULL "
-                    + "AND B.ID = ? "
                     + "AND C.END IS NOT NULL;";
             PreparedStatement ps=con.prepareStatement(query);
             ResultSet rs=ps.executeQuery();
             while(rs.next()){
-                objReportEmpoyeeDTO = new EmployeePaymentDTO(
+                objEmployeePaymentDTO = new EmployeePaymentDTO(
                         rs.getString(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4),
                         rs.getInt(5),
-                        rs.getInt(6));
-                list.add(objReportEmpoyeeDTO);
+                        rs.getInt(6),
+                        rs.getInt(7),
+                        rs.getString(8));
+                list.add(objEmployeePaymentDTO);
             }
         }catch(Exception e){
             LOGGER.error("problemas al recuperar informacion "+e.getMessage());

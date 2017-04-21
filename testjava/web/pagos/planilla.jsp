@@ -13,7 +13,7 @@
     <jsp:body>
         <!-- Content Header (Page header) -->
         <section class="content-header">
-            <h1>Reporte Trabajadores</h1>
+            <h1>Planilla de Pagos</h1>
         </section>
         <!-- Main content -->
         <section class="content animated fadeInDown">
@@ -26,29 +26,27 @@
                                 <thead>
                                     <tr>
                                         <th>Rut</th>
-                                        <th>Nombre</th>
+                                        <th>Nombre Completo</th>
                                         <th>Perfil</th>
-                                        <th>Nombre de Obra</th>
-                                        <th>Dias Trabajados</th>
                                         <th>Horas Trabajadas</th>
                                         <th>Atrasos</th>
-                                        <th>Detalles</th>
+                                        <th>Valor Por Hora</th>
+                                        <th>Pago total</th>
+                                        <th>Forma de Pago</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach items="${tabla}" var="employeeDTO">
-                                        <c:if test="${employeeDTO.rut!=null}">
+                                    <c:forEach items="${data}" var="payment">
+                                        <c:if test="${payment.rut!=null}">
                                             <tr>
-                                                <td>${employeeDTO.rut}</td>
-                                                <td>${employeeDTO.full_name}</td>
-                                                <td>${employeeDTO.role}</td>
-                                                <td>${employeeDTO.building_site_name}</td>
-                                                <td>${employeeDTO.worked_days}</td>
-                                                <td>${employeeDTO.worked_hours}</td>
-                                                <td>${employeeDTO.delayed_entry}</td>
-                                                <td>
-                                                    <a class="btn btn-primary btn-xs btnDetalles" data-id="${usuario.id}" data-url="./individual" data-rut="${employeeDTO.rut}" data-original-title="Detalles" data-toggle="tooltip"><i class="fa fa-user"></i></a>
-                                                </td>
+                                                <td>${payment.rut}</td>
+                                                <td>${payment.full_name}</td>
+                                                <td>${payment.role}</td>
+                                                <td>${payment.worked_hours}</td>
+                                                <td>${payment.delayed_entry}</td>
+                                                <td>${payment.value_per_hour}</td>
+                                                <td>${payment.total_payment}</td>
+                                                <td>${payment.payment_method}</td>
                                             </tr>
                                         </c:if>
                                     </c:forEach>
