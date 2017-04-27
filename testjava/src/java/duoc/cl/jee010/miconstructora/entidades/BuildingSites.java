@@ -6,7 +6,6 @@
 package duoc.cl.jee010.miconstructora.entidades;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,17 +24,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author cetecom
  */
 @Entity
-@Table(name = "calendar", catalog = "constructora", schema = "")
+@Table(name = "building_sites", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Calendar.findAll", query = "SELECT c FROM Calendar c"),
-    @NamedQuery(name = "Calendar.findById", query = "SELECT c FROM Calendar c WHERE c.id = :id"),
-    @NamedQuery(name = "Calendar.findByStart", query = "SELECT c FROM Calendar c WHERE c.start = :start"),
-    @NamedQuery(name = "Calendar.findByEnd", query = "SELECT c FROM Calendar c WHERE c.end = :end"),
-    @NamedQuery(name = "Calendar.findByRut", query = "SELECT c FROM Calendar c WHERE c.rut = :rut"),
-    @NamedQuery(name = "Calendar.findByDate", query = "SELECT c FROM Calendar c WHERE c.date = :date"),
-    @NamedQuery(name = "Calendar.findByStatus", query = "SELECT c FROM Calendar c WHERE c.status = :status")})
-public class Calendar implements Serializable {
+    @NamedQuery(name = "BuildingSites.findAll", query = "SELECT b FROM BuildingSites b"),
+    @NamedQuery(name = "BuildingSites.findById", query = "SELECT b FROM BuildingSites b WHERE b.id = :id"),
+    @NamedQuery(name = "BuildingSites.findByName", query = "SELECT b FROM BuildingSites b WHERE b.name = :name"),
+    @NamedQuery(name = "BuildingSites.findByAddress", query = "SELECT b FROM BuildingSites b WHERE b.address = :address"),
+    @NamedQuery(name = "BuildingSites.findByDistrictId", query = "SELECT b FROM BuildingSites b WHERE b.districtId = :districtId"),
+    @NamedQuery(name = "BuildingSites.findByStatus", query = "SELECT b FROM BuildingSites b WHERE b.status = :status")})
+public class BuildingSites implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,37 +41,37 @@ public class Calendar implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "start")
-    @Temporal(TemporalType.TIME)
-    private Date start;
-    @Column(name = "end")
-    @Temporal(TemporalType.TIME)
-    private Date end;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rut", nullable = false)
-    private int rut;
+    @Size(min = 1, max = 150)
+    @Column(name = "name", nullable = false, length = 150)
+    private String name;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Size(min = 1, max = 150)
+    @Column(name = "address", nullable = false, length = 150)
+    private String address;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "district_id", nullable = false)
+    private int districtId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "status", nullable = false)
     private int status;
 
-    public Calendar() {
+    public BuildingSites() {
     }
 
-    public Calendar(Integer id) {
+    public BuildingSites(Integer id) {
         this.id = id;
     }
 
-    public Calendar(Integer id, int rut, Date date, int status) {
+    public BuildingSites(Integer id, String name, String address, int districtId, int status) {
         this.id = id;
-        this.rut = rut;
-        this.date = date;
+        this.name = name;
+        this.address = address;
+        this.districtId = districtId;
         this.status = status;
     }
 
@@ -86,36 +83,28 @@ public class Calendar implements Serializable {
         this.id = id;
     }
 
-    public Date getStart() {
-        return start;
+    public String getName() {
+        return name;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getEnd() {
-        return end;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getRut() {
-        return rut;
+    public int getDistrictId() {
+        return districtId;
     }
 
-    public void setRut(int rut) {
-        this.rut = rut;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDistrictId(int districtId) {
+        this.districtId = districtId;
     }
 
     public int getStatus() {
@@ -136,10 +125,10 @@ public class Calendar implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Calendar)) {
+        if (!(object instanceof BuildingSites)) {
             return false;
         }
-        Calendar other = (Calendar) object;
+        BuildingSites other = (BuildingSites) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +137,7 @@ public class Calendar implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Calendar[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.BuildingSites[ id=" + id + " ]";
     }
     
 }

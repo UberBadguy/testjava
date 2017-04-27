@@ -6,7 +6,6 @@
 package duoc.cl.jee010.miconstructora.entidades;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,9 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -26,17 +24,17 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author cetecom
  */
 @Entity
-@Table(name = "calendar", catalog = "constructora", schema = "")
+@Table(name = "pages", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Calendar.findAll", query = "SELECT c FROM Calendar c"),
-    @NamedQuery(name = "Calendar.findById", query = "SELECT c FROM Calendar c WHERE c.id = :id"),
-    @NamedQuery(name = "Calendar.findByStart", query = "SELECT c FROM Calendar c WHERE c.start = :start"),
-    @NamedQuery(name = "Calendar.findByEnd", query = "SELECT c FROM Calendar c WHERE c.end = :end"),
-    @NamedQuery(name = "Calendar.findByRut", query = "SELECT c FROM Calendar c WHERE c.rut = :rut"),
-    @NamedQuery(name = "Calendar.findByDate", query = "SELECT c FROM Calendar c WHERE c.date = :date"),
-    @NamedQuery(name = "Calendar.findByStatus", query = "SELECT c FROM Calendar c WHERE c.status = :status")})
-public class Calendar implements Serializable {
+    @NamedQuery(name = "Pages.findAll", query = "SELECT p FROM Pages p"),
+    @NamedQuery(name = "Pages.findById", query = "SELECT p FROM Pages p WHERE p.id = :id"),
+    @NamedQuery(name = "Pages.findByName", query = "SELECT p FROM Pages p WHERE p.name = :name"),
+    @NamedQuery(name = "Pages.findByPath", query = "SELECT p FROM Pages p WHERE p.path = :path"),
+    @NamedQuery(name = "Pages.findByIcon", query = "SELECT p FROM Pages p WHERE p.icon = :icon"),
+    @NamedQuery(name = "Pages.findByParent", query = "SELECT p FROM Pages p WHERE p.parent = :parent"),
+    @NamedQuery(name = "Pages.findByStatus", query = "SELECT p FROM Pages p WHERE p.status = :status")})
+public class Pages implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,37 +42,40 @@ public class Calendar implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Column(name = "start")
-    @Temporal(TemporalType.TIME)
-    private Date start;
-    @Column(name = "end")
-    @Temporal(TemporalType.TIME)
-    private Date end;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rut", nullable = false)
-    private int rut;
+    @Size(min = 1, max = 255)
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "date", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date date;
+    @Size(min = 1, max = 255)
+    @Column(name = "path", nullable = false, length = 255)
+    private String path;
+    @Size(max = 50)
+    @Column(name = "icon", length = 50)
+    private String icon;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "parent", nullable = false)
+    private int parent;
     @Basic(optional = false)
     @NotNull
     @Column(name = "status", nullable = false)
     private int status;
 
-    public Calendar() {
+    public Pages() {
     }
 
-    public Calendar(Integer id) {
+    public Pages(Integer id) {
         this.id = id;
     }
 
-    public Calendar(Integer id, int rut, Date date, int status) {
+    public Pages(Integer id, String name, String path, int parent, int status) {
         this.id = id;
-        this.rut = rut;
-        this.date = date;
+        this.name = name;
+        this.path = path;
+        this.parent = parent;
         this.status = status;
     }
 
@@ -86,36 +87,36 @@ public class Calendar implements Serializable {
         this.id = id;
     }
 
-    public Date getStart() {
-        return start;
+    public String getName() {
+        return name;
     }
 
-    public void setStart(Date start) {
-        this.start = start;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getEnd() {
-        return end;
+    public String getPath() {
+        return path;
     }
 
-    public void setEnd(Date end) {
-        this.end = end;
+    public void setPath(String path) {
+        this.path = path;
     }
 
-    public int getRut() {
-        return rut;
+    public String getIcon() {
+        return icon;
     }
 
-    public void setRut(int rut) {
-        this.rut = rut;
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
-    public Date getDate() {
-        return date;
+    public int getParent() {
+        return parent;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setParent(int parent) {
+        this.parent = parent;
     }
 
     public int getStatus() {
@@ -136,10 +137,10 @@ public class Calendar implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Calendar)) {
+        if (!(object instanceof Pages)) {
             return false;
         }
-        Calendar other = (Calendar) object;
+        Pages other = (Pages) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -148,7 +149,7 @@ public class Calendar implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Calendar[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.Pages[ id=" + id + " ]";
     }
     
 }
