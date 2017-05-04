@@ -12,12 +12,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -34,7 +38,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
     @NamedQuery(name = "Users.findByProfileId", query = "SELECT u FROM Users u WHERE u.profileId = :profileId"),
     @NamedQuery(name = "Users.findByEmployeeId", query = "SELECT u FROM Users u WHERE u.employeeId = :employeeId"),
-    @NamedQuery(name = "Users.findByStatus", query = "SELECT u FROM Users u WHERE u.status = :status")})
+    @NamedQuery(name = "Users.findByStatus", query = "SELECT u FROM Users u WHERE u.status = :status"),
+    @NamedQuery(name = "Users.authenticate", query = "SELECT NEW duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO(u,u.profileId) FROM Users u WHERE u.password = MD5(:password) AND u.login = :login")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
