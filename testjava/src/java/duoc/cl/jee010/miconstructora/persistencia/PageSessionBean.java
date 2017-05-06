@@ -5,7 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
-import duoc.cl.jee010.miconstructora.dto.UserProfileDTO;
+import duoc.cl.jee010.miconstructora.dto.PagesDTO;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -17,23 +17,24 @@ import javax.persistence.PersistenceContext;
  * @author cetecom
  */
 @Stateless
-public class UserSessionBean {
+public class PageSessionBean {
     @PersistenceContext
     private EntityManager em;
     
-    public UserProfileDTO authenticate(String login, String password) {
-        UserProfileDTO userProfilePagesDTO = null;
+    public PagesDTO getPages( int profile_id) {
+        PagesDTO pagesDTO = null;
         try {
-            userProfilePagesDTO = em.createNamedQuery("Users.authenticate", UserProfileDTO.class)
-                    .setParameter("password", password)
-                    .setParameter("login", login)
+            pagesDTO = em.createNamedQuery("ProfilesPage.findByProfile", PagesDTO.class)
+                    .setParameter("id", profile_id)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return userProfilePagesDTO;
+        return pagesDTO;
     }
-    
+
+    // Add business logic below. (Right-click in editor and choose
+    // "Insert Code > Add Business Method")
 }

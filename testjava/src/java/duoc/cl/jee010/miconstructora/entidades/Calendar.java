@@ -15,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
@@ -23,7 +22,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,7 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Calendar.findById", query = "SELECT c FROM Calendar c WHERE c.id = :id"),
     @NamedQuery(name = "Calendar.findByStart", query = "SELECT c FROM Calendar c WHERE c.start = :start"),
     @NamedQuery(name = "Calendar.findByEnd", query = "SELECT c FROM Calendar c WHERE c.end = :end"),
-    @NamedQuery(name = "Calendar.findByRut", query = "SELECT c FROM Calendar c WHERE c.rut = :rut"),
     @NamedQuery(name = "Calendar.findByDate", query = "SELECT c FROM Calendar c WHERE c.date = :date"),
     @NamedQuery(name = "Calendar.findByStatus", query = "SELECT c FROM Calendar c WHERE c.status = :status")})
 public class Calendar implements Serializable {
@@ -56,10 +53,6 @@ public class Calendar implements Serializable {
     private Date end;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "rut", nullable = false)
-    private int rut;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date date;
@@ -67,6 +60,9 @@ public class Calendar implements Serializable {
     @NotNull
     @Column(name = "status", nullable = false)
     private int status;
+    @JoinColumn(name = "rut", referencedColumnName = "rut", nullable = false)
+    @ManyToOne(optional = false)
+    private Employee rut;
 
     public Calendar() {
     }
@@ -75,9 +71,8 @@ public class Calendar implements Serializable {
         this.id = id;
     }
 
-    public Calendar(Integer id, int rut, Date date, int status) {
+    public Calendar(Integer id, Date date, int status) {
         this.id = id;
-        this.rut = rut;
         this.date = date;
         this.status = status;
     }
@@ -106,14 +101,6 @@ public class Calendar implements Serializable {
         this.end = end;
     }
 
-    public int getRut() {
-        return rut;
-    }
-
-    public void setRut(int rut) {
-        this.rut = rut;
-    }
-
     public Date getDate() {
         return date;
     }
@@ -128,6 +115,14 @@ public class Calendar implements Serializable {
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Employee getRut() {
+        return rut;
+    }
+
+    public void setRut(Employee rut) {
+        this.rut = rut;
     }
 
     @Override

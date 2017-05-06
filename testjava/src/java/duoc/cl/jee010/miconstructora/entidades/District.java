@@ -6,17 +6,17 @@
 package duoc.cl.jee010.miconstructora.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -28,14 +28,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author cetecom
  */
 @Entity
-@Table(name = "regions", catalog = "constructora", schema = "")
+@Table(name = "districts", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Regions.findAll", query = "SELECT r FROM Regions r"),
-    @NamedQuery(name = "Regions.findById", query = "SELECT r FROM Regions r WHERE r.id = :id"),
-    @NamedQuery(name = "Regions.findByName", query = "SELECT r FROM Regions r WHERE r.name = :name"),
-    @NamedQuery(name = "Regions.findByOrdinal", query = "SELECT r FROM Regions r WHERE r.ordinal = :ordinal")})
-public class Regions implements Serializable {
+    @NamedQuery(name = "District.findAll", query = "SELECT d FROM District d"),
+    @NamedQuery(name = "District.findById", query = "SELECT d FROM District d WHERE d.id = :id"),
+    @NamedQuery(name = "District.findByName", query = "SELECT d FROM District d WHERE d.name = :name"),
+    @NamedQuery(name = "District.findByProvincesId", query = "SELECT d FROM District d WHERE d.provincesId = :provincesId")})
+public class District implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -50,21 +50,22 @@ public class Regions implements Serializable {
     private String name;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 4)
-    @Column(name = "ordinal", nullable = false, length = 4)
-    private String ordinal;
+    @Column(name = "provinces_id", nullable = false)
+    private int provincesId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "districtId")
+    private List<BuildingSite> buildingSiteList;
 
-    public Regions() {
+    public District() {
     }
 
-    public Regions(Integer id) {
+    public District(Integer id) {
         this.id = id;
     }
 
-    public Regions(Integer id, String name, String ordinal) {
+    public District(Integer id, String name, int provincesId) {
         this.id = id;
         this.name = name;
-        this.ordinal = ordinal;
+        this.provincesId = provincesId;
     }
 
     public Integer getId() {
@@ -83,12 +84,21 @@ public class Regions implements Serializable {
         this.name = name;
     }
 
-    public String getOrdinal() {
-        return ordinal;
+    public int getProvincesId() {
+        return provincesId;
     }
 
-    public void setOrdinal(String ordinal) {
-        this.ordinal = ordinal;
+    public void setProvincesId(int provincesId) {
+        this.provincesId = provincesId;
+    }
+
+    @XmlTransient
+    public List<BuildingSite> getBuildingSiteList() {
+        return buildingSiteList;
+    }
+
+    public void setBuildingSiteList(List<BuildingSite> buildingSiteList) {
+        this.buildingSiteList = buildingSiteList;
     }
 
     @Override
@@ -101,10 +111,10 @@ public class Regions implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Regions)) {
+        if (!(object instanceof District)) {
             return false;
         }
-        Regions other = (Regions) object;
+        District other = (District) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -113,7 +123,7 @@ public class Regions implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Regions[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.District[ id=" + id + " ]";
     }
     
 }

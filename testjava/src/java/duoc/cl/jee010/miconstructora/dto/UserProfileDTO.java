@@ -5,8 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.dto;
 
-import duoc.cl.jee010.miconstructora.entidades.Profiles;
-import duoc.cl.jee010.miconstructora.entidades.Users;
+import duoc.cl.jee010.miconstructora.entidades.Profile;
+import duoc.cl.jee010.miconstructora.entidades.User;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -15,33 +15,33 @@ import java.util.List;
  *
  * @author amontess
  */
-public class UserProfilePagesDTO implements Serializable{
+public class UserProfileDTO implements Serializable {
     
     private static final long serialVersionUID = 1L;
-    private Users user;
-    private Profiles profile;
+    private User user;
+    private Profile profile;
 
-    public UserProfilePagesDTO() {
+    public UserProfileDTO() {
     }
 
-    public UserProfilePagesDTO(Users user, Profiles profile) {
+    public UserProfileDTO(User user, Profile profile) {
         this.user = user;
         this.profile = profile;
     }
 
-    public Users getUser() {
+    public User getUser() {
         return user;
     }
 
-    public void setUser(Users user) {
+    public void setUser(User user) {
         this.user = user;
     }
 
-    public Profiles getProfile() {
+    public Profile getProfile() {
         return profile;
     }
 
-    public void setProfile(Profiles profile) {
+    public void setProfile(Profile profile) {
         this.profile = profile;
     }
     

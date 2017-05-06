@@ -6,7 +6,9 @@
 package duoc.cl.jee010.miconstructora.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,9 +16,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,13 +33,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "building_sites", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "BuildingSites.findAll", query = "SELECT b FROM BuildingSites b"),
-    @NamedQuery(name = "BuildingSites.findById", query = "SELECT b FROM BuildingSites b WHERE b.id = :id"),
-    @NamedQuery(name = "BuildingSites.findByName", query = "SELECT b FROM BuildingSites b WHERE b.name = :name"),
-    @NamedQuery(name = "BuildingSites.findByAddress", query = "SELECT b FROM BuildingSites b WHERE b.address = :address"),
-    @NamedQuery(name = "BuildingSites.findByDistrictId", query = "SELECT b FROM BuildingSites b WHERE b.districtId = :districtId"),
-    @NamedQuery(name = "BuildingSites.findByStatus", query = "SELECT b FROM BuildingSites b WHERE b.status = :status")})
-public class BuildingSites implements Serializable {
+    @NamedQuery(name = "BuildingSite.findAll", query = "SELECT b FROM BuildingSite b"),
+    @NamedQuery(name = "BuildingSite.findById", query = "SELECT b FROM BuildingSite b WHERE b.id = :id"),
+    @NamedQuery(name = "BuildingSite.findByName", query = "SELECT b FROM BuildingSite b WHERE b.name = :name"),
+    @NamedQuery(name = "BuildingSite.findByAddress", query = "SELECT b FROM BuildingSite b WHERE b.address = :address"),
+    @NamedQuery(name = "BuildingSite.findByStatus", query = "SELECT b FROM BuildingSite b WHERE b.status = :status")})
+public class BuildingSite implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -57,25 +58,25 @@ public class BuildingSites implements Serializable {
     private String address;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "district_id", nullable = false)
-    private int districtId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "status", nullable = false)
     private int status;
+    @JoinColumn(name = "district_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private District districtId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "buildingSiteId")
+    private List<Employee> employeeList;
 
-    public BuildingSites() {
+    public BuildingSite() {
     }
 
-    public BuildingSites(Integer id) {
+    public BuildingSite(Integer id) {
         this.id = id;
     }
 
-    public BuildingSites(Integer id, String name, String address, int districtId, int status) {
+    public BuildingSite(Integer id, String name, String address, int status) {
         this.id = id;
         this.name = name;
         this.address = address;
-        this.districtId = districtId;
         this.status = status;
     }
 
@@ -103,20 +104,29 @@ public class BuildingSites implements Serializable {
         this.address = address;
     }
 
-    public int getDistrictId() {
-        return districtId;
-    }
-
-    public void setDistrictId(int districtId) {
-        this.districtId = districtId;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public District getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(District districtId) {
+        this.districtId = districtId;
+    }
+
+    @XmlTransient
+    public List<Employee> getEmployeeList() {
+        return employeeList;
+    }
+
+    public void setEmployeeList(List<Employee> employeeList) {
+        this.employeeList = employeeList;
     }
 
     @Override
@@ -129,10 +139,10 @@ public class BuildingSites implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof BuildingSites)) {
+        if (!(object instanceof BuildingSite)) {
             return false;
         }
-        BuildingSites other = (BuildingSites) object;
+        BuildingSite other = (BuildingSite) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -141,7 +151,7 @@ public class BuildingSites implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.BuildingSites[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.BuildingSite[ id=" + id + " ]";
     }
     
 }

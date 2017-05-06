@@ -7,7 +7,9 @@ package duoc.cl.jee010.miconstructora.entidades;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,9 +17,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,21 +36,20 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "employees", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Employees.findAll", query = "SELECT e FROM Employees e"),
-    @NamedQuery(name = "Employees.findById", query = "SELECT e FROM Employees e WHERE e.id = :id"),
-    @NamedQuery(name = "Employees.findByRut", query = "SELECT e FROM Employees e WHERE e.rut = :rut"),
-    @NamedQuery(name = "Employees.findByDv", query = "SELECT e FROM Employees e WHERE e.dv = :dv"),
-    @NamedQuery(name = "Employees.findByName", query = "SELECT e FROM Employees e WHERE e.name = :name"),
-    @NamedQuery(name = "Employees.findByLastName", query = "SELECT e FROM Employees e WHERE e.lastName = :lastName"),
-    @NamedQuery(name = "Employees.findByBirthDate", query = "SELECT e FROM Employees e WHERE e.birthDate = :birthDate"),
-    @NamedQuery(name = "Employees.findByGender", query = "SELECT e FROM Employees e WHERE e.gender = :gender"),
-    @NamedQuery(name = "Employees.findByBuildingSiteId", query = "SELECT e FROM Employees e WHERE e.buildingSiteId = :buildingSiteId"),
-    @NamedQuery(name = "Employees.findByPaymentMethod", query = "SELECT e FROM Employees e WHERE e.paymentMethod = :paymentMethod"),
-    @NamedQuery(name = "Employees.findByAccountNumber", query = "SELECT e FROM Employees e WHERE e.accountNumber = :accountNumber"),
-    @NamedQuery(name = "Employees.findByBank", query = "SELECT e FROM Employees e WHERE e.bank = :bank"),
-    @NamedQuery(name = "Employees.findByValuePerHour", query = "SELECT e FROM Employees e WHERE e.valuePerHour = :valuePerHour"),
-    @NamedQuery(name = "Employees.findByStatus", query = "SELECT e FROM Employees e WHERE e.status = :status")})
-public class Employees implements Serializable {
+    @NamedQuery(name = "Employee.findAll", query = "SELECT e FROM Employee e"),
+    @NamedQuery(name = "Employee.findById", query = "SELECT e FROM Employee e WHERE e.id = :id"),
+    @NamedQuery(name = "Employee.findByRut", query = "SELECT e FROM Employee e WHERE e.rut = :rut"),
+    @NamedQuery(name = "Employee.findByDv", query = "SELECT e FROM Employee e WHERE e.dv = :dv"),
+    @NamedQuery(name = "Employee.findByName", query = "SELECT e FROM Employee e WHERE e.name = :name"),
+    @NamedQuery(name = "Employee.findByLastName", query = "SELECT e FROM Employee e WHERE e.lastName = :lastName"),
+    @NamedQuery(name = "Employee.findByBirthDate", query = "SELECT e FROM Employee e WHERE e.birthDate = :birthDate"),
+    @NamedQuery(name = "Employee.findByGender", query = "SELECT e FROM Employee e WHERE e.gender = :gender"),
+    @NamedQuery(name = "Employee.findByPaymentMethod", query = "SELECT e FROM Employee e WHERE e.paymentMethod = :paymentMethod"),
+    @NamedQuery(name = "Employee.findByAccountNumber", query = "SELECT e FROM Employee e WHERE e.accountNumber = :accountNumber"),
+    @NamedQuery(name = "Employee.findByBank", query = "SELECT e FROM Employee e WHERE e.bank = :bank"),
+    @NamedQuery(name = "Employee.findByValuePerHour", query = "SELECT e FROM Employee e WHERE e.valuePerHour = :valuePerHour"),
+    @NamedQuery(name = "Employee.findByStatus", query = "SELECT e FROM Employee e WHERE e.status = :status")})
+public class Employee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -87,10 +88,6 @@ public class Employees implements Serializable {
     private String gender;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "building_site_id", nullable = false)
-    private int buildingSiteId;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 60)
     @Column(name = "payment_method", nullable = false, length = 60)
     private String paymentMethod;
@@ -107,15 +104,22 @@ public class Employees implements Serializable {
     @NotNull
     @Column(name = "status", nullable = false)
     private int status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rut")
+    private List<Calendar> calendarList;
+    @JoinColumn(name = "building_site_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private BuildingSite buildingSiteId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employeeId")
+    private List<User> userList;
 
-    public Employees() {
+    public Employee() {
     }
 
-    public Employees(Integer id) {
+    public Employee(Integer id) {
         this.id = id;
     }
 
-    public Employees(Integer id, int rut, String dv, String name, String lastName, Date birthDate, String gender, int buildingSiteId, String paymentMethod, int valuePerHour, int status) {
+    public Employee(Integer id, int rut, String dv, String name, String lastName, Date birthDate, String gender, String paymentMethod, int valuePerHour, int status) {
         this.id = id;
         this.rut = rut;
         this.dv = dv;
@@ -123,7 +127,6 @@ public class Employees implements Serializable {
         this.lastName = lastName;
         this.birthDate = birthDate;
         this.gender = gender;
-        this.buildingSiteId = buildingSiteId;
         this.paymentMethod = paymentMethod;
         this.valuePerHour = valuePerHour;
         this.status = status;
@@ -185,14 +188,6 @@ public class Employees implements Serializable {
         this.gender = gender;
     }
 
-    public int getBuildingSiteId() {
-        return buildingSiteId;
-    }
-
-    public void setBuildingSiteId(int buildingSiteId) {
-        this.buildingSiteId = buildingSiteId;
-    }
-
     public String getPaymentMethod() {
         return paymentMethod;
     }
@@ -233,6 +228,32 @@ public class Employees implements Serializable {
         this.status = status;
     }
 
+    @XmlTransient
+    public List<Calendar> getCalendarList() {
+        return calendarList;
+    }
+
+    public void setCalendarList(List<Calendar> calendarList) {
+        this.calendarList = calendarList;
+    }
+
+    public BuildingSite getBuildingSiteId() {
+        return buildingSiteId;
+    }
+
+    public void setBuildingSiteId(BuildingSite buildingSiteId) {
+        this.buildingSiteId = buildingSiteId;
+    }
+
+    @XmlTransient
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -243,10 +264,10 @@ public class Employees implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Employees)) {
+        if (!(object instanceof Employee)) {
             return false;
         }
-        Employees other = (Employees) object;
+        Employee other = (Employee) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -255,7 +276,7 @@ public class Employees implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Employees[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.Employee[ id=" + id + " ]";
     }
     
 }

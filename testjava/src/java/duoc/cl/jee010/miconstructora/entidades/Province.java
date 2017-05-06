@@ -12,30 +12,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author cetecom
  */
 @Entity
-@Table(name = "profiles", catalog = "constructora", schema = "")
+@Table(name = "provinces", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Profiles.findAll", query = "SELECT p FROM Profiles p"),
-    @NamedQuery(name = "Profiles.findById", query = "SELECT p FROM Profiles p WHERE p.id = :id"),
-    @NamedQuery(name = "Profiles.findByName", query = "SELECT p FROM Profiles p WHERE p.name = :name"),
-    @NamedQuery(name = "Profiles.findByStatus", query = "SELECT p FROM Profiles p WHERE p.status = :status")})
-public class Profiles implements Serializable {
+    @NamedQuery(name = "Province.findAll", query = "SELECT p FROM Province p"),
+    @NamedQuery(name = "Province.findById", query = "SELECT p FROM Province p WHERE p.id = :id"),
+    @NamedQuery(name = "Province.findByName", query = "SELECT p FROM Province p WHERE p.name = :name"),
+    @NamedQuery(name = "Province.findByRegionId", query = "SELECT p FROM Province p WHERE p.regionId = :regionId")})
+public class Province implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,25 +41,25 @@ public class Profiles implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 60)
-    @Column(name = "name", nullable = false, length = 60)
+    @Size(min = 1, max = 64)
+    @Column(name = "name", nullable = false, length = 64)
     private String name;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "status", nullable = false)
-    private int status;
+    @Column(name = "region_id", nullable = false)
+    private int regionId;
 
-    public Profiles() {
+    public Province() {
     }
 
-    public Profiles(Integer id) {
+    public Province(Integer id) {
         this.id = id;
     }
 
-    public Profiles(Integer id, String name, int status) {
+    public Province(Integer id, String name, int regionId) {
         this.id = id;
         this.name = name;
-        this.status = status;
+        this.regionId = regionId;
     }
 
     public Integer getId() {
@@ -82,12 +78,12 @@ public class Profiles implements Serializable {
         this.name = name;
     }
 
-    public int getStatus() {
-        return status;
+    public int getRegionId() {
+        return regionId;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setRegionId(int regionId) {
+        this.regionId = regionId;
     }
 
     @Override
@@ -100,10 +96,10 @@ public class Profiles implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Profiles)) {
+        if (!(object instanceof Province)) {
             return false;
         }
-        Profiles other = (Profiles) object;
+        Province other = (Province) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +108,7 @@ public class Profiles implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Profiles[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.Province[ id=" + id + " ]";
     }
     
 }

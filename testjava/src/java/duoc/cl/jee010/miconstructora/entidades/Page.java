@@ -6,17 +6,17 @@
 package duoc.cl.jee010.miconstructora.entidades;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -31,14 +31,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "pages", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Pages.findAll", query = "SELECT p FROM Pages p"),
-    @NamedQuery(name = "Pages.findById", query = "SELECT p FROM Pages p WHERE p.id = :id"),
-    @NamedQuery(name = "Pages.findByName", query = "SELECT p FROM Pages p WHERE p.name = :name"),
-    @NamedQuery(name = "Pages.findByPath", query = "SELECT p FROM Pages p WHERE p.path = :path"),
-    @NamedQuery(name = "Pages.findByIcon", query = "SELECT p FROM Pages p WHERE p.icon = :icon"),
-    @NamedQuery(name = "Pages.findByParent", query = "SELECT p FROM Pages p WHERE p.parent = :parent"),
-    @NamedQuery(name = "Pages.findByStatus", query = "SELECT p FROM Pages p WHERE p.status = :status")})
-public class Pages implements Serializable {
+    @NamedQuery(name = "Page.findAll", query = "SELECT p FROM Page p"),
+    @NamedQuery(name = "Page.findById", query = "SELECT p FROM Page p WHERE p.id = :id"),
+    @NamedQuery(name = "Page.findByName", query = "SELECT p FROM Page p WHERE p.name = :name"),
+    @NamedQuery(name = "Page.findByPath", query = "SELECT p FROM Page p WHERE p.path = :path"),
+    @NamedQuery(name = "Page.findByIcon", query = "SELECT p FROM Page p WHERE p.icon = :icon"),
+    @NamedQuery(name = "Page.findByParent", query = "SELECT p FROM Page p WHERE p.parent = :parent"),
+    @NamedQuery(name = "Page.findByStatus", query = "SELECT p FROM Page p WHERE p.status = :status")})
+public class Page implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -67,15 +67,17 @@ public class Pages implements Serializable {
     @NotNull
     @Column(name = "status", nullable = false)
     private int status;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "pageId")
+    private List<ProfilesPage> profilesPageList;
 
-    public Pages() {
+    public Page() {
     }
 
-    public Pages(Integer id) {
+    public Page(Integer id) {
         this.id = id;
     }
 
-    public Pages(Integer id, String name, String path, int parent, int status) {
+    public Page(Integer id, String name, String path, int parent, int status) {
         this.id = id;
         this.name = name;
         this.path = path;
@@ -131,6 +133,15 @@ public class Pages implements Serializable {
         this.status = status;
     }
 
+    @XmlTransient
+    public List<ProfilesPage> getProfilesPageList() {
+        return profilesPageList;
+    }
+
+    public void setProfilesPageList(List<ProfilesPage> profilesPageList) {
+        this.profilesPageList = profilesPageList;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -141,10 +152,10 @@ public class Pages implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pages)) {
+        if (!(object instanceof Page)) {
             return false;
         }
-        Pages other = (Pages) object;
+        Page other = (Page) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -153,7 +164,7 @@ public class Pages implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Pages[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.Page[ id=" + id + " ]";
     }
     
 }

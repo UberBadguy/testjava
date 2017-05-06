@@ -14,14 +14,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,16 +29,14 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "users", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u"),
-    @NamedQuery(name = "Users.findById", query = "SELECT u FROM Users u WHERE u.id = :id"),
-    @NamedQuery(name = "Users.findByLogin", query = "SELECT u FROM Users u WHERE u.login = :login"),
-    @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password"),
-    @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email"),
-    @NamedQuery(name = "Users.findByProfileId", query = "SELECT u FROM Users u WHERE u.profileId = :profileId"),
-    @NamedQuery(name = "Users.findByEmployeeId", query = "SELECT u FROM Users u WHERE u.employeeId = :employeeId"),
-    @NamedQuery(name = "Users.findByStatus", query = "SELECT u FROM Users u WHERE u.status = :status"),
-    @NamedQuery(name = "Users.authenticate", query = "SELECT NEW duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO(u,u.profileId) FROM Users u WHERE u.password = MD5(:password) AND u.login = :login")})
-public class Users implements Serializable {
+    @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+    @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
+    @NamedQuery(name = "User.findByLogin", query = "SELECT u FROM User u WHERE u.login = :login"),
+    @NamedQuery(name = "User.findByPassword", query = "SELECT u FROM User u WHERE u.password = :password"),
+    @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
+    @NamedQuery(name = "User.findByStatus", query = "SELECT u FROM User u WHERE u.status = :status"),
+    @NamedQuery(name = "User.authenticate", query = "SELECT NEW duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO(u,u.profileId) FROM User u WHERE u.password = MD5(:password) AND u.login = :login")})
+public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -66,31 +62,27 @@ public class Users implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "profile_id", nullable = false)
-    private int profileId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "employee_id", nullable = false)
-    private int employeeId;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "status", nullable = false)
     private int status;
+    @JoinColumn(name = "employee_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Employee employeeId;
+    @JoinColumn(name = "profile_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Profile profileId;
 
-    public Users() {
+    public User() {
     }
 
-    public Users(Integer id) {
+    public User(Integer id) {
         this.id = id;
     }
 
-    public Users(Integer id, String login, String password, String email, int profileId, int employeeId, int status) {
+    public User(Integer id, String login, String password, String email, int status) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.email = email;
-        this.profileId = profileId;
-        this.employeeId = employeeId;
         this.status = status;
     }
 
@@ -126,28 +118,28 @@ public class Users implements Serializable {
         this.email = email;
     }
 
-    public int getProfileId() {
-        return profileId;
-    }
-
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
-    }
-
-    public int getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(int employeeId) {
-        this.employeeId = employeeId;
-    }
-
     public int getStatus() {
         return status;
     }
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public Employee getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Employee employeeId) {
+        this.employeeId = employeeId;
+    }
+
+    public Profile getProfileId() {
+        return profileId;
+    }
+
+    public void setProfileId(Profile profileId) {
+        this.profileId = profileId;
     }
 
     @Override
@@ -160,10 +152,10 @@ public class Users implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Users)) {
+        if (!(object instanceof User)) {
             return false;
         }
-        Users other = (Users) object;
+        User other = (User) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -172,7 +164,7 @@ public class Users implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Users[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.User[ id=" + id + " ]";
     }
     
 }

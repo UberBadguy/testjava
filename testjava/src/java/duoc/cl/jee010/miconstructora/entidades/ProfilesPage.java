@@ -14,28 +14,23 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author cetecom
  */
 @Entity
-@Table(name = "districts", catalog = "constructora", schema = "")
+@Table(name = "profiles_pages", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Districts.findAll", query = "SELECT d FROM Districts d"),
-    @NamedQuery(name = "Districts.findById", query = "SELECT d FROM Districts d WHERE d.id = :id"),
-    @NamedQuery(name = "Districts.findByName", query = "SELECT d FROM Districts d WHERE d.name = :name"),
-    @NamedQuery(name = "Districts.findByProvincesId", query = "SELECT d FROM Districts d WHERE d.provincesId = :provincesId")})
-public class Districts implements Serializable {
+    @NamedQuery(name = "ProfilesPage.findByProfile", query = "SELECT p FROM ProfilesPage p WHERE p.profileId = :id"),
+    @NamedQuery(name = "ProfilesPage.findAll", query = "SELECT p FROM ProfilesPage p"),
+    @NamedQuery(name = "ProfilesPage.findById", query = "SELECT p FROM ProfilesPage p WHERE p.id = :id")})
+public class ProfilesPage implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -43,27 +38,18 @@ public class Districts implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 64)
-    @Column(name = "name", nullable = false, length = 64)
-    private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "provinces_id", nullable = false)
-    private int provincesId;
+    @JoinColumn(name = "profile_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Profile profileId;
+    @JoinColumn(name = "page_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false)
+    private Page pageId;
 
-    public Districts() {
+    public ProfilesPage() {
     }
 
-    public Districts(Integer id) {
+    public ProfilesPage(Integer id) {
         this.id = id;
-    }
-
-    public Districts(Integer id, String name, int provincesId) {
-        this.id = id;
-        this.name = name;
-        this.provincesId = provincesId;
     }
 
     public Integer getId() {
@@ -74,20 +60,20 @@ public class Districts implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Profile getProfileId() {
+        return profileId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProfileId(Profile profileId) {
+        this.profileId = profileId;
     }
 
-    public int getProvincesId() {
-        return provincesId;
+    public Page getPageId() {
+        return pageId;
     }
 
-    public void setProvincesId(int provincesId) {
-        this.provincesId = provincesId;
+    public void setPageId(Page pageId) {
+        this.pageId = pageId;
     }
 
     @Override
@@ -100,10 +86,10 @@ public class Districts implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Districts)) {
+        if (!(object instanceof ProfilesPage)) {
             return false;
         }
-        Districts other = (Districts) object;
+        ProfilesPage other = (ProfilesPage) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -112,7 +98,7 @@ public class Districts implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.Districts[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.ProfilesPage[ id=" + id + " ]";
     }
     
 }

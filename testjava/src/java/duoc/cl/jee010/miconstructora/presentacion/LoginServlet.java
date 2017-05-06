@@ -5,7 +5,9 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion;
 
-import duoc.cl.jee010.miconstructora.dto.UserProfilePagesDTO;
+import duoc.cl.jee010.miconstructora.dto.PagesDTO;
+import duoc.cl.jee010.miconstructora.dto.UserProfileDTO;
+import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
 import duoc.cl.jee010.miconstructora.persistencia.UserSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
@@ -29,6 +31,7 @@ public class LoginServlet extends HttpServlet{
     
     @EJB
     private UserSessionBean userSessionBean;
+    private PageSessionBean pageSessionBean;
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
@@ -59,13 +62,14 @@ public class LoginServlet extends HttpServlet{
         HttpSession session = request.getSession();
         String login = request.getParameter("login");
         String password = request.getParameter("password");
-        UserProfilePagesDTO user = userSessionBean.authenticate(login, password);
+        UserProfileDTO user = userSessionBean.authenticate(login, password);
         if (user == null) {
             this.log.getLogger().warn("Intento de autenticacion fallido.");
             view("/login.jsp", request, response);
         } else {
+            PagesDTO pages = pageSessionBean.getPages(user.getProfile().getId());
             session.setAttribute("user", user);
-            session.setAttribute("pageList", user.getPages());
+            session.setAttribute("pageList", pages);
             response.sendRedirect("./perfil");
         }
     }

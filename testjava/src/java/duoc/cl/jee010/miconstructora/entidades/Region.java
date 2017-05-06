@@ -12,29 +12,26 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author cetecom
  */
 @Entity
-@Table(name = "profiles_pages", catalog = "constructora", schema = "")
+@Table(name = "regions", catalog = "constructora", schema = "")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ProfilesPages.findAll", query = "SELECT p FROM ProfilesPages p"),
-    @NamedQuery(name = "ProfilesPages.findById", query = "SELECT p FROM ProfilesPages p WHERE p.id = :id"),
-    @NamedQuery(name = "ProfilesPages.findByProfileId", query = "SELECT p FROM ProfilesPages p WHERE p.profileId = :profileId"),
-    @NamedQuery(name = "ProfilesPages.findByPageId", query = "SELECT p FROM ProfilesPages p WHERE p.pageId = :pageId")})
-public class ProfilesPages implements Serializable {
+    @NamedQuery(name = "Region.findAll", query = "SELECT r FROM Region r"),
+    @NamedQuery(name = "Region.findById", query = "SELECT r FROM Region r WHERE r.id = :id"),
+    @NamedQuery(name = "Region.findByName", query = "SELECT r FROM Region r WHERE r.name = :name"),
+    @NamedQuery(name = "Region.findByOrdinal", query = "SELECT r FROM Region r WHERE r.ordinal = :ordinal")})
+public class Region implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -44,24 +41,26 @@ public class ProfilesPages implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "profile_id", nullable = false)
-    private int profileId;
+    @Size(min = 1, max = 64)
+    @Column(name = "name", nullable = false, length = 64)
+    private String name;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "page_id", nullable = false)
-    private int pageId;
+    @Size(min = 1, max = 4)
+    @Column(name = "ordinal", nullable = false, length = 4)
+    private String ordinal;
 
-    public ProfilesPages() {
+    public Region() {
     }
 
-    public ProfilesPages(Integer id) {
+    public Region(Integer id) {
         this.id = id;
     }
 
-    public ProfilesPages(Integer id, int profileId, int pageId) {
+    public Region(Integer id, String name, String ordinal) {
         this.id = id;
-        this.profileId = profileId;
-        this.pageId = pageId;
+        this.name = name;
+        this.ordinal = ordinal;
     }
 
     public Integer getId() {
@@ -72,20 +71,20 @@ public class ProfilesPages implements Serializable {
         this.id = id;
     }
 
-    public int getProfileId() {
-        return profileId;
+    public String getName() {
+        return name;
     }
 
-    public void setProfileId(int profileId) {
-        this.profileId = profileId;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public int getPageId() {
-        return pageId;
+    public String getOrdinal() {
+        return ordinal;
     }
 
-    public void setPageId(int pageId) {
-        this.pageId = pageId;
+    public void setOrdinal(String ordinal) {
+        this.ordinal = ordinal;
     }
 
     @Override
@@ -98,10 +97,10 @@ public class ProfilesPages implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ProfilesPages)) {
+        if (!(object instanceof Region)) {
             return false;
         }
-        ProfilesPages other = (ProfilesPages) object;
+        Region other = (Region) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +109,7 @@ public class ProfilesPages implements Serializable {
 
     @Override
     public String toString() {
-        return "duoc.cl.jee010.miconstructora.entidades.ProfilesPages[ id=" + id + " ]";
+        return "duoc.cl.jee010.miconstructora.entidades.Region[ id=" + id + " ]";
     }
     
 }
