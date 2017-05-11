@@ -5,15 +5,23 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.users;
 
+import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
+import duoc.cl.jee010.miconstructora.dto.ProfilesDTO;
+import duoc.cl.jee010.miconstructora.dto.UsersDTO;
 import duoc.cl.jee010.miconstructora.entidades.Employee;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
 import duoc.cl.jee010.miconstructora.entidades.User;
 import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
 import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
 import duoc.cl.jee010.miconstructora.negocio.UserBO;
+import duoc.cl.jee010.miconstructora.persistencia.EmployeeSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.ProfileSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.UserSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +37,12 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AllInsertUsersServlet", urlPatterns = {"/mantenedores/usuarios/"})
 public class AllInsertUsersServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    
+    @EJB
+    private UserSessionBean userSessionBean;
+    private ProfileSessionBean profileSessionBean;
+    private EmployeeSessionBean employeeSessionBean;
+    private PageSessionBean pageSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -42,22 +56,19 @@ public class AllInsertUsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UserBO userBO = new UserBO();
-        ProfileBO profileBO = new ProfileBO();
-        EmployeeBO employeeBo = new EmployeeBO();
-        List<User> listado = null;
-        List<Profile> profiles = null;
-        List<Employee> employees = null;
+        UsersDTO usersDTO = null;
+        ProfilesDTO profileDTO = null;
+        EmployeesDTO employeesDTO = null;
         try {
-            listado = userBO.getAllUser();
-            profiles = profileBO.getAllProfile();
-            employees = employeeBo.getAllAvailableEmployees();
+            usersDTO = userSessionBean.allUsers();
+            profileDTO = profileSessionBean.allProfiles();
+            employeesDTO = employeeSessionBean.allEmployees();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
-        session.setAttribute("profiles", profiles);
-        session.setAttribute("employees", employees);
-        session.setAttribute("listado", listado);
+        session.setAttribute("profiles", profileDTO);
+        session.setAttribute("employees", employeesDTO);
+        session.setAttribute("listado", usersDTO);
         view("/mantenedores/usuarios/listado.jsp", request, response);
     }
 
