@@ -5,8 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
-import duoc.cl.jee010.miconstructora.dto.EmployeeDTO;
-import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
+import duoc.cl.jee010.miconstructora.dto.RegionDTO;
+import duoc.cl.jee010.miconstructora.dto.RegionsDTO;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -18,27 +18,27 @@ import javax.persistence.PersistenceContext;
  * @author cetecom
  */
 @Stateless
-public class EmployeeSessionBean {
+public class RegionSessionBean {
     @PersistenceContext
     private EntityManager em;
-    
-    public EmployeesDTO allEmployees() {
-        EmployeesDTO employeesDTO = null;
+
+    public RegionsDTO allRegions() {
+        RegionsDTO regionsDTO = null;
         try {
-            employeesDTO = em.createNamedQuery("Employee.findAll", EmployeesDTO.class)
-                    .getSingleResult();
+            regionsDTO = em.createNamedQuery("Region.findAll", RegionsDTO.class)
+                    .getSingleResult(); 
         } catch (NoResultException e) {
             return null;
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeesDTO;
+        return regionsDTO;
     }
     
-    public EmployeeDTO getUser(int id){
-        EmployeeDTO employeeDTO = null;
+    public RegionDTO getRegion(int id){
+        RegionDTO regionDTO = null;
         try {
-            employeeDTO = em.createNamedQuery("Employee.findById", EmployeeDTO.class)
+            regionDTO = em.createNamedQuery("Region.findById", RegionDTO.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -46,6 +46,6 @@ public class EmployeeSessionBean {
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeeDTO;
+        return regionDTO;
     }
 }

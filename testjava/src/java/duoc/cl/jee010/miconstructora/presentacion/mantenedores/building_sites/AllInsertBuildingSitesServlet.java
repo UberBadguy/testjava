@@ -5,13 +5,20 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.building_sites;
 
+import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
+import duoc.cl.jee010.miconstructora.dto.RegionsDTO;
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Region;
 import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
 import duoc.cl.jee010.miconstructora.negocio.RegionBO;
+import duoc.cl.jee010.miconstructora.persistencia.BuildingSiteSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.RegionSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.UserSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -27,6 +34,10 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AllInsertBuildingSitesServlet", urlPatterns = {"/mantenedores/obras"})
 public class AllInsertBuildingSitesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    
+    @EJB
+    private BuildingSiteSessionBean buildingSiteSessionBean;
+    private RegionSessionBean regionSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -40,17 +51,15 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
-        RegionBO regionBO = new RegionBO();
-        List<Region> regions = null;
-        List<BuildingSite> listado = null;
+        BuildingSitesDTO buildingSite;
+        RegionsDTO regions;
         try{
-            regions = regionBO.listadoRegiones();
-            listado = buildingSiteBO.getAllBuildingSite(); 
+            buildingSite = buildingSiteSessionBean.allBuildingSites();
+            regions = regionSessionBean.allRegions();
         }catch (Exception e){
             this.log.getLogger().warn("Fallo al solicitar la informacion. "+e.getMessage());
         }
-        session.setAttribute("listado", listado);
+        session.setAttribute("listado", buildingSite);
         session.setAttribute("regions", regions);
         view("/mantenedores/obras/listado.jsp", request, response);
     }

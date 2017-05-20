@@ -5,8 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
-import duoc.cl.jee010.miconstructora.dto.EmployeeDTO;
-import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
+import duoc.cl.jee010.miconstructora.dto.BuildingSiteDTO;
+import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -18,27 +18,28 @@ import javax.persistence.PersistenceContext;
  * @author cetecom
  */
 @Stateless
-public class EmployeeSessionBean {
+public class BuildingSiteSessionBean {
     @PersistenceContext
     private EntityManager em;
-    
-    public EmployeesDTO allEmployees() {
-        EmployeesDTO employeesDTO = null;
+
+
+    public BuildingSitesDTO allBuildingSites() {
+        BuildingSitesDTO usersDTO = null;
         try {
-            employeesDTO = em.createNamedQuery("Employee.findAll", EmployeesDTO.class)
-                    .getSingleResult();
+            usersDTO = em.createNamedQuery("BuildingSite.findAll", BuildingSitesDTO.class)
+                    .getSingleResult(); 
         } catch (NoResultException e) {
             return null;
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeesDTO;
+        return usersDTO;
     }
     
-    public EmployeeDTO getUser(int id){
-        EmployeeDTO employeeDTO = null;
+    public BuildingSiteDTO getUser(int id){
+        BuildingSiteDTO buildingSiteDTO = null;
         try {
-            employeeDTO = em.createNamedQuery("Employee.findById", EmployeeDTO.class)
+            buildingSiteDTO = em.createNamedQuery("BuildingSite.findById", BuildingSiteDTO.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -46,6 +47,6 @@ public class EmployeeSessionBean {
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeeDTO;
+        return buildingSiteDTO;
     }
 }
