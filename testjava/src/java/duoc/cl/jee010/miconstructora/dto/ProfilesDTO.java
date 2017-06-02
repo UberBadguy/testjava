@@ -17,12 +17,17 @@ public class ProfilesDTO implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private List<Profile> profiles;
+    private Profile profile;
 
     public ProfilesDTO() {
     }
 
     public ProfilesDTO(List<Profile> profiles) {
         this.profiles = profiles;
+    }
+
+    public ProfilesDTO(Profile profile) {
+        this.profile = profile;
     }
 
     public List<Profile> getProfiles() {
@@ -32,5 +37,19 @@ public class ProfilesDTO implements Serializable {
     public void setProfiles(List<Profile> profiles) {
         this.profiles = profiles;
     }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfilesDTO{" + "profile=" + profile + '}';
+    }
+    
     
 }

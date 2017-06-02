@@ -23,7 +23,7 @@ public class ProvinceSessionBean {
     private EntityManager em;
 
 
-    public ProvincesDTO allBuildingSites() {
+    public ProvincesDTO allProvinces() {
         ProvincesDTO provincesDTO = null;
         try {
             provincesDTO = em.createNamedQuery("Province.findAll", ProvincesDTO.class)
@@ -36,7 +36,7 @@ public class ProvinceSessionBean {
         return provincesDTO;
     }
     
-    public ProvinceDTO getUser(int id){
+    public ProvinceDTO getProvince(int id){
         ProvinceDTO provinceDTO = null;
         try {
             provinceDTO = em.createNamedQuery("Province.findById", ProvinceDTO.class)

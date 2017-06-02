@@ -119,7 +119,7 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
-    public Employee(Integer id, int rut, String dv, String name, String lastName, Date birthDate, String gender, String paymentMethod, int valuePerHour, int status) {
+    public Employee(Integer id, int rut, String dv, String name, String lastName, Date birthDate, String gender, String paymentMethod, int valuePerHour, String bank, int accountNumber, int status) {
         this.id = id;
         this.rut = rut;
         this.dv = dv;
@@ -129,6 +129,8 @@ public class Employee implements Serializable {
         this.gender = gender;
         this.paymentMethod = paymentMethod;
         this.valuePerHour = valuePerHour;
+        this.bank = bank;
+        this.accountNumber = accountNumber;
         this.status = status;
     }
 

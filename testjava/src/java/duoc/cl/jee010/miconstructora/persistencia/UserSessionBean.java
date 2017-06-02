@@ -5,7 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
-import duoc.cl.jee010.miconstructora.dto.UserDTO;
+import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
+import duoc.cl.jee010.miconstructora.dto.ProfilesDTO;
 import duoc.cl.jee010.miconstructora.dto.UserProfileDTO;
 import duoc.cl.jee010.miconstructora.dto.UsersDTO;
 import duoc.cl.jee010.miconstructora.entidades.User;
@@ -52,10 +53,10 @@ public class UserSessionBean {
         return usersDTO;
     }
     
-    public UserDTO getUser(int id){
-        UserDTO userDTO = null;
+    public UsersDTO getUser(int id){
+        UsersDTO userDTO = null;
         try {
-            userDTO = em.createNamedQuery("User.findById", UserDTO.class)
+            userDTO = em.createNamedQuery("User.findById", UsersDTO.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -64,5 +65,37 @@ public class UserSessionBean {
             throw e;
         }
         return userDTO;
+    }
+    
+    public User createUser(Integer id, String login, String password, String email, int status, EmployeesDTO employee, ProfilesDTO profile){
+        User user = new User(id, login, password, email, status);
+        user.setEmployeeId(employee.getEmployee());
+        user.setProfileId(profile.getProfile());
+        
+        return user;
+    }
+    
+    public boolean updateUser(UsersDTO userDTO) {
+        User user = userDTO.getUser();
+        try {
+            em.merge(user);
+        } catch (NoResultException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean addUser(UsersDTO userDTO) {
+        User user = userDTO.getUser();
+        try {
+            em.persist(user);
+        } catch (NoResultException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
     }
 }

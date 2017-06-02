@@ -33,4 +33,18 @@ public class ProfileSessionBean {
         }
         return profilesDTO;
     }
+    
+    public ProfilesDTO getProfile(int id){
+        ProfilesDTO profile = null;
+        try {
+            profile = em.createNamedQuery("BuildingSite.findById", ProfilesDTO.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (NonUniqueResultException e) {
+            throw e;
+        }
+        return profile;
+    }
 }

@@ -5,11 +5,8 @@
  */
 package duoc.cl.jee010.miconstructora.dto;
 
-import duoc.cl.jee010.miconstructora.entidades.Profile;
 import duoc.cl.jee010.miconstructora.entidades.User;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 
 /**
  *

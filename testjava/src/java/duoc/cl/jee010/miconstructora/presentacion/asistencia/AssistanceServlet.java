@@ -5,11 +5,11 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.asistencia;
 
-import duoc.cl.jee010.miconstructora.entidades.Calendar;
-import duoc.cl.jee010.miconstructora.negocio.CalendarBO;
+import duoc.cl.jee010.miconstructora.dto.CalendarDTO;
+import duoc.cl.jee010.miconstructora.persistencia.CalendarSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +25,11 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AssistanceServlet", urlPatterns = {"/asistencia/ver-asistencia"})
 public class AssistanceServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private CalendarDTO calendar;
+    
+    @EJB
+    private CalendarSessionBean calendarSessionBean;
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,14 +43,12 @@ public class AssistanceServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        CalendarBO calendarBO = new CalendarBO();
-        List<Calendar> listado = null;
         try {
-            listado = calendarBO.getAllCalendar();
+            this.calendar = calendarSessionBean.allCalendar();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
-        session.setAttribute("listado", listado);
+        session.setAttribute("listado", this.calendar.getCalendars());
         view("/asistencia/listado.jsp", request, response);
     }
 

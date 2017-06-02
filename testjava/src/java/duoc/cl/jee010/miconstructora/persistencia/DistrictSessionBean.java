@@ -24,7 +24,7 @@ public class DistrictSessionBean {
     private EntityManager em;
     
 
-    public DistrictsDTO allBuildingSites() {
+    public DistrictsDTO allDistricts() {
         DistrictsDTO districtsDTO = null;
         try {
             districtsDTO = em.createNamedQuery("District.findAll", DistrictsDTO.class)
@@ -37,7 +37,7 @@ public class DistrictSessionBean {
         return districtsDTO;
     }
     
-    public DistrictDTO getUser(int id){
+    public DistrictDTO getDistrict(int id){
         DistrictDTO districtDTO = null;
         try {
             districtDTO = em.createNamedQuery("District.findById", DistrictDTO.class)

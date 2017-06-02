@@ -5,10 +5,11 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.users;
 
-import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.negocio.UserBO;
+import duoc.cl.jee010.miconstructora.dto.UsersDTO;
+import duoc.cl.jee010.miconstructora.persistencia.UserSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,11 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "UpdateServlet", urlPatterns = {"/mantenedores/usuarios/update"})
 public class UpdateUsersServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    
+    @EJB
+    private UserSessionBean userSessionBean;
+    
+    private UsersDTO users;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,11 +44,10 @@ public class UpdateUsersServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "";
-        UserBO userBO = new UserBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            User user = userBO.getUser(id);
-            json = user.toString();
+            this.users = userSessionBean.getUser(id);
+            json = users.toString();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
@@ -63,10 +68,11 @@ public class UpdateUsersServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        UserBO userBO = new UserBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            if (userBO.deleteUser(id))
+            this.users = this.userSessionBean.getUser(id);
+            this.users.getUser().setStatus(0);
+            if (this.userSessionBean.updateUser(users))
                 json = "{\"response\":1}";
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al actualizar informacion. "+e.getMessage());

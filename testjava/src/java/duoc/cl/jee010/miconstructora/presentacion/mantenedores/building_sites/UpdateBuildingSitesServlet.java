@@ -5,11 +5,11 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.building_sites;
 
-import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
-import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
+import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
+import duoc.cl.jee010.miconstructora.persistencia.BuildingSiteSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +25,11 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "UpdateBuildingSitesServlet", urlPatterns = {"/mantenedores/obras/update"})
 public class UpdateBuildingSitesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    
+    @EJB
+    private BuildingSiteSessionBean buildingSiteSessionBean;
+    
+    private BuildingSitesDTO buildingSite;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -39,11 +44,10 @@ public class UpdateBuildingSitesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "";
-        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            BuildingSite buildingSite = buildingSiteBO.getBuildingSite(id);
-            json = buildingSite.toString();
+            this.buildingSite = this.buildingSiteSessionBean.getBuildingSite(id);
+            json = this.buildingSite.toString();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
@@ -64,10 +68,12 @@ public class UpdateBuildingSitesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            if (buildingSiteBO.deleteBuildingSite(id))
+            this.buildingSite = this.buildingSiteSessionBean.getBuildingSite(id);
+            this.buildingSite.getBuildingSite().setStatus(0);
+
+            if (this.buildingSiteSessionBean.updateBuildingSite(this.buildingSite))
                 json = "{\"response\":1}";
         } catch (Exception e) {
             this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());

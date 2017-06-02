@@ -33,10 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Calendar.findAll", query = "SELECT c FROM Calendar c"),
     @NamedQuery(name = "Calendar.findById", query = "SELECT c FROM Calendar c WHERE c.id = :id"),
-    @NamedQuery(name = "Calendar.findByStart", query = "SELECT c FROM Calendar c WHERE c.start = :start"),
-    @NamedQuery(name = "Calendar.findByEnd", query = "SELECT c FROM Calendar c WHERE c.end = :end"),
-    @NamedQuery(name = "Calendar.findByDate", query = "SELECT c FROM Calendar c WHERE c.date = :date"),
-    @NamedQuery(name = "Calendar.findByStatus", query = "SELECT c FROM Calendar c WHERE c.status = :status")})
+    @NamedQuery(name = "Calendar.findByStart", query = "SELECT c FROM Calendar c WHERE c.start = :start AND c.rut = :rut"),
+    @NamedQuery(name = "Calendar.findByEnd", query = "SELECT c FROM Calendar c WHERE c.end = :end AND c.rut = :rut"),
+    @NamedQuery(name = "Calendar.findByDate", query = "SELECT c FROM Calendar c WHERE c.date = :date AND c.rut = :rut"),
+    @NamedQuery(name = "Calendar.findByStatus", query = "SELECT c FROM Calendar c WHERE c.status = :status AND c.rut = :rut")})
 public class Calendar implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -71,9 +71,11 @@ public class Calendar implements Serializable {
         this.id = id;
     }
 
-    public Calendar(Integer id, Date date, int status) {
+    public Calendar(Integer id, Date date, Date start, Date end, int status) {
         this.id = id;
         this.date = date;
+        this.start = start;
+        this.end = end;
         this.status = status;
     }
 

@@ -37,8 +37,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "BuildingSite.findById", query = "SELECT b FROM BuildingSite b WHERE b.id = :id"),
     @NamedQuery(name = "BuildingSite.findByName", query = "SELECT b FROM BuildingSite b WHERE b.name = :name"),
     @NamedQuery(name = "BuildingSite.findByAddress", query = "SELECT b FROM BuildingSite b WHERE b.address = :address"),
-    @NamedQuery(name = "BuildingSite.findByStatus", query = "SELECT b FROM BuildingSite b WHERE b.status = :status"),
-    @NamedQuery(name = "BuildingSite.update", query = "UPDATE BuildingSite b WHERE b.status = :status")})
+    @NamedQuery(name = "BuildingSite.findByStatus", query = "SELECT b FROM BuildingSite b WHERE b.status = :status")})
 public class BuildingSite implements Serializable {
 
     private static final long serialVersionUID = 1L;

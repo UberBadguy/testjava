@@ -44,6 +44,20 @@ public class BuildingSitesDTO {
     public void setBuildingSites(List<BuildingSite> buildingSites) {
         this.buildingSites = buildingSites;
     }
+
+    @Override
+    public String toString() {
+        return "{\"data\":{" +
+                "\"id\":" + this.buildingSite.getId() +
+                ",\"name\":\"" + this.buildingSite.getName() + "\"" +
+                ",\"region\":\"" + this.buildingSite.getDistrictId().getProvincesId() + "\"" +
+                ",\"province\":\"" + this.buildingSite.getDistrictId().getProvincesId() + "\"" +
+                ",\"district\":\"" + this.buildingSite.getDistrictId().getName() + "\"" +
+                ",\"address\":\"" + this.buildingSite.getAddress() + "\"" +
+                ",\"district_id\":\"" + this.buildingSite.getDistrictId().getId() + "\"" +
+                ",\"status\":" + this.buildingSite.getStatus() +"}}";
+}
+    
     
     
 }

@@ -5,9 +5,9 @@
  */
 package duoc.cl.jee010.miconstructora.persistencia;
 
-import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
+import duoc.cl.jee010.miconstructora.dto.CalendarDTO;
 import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
-import duoc.cl.jee010.miconstructora.entidades.Employee;
+import duoc.cl.jee010.miconstructora.entidades.Calendar;
 import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -17,30 +17,30 @@ import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author cetecom
+ * @author jose.becerra
  */
 @Stateless
-public class EmployeeSessionBean {
+public class CalendarSessionBean {
     @PersistenceContext
     private EntityManager em;
-    
-    public EmployeesDTO allEmployees() {
-        EmployeesDTO employeesDTO = null;
+
+    public CalendarDTO allCalendar() {
+        CalendarDTO calendarDTO = null;
         try {
-            employeesDTO = em.createNamedQuery("Employee.findAll", EmployeesDTO.class)
-                    .getSingleResult();
+            calendarDTO = em.createNamedQuery("BuildingSite.findAll", CalendarDTO.class)
+                    .getSingleResult(); 
         } catch (NoResultException e) {
             return null;
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeesDTO;
+        return calendarDTO;
     }
     
-    public EmployeesDTO getEmployee(int id){
-        EmployeesDTO employeeDTO = null;
+    public CalendarDTO getCalendar(int id){
+        CalendarDTO calendarDTO = null;
         try {
-            employeeDTO = em.createNamedQuery("Employee.findById", EmployeesDTO.class)
+            calendarDTO = em.createNamedQuery("BuildingSite.findById", CalendarDTO.class)
                     .setParameter("id", id)
                     .getSingleResult();
         } catch (NoResultException e) {
@@ -48,27 +48,35 @@ public class EmployeeSessionBean {
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeeDTO;
+        return calendarDTO;
     }
     
-    public EmployeesDTO getEmployeeByRut(int rut){
-        EmployeesDTO employeeDTO = null;
+    public CalendarDTO getCalendarByDate(int rut, Date date){
+        CalendarDTO calendarDTO = null;
         try {
-            employeeDTO = em.createNamedQuery("Employee.findByRut", EmployeesDTO.class)
+            calendarDTO = em.createNamedQuery("BuildingSite.findById", CalendarDTO.class)
                     .setParameter("rut", rut)
+                    .setParameter("date", date)
                     .getSingleResult();
         } catch (NoResultException e) {
             return null;
         } catch (NonUniqueResultException e) {
             throw e;
         }
-        return employeeDTO;
+        return calendarDTO;
     }
     
-    public boolean updateEmployee(EmployeesDTO employee) {
-        Employee emp = employee.getEmployee();
+    public Calendar createCalendar(int id, Date date, Date start, Date end, int status, EmployeesDTO employee){
+        Calendar calendar = new Calendar(id, date, start, end, status);
+        calendar.setRut(employee.getEmployee());
+        
+        return calendar;
+    }
+    
+    public boolean updateCalendar(CalendarDTO calendarDTO) {
+        Calendar calendar = calendarDTO.getCalendar();
         try {
-            em.merge(emp);
+            em.merge(calendar);
         } catch (NoResultException e) {
             return false;
         } catch (Exception e) {
@@ -77,22 +85,15 @@ public class EmployeeSessionBean {
         return true;
     }
     
-    public boolean addEmployee(EmployeesDTO employee) {
-        Employee emp = employee.getEmployee();
+    public boolean addCalendar(CalendarDTO calendarDTO) {
+        Calendar calendar = calendarDTO.getCalendar();
         try {
-            em.persist(emp);
+            em.persist(calendar);
         } catch (NoResultException e) {
             return false;
         } catch (Exception e) {
             return false;
         }
         return false;
-    }
-    
-    public Employee createEmployee(int id, int rutAux, String dv, String name, String last_name, Date birth_date, String gender, BuildingSitesDTO building_site, String payment_method, int account_number, String bank, int value_per_hour, int status){
-        Employee employee = new Employee(id, rutAux, dv, name, last_name, birth_date, gender, payment_method, value_per_hour, bank, account_number, status);
-        employee.setBuildingSiteId(building_site.getBuildingSite());
-        
-        return employee;
     }
 }

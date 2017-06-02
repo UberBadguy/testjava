@@ -15,21 +15,21 @@ import java.util.List;
 public class ProvincesDTO {
     
     private static final long serialVersionUID = 1L;
-    private List<Province> province;
+    private List<Province> provinces;
 
     public ProvincesDTO() {
     }
 
-    public ProvincesDTO(List<Province> province) {
-        this.province = province;
+    public ProvincesDTO(List<Province> provinces) {
+        this.provinces = provinces;
     }
 
-    public List<Province> getProvince() {
-        return province;
+    public List<Province> getProvinces() {
+        return provinces;
     }
 
-    public void setProvince(List<Province> province) {
-        this.province = province;
+    public void setProvinces(List<Province> province) {
+        this.provinces = province;
     }
     
 }

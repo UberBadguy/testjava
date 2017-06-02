@@ -6,9 +6,10 @@
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.building_sites;
 
 import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
+import duoc.cl.jee010.miconstructora.dto.DistrictDTO;
 import duoc.cl.jee010.miconstructora.dto.RegionsDTO;
-import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.persistencia.BuildingSiteSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.DistrictSessionBean;
 import duoc.cl.jee010.miconstructora.persistencia.RegionSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
@@ -31,7 +32,10 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
     
     @EJB
     private BuildingSiteSessionBean buildingSiteSessionBean;
+    private DistrictSessionBean districtSessionBean;
     private RegionSessionBean regionSessionBean;
+    
+    private BuildingSitesDTO buildingSite;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -45,16 +49,16 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        BuildingSitesDTO buildingSite = new BuildingSitesDTO();
+        this.buildingSite = new BuildingSitesDTO();
         RegionsDTO regions = new RegionsDTO();
         try{
-            buildingSite = buildingSiteSessionBean.allBuildingSites();
-            regions = regionSessionBean.allRegions();
+            this.buildingSite = this.buildingSiteSessionBean.allBuildingSites();
+            regions = this.regionSessionBean.allRegions();
         }catch (Exception e){
             this.log.getLogger().warn("Fallo al solicitar la informacion. "+e.getMessage());
         }
-        session.setAttribute("listado", buildingSite);
-        session.setAttribute("regions", regions);
+        session.setAttribute("listado", this.buildingSite.getBuildingSites());
+        session.setAttribute("regions", regions.getRegions());
         view("/mantenedores/obras/listado.jsp", request, response);
     }
 
@@ -71,19 +75,23 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
+        DistrictDTO district;
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             String name = request.getParameter("name");
             String address = request.getParameter("address");
             int district_id = Integer.valueOf(request.getParameter("district_id"));
+            district = this.districtSessionBean.getDistrict(district_id);
             int status = Integer.valueOf(request.getParameter("status"));
-            BuildingSite buildingSite = new BuildingSite(id, name, address, district_id, status);
+            this.buildingSite = new BuildingSitesDTO(
+                    this.buildingSiteSessionBean.createBuildingSite(id, name, address, district, status)
+            );
+            
             if (id > 0) {
-                if (buildingSiteBO.updateBuildingSite(buildingSite))
+                if (this.buildingSiteSessionBean.updateBuildingSite(this.buildingSite))
                     json = "{\"response\":1}";
             } else {
-                if (buildingSiteBO.addBuildingSite(buildingSite))
+                if (this.buildingSiteSessionBean.addBuildingSite(this.buildingSite))
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {

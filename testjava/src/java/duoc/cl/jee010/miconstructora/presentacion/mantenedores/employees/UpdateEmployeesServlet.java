@@ -5,10 +5,11 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.employees;
 
-import duoc.cl.jee010.miconstructora.entidades.Employee;
-import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
+import duoc.cl.jee010.miconstructora.persistencia.EmployeeSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.http.HttpSession;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,6 +25,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateEmployeesServlet", urlPatterns = {"/mantenedores/empleados/update"})
 public class UpdateEmployeesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    
+    @EJB
+    private EmployeeSessionBean employeeSessionBean;
+    
+    private EmployeesDTO employee;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,10 +44,9 @@ public class UpdateEmployeesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "";
-        EmployeeBO employeeBO = new EmployeeBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            Employee employee = employeeBO.getEmployee(id);
+            this.employee = employeeSessionBean.getEmployee(id);
             json = employee.toString();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
@@ -63,10 +68,11 @@ public class UpdateEmployeesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        EmployeeBO employeeBO = new EmployeeBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            if (employeeBO.deleteEmployee(id))
+            this.employee = employeeSessionBean.getEmployee(id);
+            this.employee.getEmployee().setStatus(0);
+            if (employeeSessionBean.updateEmployee(employee))
                 json = "{\"response\":1}";
         } catch (Exception e) {
             this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());

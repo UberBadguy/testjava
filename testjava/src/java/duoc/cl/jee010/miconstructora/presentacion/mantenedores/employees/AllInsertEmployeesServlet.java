@@ -5,16 +5,16 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.employees;
 
-import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
-import duoc.cl.jee010.miconstructora.entidades.Employee;
-import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
-import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
+import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
+import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
+import duoc.cl.jee010.miconstructora.persistencia.BuildingSiteSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.EmployeeSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +30,13 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AllInsertEmployeesServlet", urlPatterns = {"/mantenedores/empleados/"})
 public class AllInsertEmployeesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    
+    @EJB
+    private BuildingSiteSessionBean buildingSiteSessionBean;
+    private EmployeeSessionBean employeeSessionBean;
+    
+    private EmployeesDTO employees;
+    private BuildingSitesDTO buildingSites;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -43,18 +50,16 @@ public class AllInsertEmployeesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        BuildingSiteBO buildingSiteBO = new BuildingSiteBO();
-        EmployeeBO employeeBO = new EmployeeBO();
-        List<Employee> listado = null;
-        List<BuildingSite> obras = null;
+        this.employees = new EmployeesDTO();
+        this.buildingSites = new BuildingSitesDTO();
         try{
-            listado = employeeBO.getAllEmployees();
-            obras = buildingSiteBO.getAllBuildingSite();
+            this.employees = this.employeeSessionBean.allEmployees();
+            this.buildingSites = this.buildingSiteSessionBean.allBuildingSites();
         }catch (Exception e){
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
-        session.setAttribute("listado", listado);
-        session.setAttribute("obras", obras);
+        session.setAttribute("listado", this.employees.getEmployees());
+        session.setAttribute("obras", this.buildingSites.getBuildingSites());
         view("/mantenedores/empleados/listado.jsp", request, response);
     }
 
@@ -71,7 +76,6 @@ public class AllInsertEmployeesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        EmployeeBO employeeBO = new EmployeeBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             String rut = request.getParameter("rut");
@@ -91,17 +95,20 @@ public class AllInsertEmployeesServlet extends HttpServlet {
             } catch (Exception e) {
                 building_site_id = 0;
             }
+            this.buildingSites = buildingSiteSessionBean.getBuildingSite(building_site_id);
             String payment_method = request.getParameter("payment_method");
-            String account_number = request.getParameter("account_number");
+            int account_number = Integer.valueOf(request.getParameter("account_number"));
             String bank = request.getParameter("bank");
             int value_per_hour = Integer.valueOf(request.getParameter("value_per_hour"));
             int status = Integer.valueOf(request.getParameter("status"));
-            Employee employee = new Employee(id, rutAux, dv, name, last_name, birth_date, gender, building_site_id, payment_method, account_number, bank, value_per_hour, status);
+            this.employees = new EmployeesDTO(
+                    employeeSessionBean.createEmployee(id, rutAux, dv, name, last_name, birth_date, gender, this.buildingSites, payment_method, account_number, bank, value_per_hour, status)
+            );
             if (id > 0) {
-                if (employeeBO.updateEmployee(employee))
+                if (this.employeeSessionBean.updateEmployee(this.employees))
                     json = "{\"response\":1}";
             } else {
-                if (employeeBO.addEmployee(employee))
+                if (this.employeeSessionBean.addEmployee(this.employees))
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {

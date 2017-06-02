@@ -5,11 +5,12 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.selects;
 
+import duoc.cl.jee010.miconstructora.dto.ProvincesDTO;
 import duoc.cl.jee010.miconstructora.entidades.Province;
-import duoc.cl.jee010.miconstructora.negocio.ProvinceBO;
+import duoc.cl.jee010.miconstructora.persistencia.ProvinceSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,10 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "provinces", urlPatterns = {"/mantenedores/provincias"})
 public class ProvincesServlets extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private ProvincesDTO provinces;
+    
+    @EJB
+    private ProvinceSessionBean provinceSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -52,16 +57,17 @@ public class ProvincesServlets extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"provinces\":[";
-        ProvinceBO provinceBO = new ProvinceBO();
         try {
             int region_id = Integer.valueOf(request.getParameter("region_id"));
-            List<Province> provinces = provinceBO.listadoProvincias(region_id);
-            int size = provinces.size();
-            for (Province province : provinces) {
-                if (--size == 0)
-                    json += "{\"id\": " + province.getId() + ", \"text\": \"" + province.getName() + "\"}";
-                else
-                    json += "{\"id\": " + province.getId() + ", \"text\": \"" + province.getName() + "\"},";
+            this.provinces = this.provinceSessionBean.allProvinces();
+            int size = provinces.getProvinces().size();
+            for (Province province : provinces.getProvinces()) {
+                if ( province.getRegionId() == region_id) {
+                    if (--size == 0)
+                        json += "{\"id\": " + province.getId() + ", \"text\": \"" + province.getName() + "\"}";
+                    else
+                        json += "{\"id\": " + province.getId() + ", \"text\": \"" + province.getName() + "\"},";
+                }
             }
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());

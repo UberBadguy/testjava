@@ -5,11 +5,12 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.selects;
 
+import duoc.cl.jee010.miconstructora.dto.DistrictsDTO;
 import duoc.cl.jee010.miconstructora.entidades.District;
-import duoc.cl.jee010.miconstructora.negocio.DistrictBO;
+import duoc.cl.jee010.miconstructora.persistencia.DistrictSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,11 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "DistrictServlet", urlPatterns = {"/mantenedores/comunas"})
 public class DistrictServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private DistrictsDTO district;
+    
+    @EJB
+    private DistrictSessionBean districtSessionBean;
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -52,16 +58,17 @@ public class DistrictServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"districts\":[";
-        DistrictBO districtBO = new DistrictBO();
         try {
             int province_id = Integer.valueOf(request.getParameter("province_id"));
-            List<District> districts = districtBO.listadoComunas(province_id);
-            int size = districts.size();
-            for (District district : districts) {
-                if (--size == 0)
-                    json += "{\"id\": " + district.getId() + ", \"text\": \"" + district.getName() + "\"}";
-                else
-                    json += "{\"id\": " + district.getId() + ", \"text\": \"" + district.getName() + "\"},";
+            this.district = this.districtSessionBean.allDistricts();
+            int size = this.district.getDistricts().size();
+            for (District district : this.district.getDistricts()) {
+                if ( district.getProvincesId() == province_id) {
+                    if (--size == 0)
+                        json += "{\"id\": " + district.getId() + ", \"text\": \"" + district.getName() + "\"}";
+                    else
+                        json += "{\"id\": " + district.getId() + ", \"text\": \"" + district.getName() + "\"},";
+                }
             }
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());

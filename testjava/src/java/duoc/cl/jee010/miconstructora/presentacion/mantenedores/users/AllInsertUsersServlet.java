@@ -8,19 +8,12 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.users;
 import duoc.cl.jee010.miconstructora.dto.EmployeesDTO;
 import duoc.cl.jee010.miconstructora.dto.ProfilesDTO;
 import duoc.cl.jee010.miconstructora.dto.UsersDTO;
-import duoc.cl.jee010.miconstructora.entidades.Employee;
-import duoc.cl.jee010.miconstructora.entidades.Profile;
-import duoc.cl.jee010.miconstructora.entidades.User;
-import duoc.cl.jee010.miconstructora.negocio.EmployeeBO;
-import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
-import duoc.cl.jee010.miconstructora.negocio.UserBO;
 import duoc.cl.jee010.miconstructora.persistencia.EmployeeSessionBean;
 import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
 import duoc.cl.jee010.miconstructora.persistencia.ProfileSessionBean;
 import duoc.cl.jee010.miconstructora.persistencia.UserSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -43,6 +36,9 @@ public class AllInsertUsersServlet extends HttpServlet {
     private ProfileSessionBean profileSessionBean;
     private EmployeeSessionBean employeeSessionBean;
     private PageSessionBean pageSessionBean;
+    private UsersDTO users;
+    ProfilesDTO profile;
+    EmployeesDTO employees;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -56,19 +52,16 @@ public class AllInsertUsersServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        UsersDTO usersDTO = null;
-        ProfilesDTO profileDTO = null;
-        EmployeesDTO employeesDTO = null;
         try {
-            usersDTO = userSessionBean.allUsers();
-            profileDTO = profileSessionBean.allProfiles();
-            employeesDTO = employeeSessionBean.allEmployees();
+            this.users = userSessionBean.allUsers();
+            this.profile = profileSessionBean.allProfiles();
+            this.employees = employeeSessionBean.allEmployees();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
-        session.setAttribute("profiles", profileDTO);
-        session.setAttribute("employees", employeesDTO);
-        session.setAttribute("listado", usersDTO);
+        session.setAttribute("profiles", this.profile.getProfiles());
+        session.setAttribute("employees", this.employees.getEmployees());
+        session.setAttribute("listado", this.users.getUsers());
         view("/mantenedores/usuarios/listado.jsp", request, response);
     }
 
@@ -85,7 +78,6 @@ public class AllInsertUsersServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        UserBO userBO = new UserBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             String login = request.getParameter("login");
@@ -98,13 +90,17 @@ public class AllInsertUsersServlet extends HttpServlet {
                 employee_id = 0;
             }
             int profile_id = Integer.valueOf(request.getParameter("profile_id"));
+            this.employees = this.employeeSessionBean.getEmployee(employee_id);
+            this.profile = this.profileSessionBean.getProfile(profile_id);
             int status = Integer.valueOf(request.getParameter("status"));
-            User user = new User(id, login, password, email, profile_id, employee_id, status);
+            this.users = new UsersDTO(
+                    this.userSessionBean.createUser(id, login, password, email, status, employees, profile)
+            );
             if (id > 0) {
-                if (userBO.updateUser(user))
+                if (this.userSessionBean.updateUser(this.users))
                     json = "{\"response\":1}";
             } else {
-                if (userBO.addUser(user))
+                if (this.userSessionBean.addUser(this.users))
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {
