@@ -49,7 +49,6 @@ public class EmployeePaymentDTO {
     public void setPayment_method(String payment_method) {
         this.payment_method = payment_method;
     }
-
     
     public String getRut() {
         return rut;
