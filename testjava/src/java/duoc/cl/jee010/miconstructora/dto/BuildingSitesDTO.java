@@ -16,12 +16,25 @@ public class BuildingSitesDTO {
     
     private static final long serialVersionUID = 1L;
     private List<BuildingSite> buildingSites;
+    private BuildingSite buildingSite;
 
     public BuildingSitesDTO() {
     }
 
     public BuildingSitesDTO(List<BuildingSite> buildingSites) {
         this.buildingSites = buildingSites;
+    }
+
+    public BuildingSitesDTO(BuildingSite buildingSite) {
+        this.buildingSite = buildingSite;
+    }
+
+    public BuildingSite getBuildingSite() {
+        return buildingSite;
+    }
+
+    public void setBuildingSite(BuildingSite buildingSite) {
+        this.buildingSite = buildingSite;
     }
 
     public List<BuildingSite> getBuildingSites() {

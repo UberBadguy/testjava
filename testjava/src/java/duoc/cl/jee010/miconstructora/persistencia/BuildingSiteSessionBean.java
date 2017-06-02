@@ -36,7 +36,7 @@ public class BuildingSiteSessionBean {
         return usersDTO;
     }
     
-    public BuildingSiteDTO getUser(int id){
+    public BuildingSiteDTO getBuildingSite(int id){
         BuildingSiteDTO buildingSiteDTO = null;
         try {
             buildingSiteDTO = em.createNamedQuery("BuildingSite.findById", BuildingSiteDTO.class)

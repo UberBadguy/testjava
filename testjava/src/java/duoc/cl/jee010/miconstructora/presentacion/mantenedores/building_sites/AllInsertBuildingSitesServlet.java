@@ -8,16 +8,10 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.building_sites;
 import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
 import duoc.cl.jee010.miconstructora.dto.RegionsDTO;
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
-import duoc.cl.jee010.miconstructora.entidades.Region;
-import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
-import duoc.cl.jee010.miconstructora.negocio.RegionBO;
 import duoc.cl.jee010.miconstructora.persistencia.BuildingSiteSessionBean;
-import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
 import duoc.cl.jee010.miconstructora.persistencia.RegionSessionBean;
-import duoc.cl.jee010.miconstructora.persistencia.UserSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,8 +45,8 @@ public class AllInsertBuildingSitesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        BuildingSitesDTO buildingSite;
-        RegionsDTO regions;
+        BuildingSitesDTO buildingSite = new BuildingSitesDTO();
+        RegionsDTO regions = new RegionsDTO();
         try{
             buildingSite = buildingSiteSessionBean.allBuildingSites();
             regions = regionSessionBean.allRegions();
