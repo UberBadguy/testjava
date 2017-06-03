@@ -7,12 +7,9 @@ package duoc.cl.jee010.miconstructora.presentacion.mantenedores.paginas;
 
 
 import duoc.cl.jee010.miconstructora.dto.PagesDTO;
-import duoc.cl.jee010.miconstructora.entidades.Page;
-import duoc.cl.jee010.miconstructora.negocio.PageBO;
 import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
-import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,7 +43,6 @@ public class AllInsertPagesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        PageBO pageBO = new PageBO();
         PagesDTO parents = null;
         try {
             this.pages = pageSessionBean.allPages();
@@ -72,7 +68,6 @@ public class AllInsertPagesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        PageBO pageBO = new PageBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
             String name = request.getParameter("name");
@@ -89,10 +84,10 @@ public class AllInsertPagesServlet extends HttpServlet {
                     pageSessionBean.createBuildingSite(id, name, icon, path, parent, status)
             );
             if (id > 0) {
-                if (pageSessionBean.)
+                if (pageSessionBean.updatePage(pages))
                     json = "{\"response\":1}";
             } else {
-                if (pageBO.addPage(user))
+                if (pageSessionBean.addPage(pages))
                     json = "{\"response\":1}";
             }
         } catch (Exception e) {

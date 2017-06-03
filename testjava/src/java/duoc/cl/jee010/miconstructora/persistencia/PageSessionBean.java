@@ -49,6 +49,20 @@ public class PageSessionBean {
         return pagesDTO;
     }
     
+    public PagesDTO getPage(int id){
+        PagesDTO pagesDTO = null;
+        try {
+            pagesDTO = em.createNamedQuery("Page.findById", PagesDTO.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        } catch (NonUniqueResultException e) {
+            throw e;
+        }
+        return pagesDTO;
+    }
+    
     public PagesDTO getAllAvailableParents() {
         PagesDTO pagesDTO = null;
         try {
@@ -67,7 +81,28 @@ public class PageSessionBean {
         
         return page;
     }
-
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    
+    public boolean updatePage(PagesDTO pagesDTO) {
+        Page page = pagesDTO.getPage();
+        try {
+            em.merge(page);
+        } catch (NoResultException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean addPage(PagesDTO pagesDTO) {
+        Page page = pagesDTO.getPage();
+        try {
+            em.persist(page);
+        } catch (NoResultException e) {
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
 }

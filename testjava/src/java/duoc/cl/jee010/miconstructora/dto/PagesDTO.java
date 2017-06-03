@@ -49,7 +49,13 @@ public class PagesDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "PagesDTO{" + "page=" + page + '}';
+        return "{\"data\":{" +
+                "\"id\":" + this.page.getId() +
+                ",\"name\":\"" + this.page.getName() + "\"" +
+                ",\"icon\":\"" + this.page.getIcon() + "\"" +
+                ",\"path\":\"" + this.page.getPath() + "\"" +
+                ",\"parent\":" + this.page.getParent() +
+                ",\"status\":" + this.page.getStatus() +"}}";
     }
     
 }

@@ -5,10 +5,11 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.paginas;
 
-import duoc.cl.jee010.miconstructora.entidades.Page;
-import duoc.cl.jee010.miconstructora.negocio.PageBO;
+import duoc.cl.jee010.miconstructora.dto.PagesDTO;
+import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,10 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "UpdatePagesServlet", urlPatterns = {"/mantenedores/paginas/update"})
 public class UpdatePagesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private PagesDTO pages;
+    
+    @EJB
+    private PageSessionBean pageSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,11 +43,10 @@ public class UpdatePagesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "";
-        PageBO pageBO = new PageBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            Page page = pageBO.getPage(id);
-            json = page.toString();
+            this.pages = pageSessionBean.getPage(id);
+            json = this.pages.toString();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
@@ -63,10 +67,11 @@ public class UpdatePagesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         String json = "{\"response\":0}";
-        PageBO pageBO = new PageBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            if (pageBO.deletePage(id))
+            this.pages = pageSessionBean.getPage(id);
+            this.pages.getPage().setStatus(0);
+            if (pageSessionBean.updatePage(pages))
                 json = "{\"response\":1}";
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al actualizar informacion. "+e.getMessage());
