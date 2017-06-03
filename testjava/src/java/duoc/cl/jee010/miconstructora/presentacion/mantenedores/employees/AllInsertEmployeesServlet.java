@@ -30,13 +30,13 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AllInsertEmployeesServlet", urlPatterns = {"/mantenedores/empleados/"})
 public class AllInsertEmployeesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private EmployeesDTO employees;
+    private BuildingSitesDTO buildingSites;
     
     @EJB
     private BuildingSiteSessionBean buildingSiteSessionBean;
     private EmployeeSessionBean employeeSessionBean;
     
-    private EmployeesDTO employees;
-    private BuildingSitesDTO buildingSites;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

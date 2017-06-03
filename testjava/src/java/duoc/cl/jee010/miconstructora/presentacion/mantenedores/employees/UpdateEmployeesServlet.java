@@ -25,11 +25,11 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateEmployeesServlet", urlPatterns = {"/mantenedores/empleados/update"})
 public class UpdateEmployeesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private EmployeesDTO employee;
     
     @EJB
     private EmployeeSessionBean employeeSessionBean;
     
-    private EmployeesDTO employee;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

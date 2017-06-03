@@ -6,11 +6,14 @@
 package duoc.cl.jee010.miconstructora.presentacion.mantenedores.paginas;
 
 
+import duoc.cl.jee010.miconstructora.dto.PagesDTO;
 import duoc.cl.jee010.miconstructora.entidades.Page;
 import duoc.cl.jee010.miconstructora.negocio.PageBO;
+import duoc.cl.jee010.miconstructora.persistencia.PageSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,6 +29,10 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "AllInsertPagesServlet", urlPatterns = {"/mantenedores/paginas/"})
 public class AllInsertPagesServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private PagesDTO pages;
+    
+    @EJB
+    private PageSessionBean pageSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -40,16 +47,15 @@ public class AllInsertPagesServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession session = request.getSession();
         PageBO pageBO = new PageBO();
-        List<Page> list = null;
-        List<Page> parentList = null;
+        PagesDTO parents = null;
         try {
-            list = pageBO.getAllPages();
-            parentList = pageBO.getAllAvailableParents();
+            this.pages = pageSessionBean.allPages();
+            parents = pageSessionBean.getAllAvailableParents();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
-        session.setAttribute("pages", list);
-        session.setAttribute("parentPages", parentList);
+        session.setAttribute("pages", this.pages.getPages());
+        session.setAttribute("parentPages", parents.getPages());
         view("/mantenedores/paginas/listado.jsp", request, response);
     }
 
@@ -69,9 +75,9 @@ public class AllInsertPagesServlet extends HttpServlet {
         PageBO pageBO = new PageBO();
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            String login = request.getParameter("name");
-            String password = request.getParameter("path");
-            String email = request.getParameter("icon");
+            String name = request.getParameter("name");
+            String path = request.getParameter("path");
+            String icon = request.getParameter("icon");
             int parent = 0;
             try {
                 parent = Integer.valueOf(request.getParameter("parent"));
@@ -79,9 +85,11 @@ public class AllInsertPagesServlet extends HttpServlet {
                 parent = 0;
             }
             int status = Integer.valueOf(request.getParameter("status"));
-            Page user = new Page(id, login, password, email, parent, status);
+            this.pages = new PagesDTO(
+                    pageSessionBean.createBuildingSite(id, name, icon, path, parent, status)
+            );
             if (id > 0) {
-                if (pageBO.updatePage(user))
+                if (pageSessionBean.)
                     json = "{\"response\":1}";
             } else {
                 if (pageBO.addPage(user))

@@ -5,6 +5,7 @@
  */
 package duoc.cl.jee010.miconstructora.dto;
 
+import duoc.cl.jee010.miconstructora.entidades.Page;
 import duoc.cl.jee010.miconstructora.entidades.ProfilesPage;
 import java.io.Serializable;
 import java.util.List;
@@ -17,8 +18,13 @@ public class PagesDTO implements Serializable {
     
     private static final long serialVersionUID = 1L;
     private List<ProfilesPage> pages;
+    private Page page;
 
     public PagesDTO() {
+    }
+
+    public PagesDTO(Page page) {
+        this.page = page;
     }
 
     public PagesDTO(List<ProfilesPage> pages) {
@@ -31,6 +37,19 @@ public class PagesDTO implements Serializable {
 
     public void setPages(List<ProfilesPage> pages) {
         this.pages = pages;
+    }
+
+    public Page getPage() {
+        return page;
+    }
+
+    public void setPage(Page page) {
+        this.page = page;
+    }
+
+    @Override
+    public String toString() {
+        return "PagesDTO{" + "page=" + page + '}';
     }
     
 }

@@ -37,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Page.findByPath", query = "SELECT p FROM Page p WHERE p.path = :path"),
     @NamedQuery(name = "Page.findByIcon", query = "SELECT p FROM Page p WHERE p.icon = :icon"),
     @NamedQuery(name = "Page.findByParent", query = "SELECT p FROM Page p WHERE p.parent = :parent"),
-    @NamedQuery(name = "Page.findByStatus", query = "SELECT p FROM Page p WHERE p.status = :status")})
+    @NamedQuery(name = "Page.findByStatus", query = "SELECT p FROM Page p WHERE p.status = :status"),
+    @NamedQuery(name = "Page.findAllAvailableParents", query = "SELECT p FROM Page p WHERE p.path = '#'")})
 public class Page implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -77,9 +78,10 @@ public class Page implements Serializable {
         this.id = id;
     }
 
-    public Page(Integer id, String name, String path, int parent, int status) {
+    public Page(Integer id, String name, String icon, String path, int parent, int status) {
         this.id = id;
         this.name = name;
+        this.icon = icon;
         this.path = path;
         this.parent = parent;
         this.status = status;
