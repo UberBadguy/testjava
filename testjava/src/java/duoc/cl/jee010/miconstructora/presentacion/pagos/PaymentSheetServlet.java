@@ -6,10 +6,11 @@
 package duoc.cl.jee010.miconstructora.presentacion.pagos;
 
 import duoc.cl.jee010.miconstructora.dto.EmployeePaymentDTO;
-import duoc.cl.jee010.miconstructora.negocio.ReportBO;
+import duoc.cl.jee010.miconstructora.persistencia.ReportsSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +26,10 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "PaymentSheetServlet", urlPatterns = {"/pagos/planilla"})
 public class PaymentSheetServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private EmployeePaymentDTO employeePaymentDTO;
+    
+    @EJB
+    private ReportsSessionBean reportsSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -38,10 +43,9 @@ public class PaymentSheetServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ReportBO reportBO = new ReportBO();
         List<EmployeePaymentDTO> employeePayments = null;
         try {
-            employeePayments = reportBO.reportEmployeesPayments();
+            employeePayments = reportsSessionBean.AllPayments();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }

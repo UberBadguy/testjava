@@ -5,15 +5,18 @@
  */
 package duoc.cl.jee010.miconstructora.presentacion.reportes.obra;
 
+import duoc.cl.jee010.miconstructora.dto.BuildingSitesDTO;
+import duoc.cl.jee010.miconstructora.dto.ProfilesDTO;
 import duoc.cl.jee010.miconstructora.dto.ReportEmployeeDTO;
 import duoc.cl.jee010.miconstructora.entidades.BuildingSite;
 import duoc.cl.jee010.miconstructora.entidades.Profile;
-import duoc.cl.jee010.miconstructora.negocio.BuildingSiteBO;
-import duoc.cl.jee010.miconstructora.negocio.ProfileBO;
-import duoc.cl.jee010.miconstructora.negocio.ReportBO;
+import duoc.cl.jee010.miconstructora.persistencia.BuildingSiteSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.ProfileSessionBean;
+import duoc.cl.jee010.miconstructora.persistencia.ReportsSessionBean;
 import duoc.cl.jee010.miconstructora.utilidades.LogSystem;
 import java.io.IOException;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +32,14 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "byWorkerServlet", urlPatterns = {"/reportes/obra/obreros"})
 public class byWorkerServlet extends HttpServlet {
     private LogSystem log = new LogSystem(this.getClass());
+    private ReportEmployeeDTO reportEmployeeDTO;
+    private ProfilesDTO profilesDTO;
+    private BuildingSitesDTO buildingSite;
+    
+    @EJB
+    private BuildingSiteSessionBean buildingSiteSessionBean;
+    private ReportsSessionBean reportsSessionBean;
+    private ProfileSessionBean profileSessionBean;
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -42,13 +53,12 @@ public class byWorkerServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ProfileBO profileBO = new ProfileBO();
-        BuildingSiteBO buildingSitesBO = new BuildingSiteBO();
+        this.buildingSite = new BuildingSitesDTO();
         List<Profile> profiles = null;
         List<BuildingSite> buildingSites = null;
         try {
-            profiles = profileBO.getAllProfile();
-            buildingSites = buildingSitesBO.getAllBuildingSite();
+            this.profilesDTO = profileSessionBean.allProfiles();
+            this.buildingSite = this.buildingSiteSessionBean.allBuildingSites();
         } catch (Exception e) {
             this.log.getLogger().warn("Fallo al solicitar informacion. "+e.getMessage());
         }
@@ -69,11 +79,10 @@ public class byWorkerServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession();
-        ReportBO reportBo = new ReportBO();
         List<ReportEmployeeDTO> listado = null;
         try {
             int id = Integer.valueOf(request.getParameter("id"));
-            listado = reportBo.reportBuildingSitebyWorker(id);
+            listado = reportsSessionBean.buildingSiteXWorker(id);
         } catch (Exception e) {
             this.log.getLogger().warn("Error al actualizar los datos. "+e.getMessage());
         }
